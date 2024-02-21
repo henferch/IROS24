@@ -4,9 +4,11 @@ import posix_ipc as pos
 import vision_definitions
 import almath
 import motion
+from Service import Service
 
-class HumanTrackService:
+class HumanTrackService(Service):
     def __init__(self, video_srv, motion_srv):
+        Service.__init__(self)
         self.video_srv = video_srv
         self.motion_srv = motion_srv
 
@@ -20,19 +22,18 @@ class HumanTrackService:
         fps = 10
         camID = 0 # top camera
 
-        self.clientSubsName = "ManipHFC2024"
         subscribers = self.video_srv.getSubscribers()
         print("subscribers (before): ", subscribers )
 
         for s in subscribers:
-            if self.clientSubsName in s:
+            if self.user in s:
                 self.video_srv.unsubscribe(s)
 
         # subscribe to video client
-        self.videoClient = self.video_srv.subscribeCamera(self.clientSubsName, camID, resolution, colorSpace, fps)
+        self.videoClient = self.video_srv.subscribeCamera(self.user, camID, resolution, colorSpace, fps)
 
         # image shared memory
-        mem1 = pos.SharedMemory('/ManipHFC2024_image', pos.O_CREAT,size=imgSize)
+        mem1 = pos.SharedMemory('/{}_image'.format(self.user), pos.O_CREAT,size=imgSize)
         self.memImage = mmap.mmap(mem1.fd, imgSize)
         self.sizeMemImage = mem1.size
         print("memImage size in bytes: {}".format(self.sizeMemImage))
@@ -41,7 +42,7 @@ class HumanTrackService:
         nJointValues = 33
         singlePrecisionInBytes = 4
         bJointSize = nJointValues * 4 * singlePrecisionInBytes
-        mem2 = pos.SharedMemory('/ManipHFC2024_human', pos.O_CREAT,size=bJointSize)
+        mem2 = pos.SharedMemory('/{}_mediapipe'.format(self.user), pos.O_CREAT,size=bJointSize)
         self.memHuman = mmap.mmap(mem2.fd, bJointSize)
         self.sizeMemHuman = mem2.size
         print("memLandmark size in bytes: {}".format(self.sizeMemHuman))
@@ -50,7 +51,7 @@ class HumanTrackService:
 
     def stop(self):
         for s in self.video_srv.getSubscribers():
-            if self.clientSubsName in s:
+            if self.user in s:
                 self.video_srv.unsubscribe(s)
                 
     def step(self):
@@ -73,7 +74,7 @@ class HumanTrackService:
         transform = self.motion_srv.getTransform(self.currentCamera, frame, True)
         robotToCamera = np.array(transform).reshape(4,4)
         pInRobotFrame = [] 
-        print('robotToCam', robotToCamera)
+        #print('robotToCam', robotToCamera)
         for i in range (13,33):
             jList_i = jList[i,:]
             if jList_i[3] > 0.8:
@@ -83,10 +84,6 @@ class HumanTrackService:
                 pInRobotFrame.append([i, [p[2],p[0],p[1]]])
 
         self.motion_srv
-        print(jList)
-        print(pInRobotFrame)
+        # print(jList)
+        # print(pInRobotFrame)
         
-        #t1 = time.time()
-    
-        ## Time the image transfer.
-        #print ("human tack delay :", t1 - t0)

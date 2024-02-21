@@ -1,19 +1,15 @@
 #! /usr/bin/env python
 # -*- encoding: UTF-8 -*-
 
-"""Ce qui fait cette application d'application :
-	a) Désactivation du module de vie autonome
-	b) Le robot est mis debout
-	c) Boucle infinie qui attend la fin d'exécution par via CONTROL+C
-	d) Remise du robot dans l'état de repos
- """
+""" Main program to control the robot. Data is sent and received to other process via POSIX shared """
 
 import qi
 import argparse
 import sys
 import time
-from HumanTrackService import HumanTrackService
-from ObjectTrackService import ObjectTrackService
+from JAEgoQi.HumanTrackService import HumanTrackService
+from JAEgoQi.ObjectTrackService import ObjectTrackService
+from JAEgoQi.SpeechRecognitionService import SpeechRecognitionService
 
 class MonAppli(object):
     def __init__(self, app):
@@ -21,57 +17,59 @@ class MonAppli(object):
         app.start()
         session = app.session
         
-        # Proxies aux services
-        self.motion_srv = session.service("ALMotion") # gestion du mouvement.
-        self.posture_srv = session.service("ALRobotPosture") # Gestion de la posture.
-        self.autLife_srv = session.service("ALAutonomousLife") # Gestion de la vie autonome.
-        self.video_srv = session.service("ALVideoDevice") # Gestion video.
+        # service proxies
+        self.motion_srv = session.service("ALMotion") 
+        self.posture_srv = session.service("ALRobotPosture") 
+        self.autLife_srv = session.service("ALAutonomousLife") 
+        self.video_srv = session.service("ALVideoDevice") 
         self.memory_srv = session.service("ALMemory")
         self.landmark_srv = session.service("ALLandMarkDetection")
+        self.speech_srv = session.service("ALSpeechRecognition")
 
+        # go to Stant up posture
+        # self.posture.goToPosture("Stand", 0.5)
+
+        # disabling autonomous life
+        self.setAutonomousLife(False)
+        
+        # setting up services
         self.humanTracker = HumanTrackService(self.video_srv, self.motion_srv)
         self.objectTracker = ObjectTrackService(self.memory_srv, self.landmark_srv, self.motion_srv)
-        
-        # Aller debout 
-        #self.posture.goToPosture("Stand", 0.5)
-
-        # désactiver la vie autonome
-        self.activationVieAuto(False)
-
-    def activationVieAuto(self, valeur=True):
-        # Desactiver la vie autonome (si besoin)
+        self.speechRecogn = SpeechRecognitionService(self.memory_srv, self.speech_srv)
+           
+    def setAutonomousLife(self, valeur=True):
         self.autLife_srv.setAutonomousAbilityEnabled("AutonomousBlinking", valeur)
         self.autLife_srv.setAutonomousAbilityEnabled("BackgroundMovement", valeur)
         self.autLife_srv.setAutonomousAbilityEnabled("BasicAwareness", valeur)
-        self.autLife_srv.setAutonomousAbilityEnabled("ListeningMovement", False)
+        self.autLife_srv.setAutonomousAbilityEnabled("ListeningMovement", valeur)
         self.autLife_srv.setAutonomousAbilityEnabled("SpeakingMovement", valeur)
 
-
     def stop(self):
-        # 1) arreter et envoyer le robot à l'état de repos
+        # 1) stop motion
         self.motion_srv.stopMove()
         #self.motion.rest()
-        print("Robot mis en état de repos")
+        print("Robot in rest state")
         
-        # 2) se désinscrire de services si besoin
-        # code ...
+        # 2) unsubscribe from services
         self.humanTracker.stop()
         self.objectTracker.stop()
+        self.speechRecogn.stop()
 
-        self.activationVieAuto(True)
+        # 3) re-active AL
+        self.setAutonomousLife(True)
 
-        # 3) finir l'execution  
-        print("Fin d'application")
+        # 4) Program end
+        print("Program end")
         sys.exit(1)
 
     def run(self):
         while (True):
             t1 = time.time()
             self.humanTracker.step()
-            for k,v in self.objectTracker.getObjects().items():
-                print(k,v)
+            # for k,v in self.objectTracker.getObjects().items():
+            #     print(k,v)
             t2 = time.time()
-            print('loop time in ms : {:.3f}'.format((t2-t1)*1000))
+            #print('loop time in ms : {:.3f}'.format((t2-t1)*1000))
 
                 
 

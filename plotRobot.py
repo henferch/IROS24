@@ -100,7 +100,6 @@ def plotRobotBody(motion_service, ax):
     objects['KneePitch_Leg'] = o_KneePitch_Leg
 
     return objects
-    
 
 def plotEgoSphere(ax, center):
     theta, phi = np.linspace(0, 2 * np.pi, 12), np.linspace(0, np.pi, 12)

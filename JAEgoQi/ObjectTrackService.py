@@ -3,25 +3,27 @@ import qi
 import math
 import almath
 import numpy as np
+from Service import Service 
 
-class ObjectTrackService:
+class ObjectTrackService(Service):
     def __init__(self, memory_srv, landmark_srv, motion_srv):
-
+        Service.__init__(self)
         self.memory_srv = memory_srv
         self.landmark_srv = landmark_srv
         self.motion_srv = motion_srv
 
         # Connect the event callback.
         self.subscriber = self.memory_srv.subscriber("LandmarkDetected")
-        self.subscriber.signal.connect(self.on_landmark_detected)        
-        self.landmark_srv.subscribe("LandmarkDetector", 500, 0.0 )
+        self.subscriber.signal.connect(self.onLandmarkDetected)
+        periodInMs = 500        
+        self.landmark_srv.subscribe(self.user, periodInMs, 0.0 )
         self.got_landmark = False
         self.landmarkTheoreticalSize = 0.093 #in meters
         # Set here the current camera ("CameraTop" or "CameraBottom").
         self.currentCamera = "CameraTop"
         self.landmarks = {}
         
-    def on_landmark_detected(self, markData):
+    def onLandmarkDetected(self, markData):
         """
         Callback for event LandmarkDetected.
         """
@@ -61,6 +63,7 @@ class ObjectTrackService:
         return self.landmarks
 
     def stop(self):
+        self.landmark_srv.unsubscribe(self.user)
         print ("Désinscription de LandmarkDetector")
-        self.landmark_srv.unsubscribe("LandmarkDetector")
+        
         
