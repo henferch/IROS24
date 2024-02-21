@@ -1,7 +1,7 @@
 from Service import Service
 
 class SpeechRecognitionService (Service):   
-    def __init__(self, memory_srv, speech_srv):
+    def __init__(self, memory_srv, speech_srv, params={}):
         Service.__init__(self)
         self.memory_srv = memory_srv
         self.speech_srv = speech_srv
@@ -11,9 +11,9 @@ class SpeechRecognitionService (Service):
         self.speech_srv.setLanguage("English")
 
         self.speech_srv.setVisualExpression(True)
-        self.speech_srv.setParameter("Sensitivity", 1.0)
+        self.speech_srv.setParameter("Sensitivity", params['micSensitivity'])
 
-        vocabulary = ["yes", "no", "next", "opposite", "likewise"]
+        vocabulary = params['vocabulary']
         enableWordSpotting = False
         self.speech_srv.setVocabulary( vocabulary, enableWordSpotting )
 

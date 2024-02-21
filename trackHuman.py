@@ -24,7 +24,7 @@ def main():
     imgSize = int(np.prod(imgShape))
     
     # Shared memory 
-    mem = pos.SharedMemory('/_image'.format(user), pos.O_CREAT,size=imgSize)
+    mem = pos.SharedMemory('/{}_image'.format(user), pos.O_CREAT,size=imgSize)
     mm = mmap.mmap(mem.fd, imgSize)
     print("memory size in bytes: {}".format(mem.size))
 
@@ -32,7 +32,7 @@ def main():
     nJointValues = 33
     singlePrecisionInBytes = 4
     bJointSize = nJointValues * 4 * singlePrecisionInBytes
-    mem2 = pos.SharedMemory('/_mediapipe'.format(user), pos.O_CREAT,size=bJointSize)
+    mem2 = pos.SharedMemory('/{}_mediapipe'.format(user), pos.O_CREAT,size=bJointSize)
     memHuman = mmap.mmap(mem2.fd, bJointSize)
     sizeMemHuman = mem2.size
     print("memLandmark size in bytes: {}".format(sizeMemHuman))
@@ -52,7 +52,7 @@ def main():
 
         img_seg, joints = segmentation.step(img_RGB)
 
-        print(joints)
+        ##print(joints)
 
         # sending human detection
         buf = []

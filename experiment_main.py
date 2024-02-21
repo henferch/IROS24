@@ -7,7 +7,11 @@ import qi
 import argparse
 import sys
 import time
-from JAEgoQi.HumanTrackService import HumanTrackService
+import json
+import struct
+import mmap
+import posix_ipc as pos
+from JAEgoQi.PostureTrackService import PostureTrackService
 from JAEgoQi.ObjectTrackService import ObjectTrackService
 from JAEgoQi.SpeechRecognitionService import SpeechRecognitionService
 
@@ -15,34 +19,60 @@ class MonAppli(object):
     def __init__(self, app):
         super(MonAppli, self).__init__()
         app.start()
+
+        self.user = "ManipHFC2024" 
+
+        # Opening JSON file
+        f = open('parameters.json')
+        self.parameters = json.load(f)
+        f.close()
+
         session = app.session
         
         # service proxies
         self.motion_srv = session.service("ALMotion") 
         self.posture_srv = session.service("ALRobotPosture") 
-        self.autLife_srv = session.service("ALAutonomousLife") 
+        self.autLife_srv = session.service("ALAutonomousLife")
+        self.basicAwareness_srv = session.service("ALBasicAwareness")
+        self.faceDetection_srv = session.service("ALFaceDetection") 
         self.video_srv = session.service("ALVideoDevice") 
         self.memory_srv = session.service("ALMemory")
         self.landmark_srv = session.service("ALLandMarkDetection")
         self.speech_srv = session.service("ALSpeechRecognition")
 
-        # go to Stant up posture
-        # self.posture.goToPosture("Stand", 0.5)
-
         # disabling autonomous life
         self.setAutonomousLife(False)
         
-        # setting up services
-        self.humanTracker = HumanTrackService(self.video_srv, self.motion_srv)
-        self.objectTracker = ObjectTrackService(self.memory_srv, self.landmark_srv, self.motion_srv)
-        self.speechRecogn = SpeechRecognitionService(self.memory_srv, self.speech_srv)
+        # go to Stant up posture
+        self.posture_srv.goToPosture("Stand", 0.2)
+        time.sleep(1)
+        fractionMaxSpeed  = 0.2
+        self.motion_srv.setAngles(['HeadPitch'], [0.02], fractionMaxSpeed)
+        time.sleep(1)
+        
+        # ExpData shared memory
+        nValues = 30 
+        singlePrecisionInBytes = 4
+        bJointSize = nValues * 3 * singlePrecisionInBytes
+        mem = pos.SharedMemory('/{}_expData'.format(self.user), pos.O_CREAT,size=bJointSize)
+        self.memExpData = mmap.mmap(mem.fd, bJointSize)
+        self.sizeMemExpData = mem.size
+        print("memPosture size in bytes: {}".format(self.sizeMemExpData))
+
+        self.postureTracker = PostureTrackService(self.video_srv, self.motion_srv, self.parameters)
+        self.objectTracker = ObjectTrackService(self.memory_srv, self.landmark_srv, self.motion_srv, self.parameters)
+        self.speechRecogn = SpeechRecognitionService(self.memory_srv, self.speech_srv, self.parameters)
            
     def setAutonomousLife(self, valeur=True):
+
+        # self.basicAwareness_srv.pauseAwareness()
+        # self.faceDetection_srv.setTrackingEnabled(False)
+        
         self.autLife_srv.setAutonomousAbilityEnabled("AutonomousBlinking", valeur)
-        self.autLife_srv.setAutonomousAbilityEnabled("BackgroundMovement", valeur)
-        self.autLife_srv.setAutonomousAbilityEnabled("BasicAwareness", valeur)
-        self.autLife_srv.setAutonomousAbilityEnabled("ListeningMovement", valeur)
-        self.autLife_srv.setAutonomousAbilityEnabled("SpeakingMovement", valeur)
+        self.autLife_srv.setAutonomousAbilityEnabled("BackgroundMovement", False)
+        self.autLife_srv.setAutonomousAbilityEnabled("BasicAwareness", False)
+        self.autLife_srv.setAutonomousAbilityEnabled("ListeningMovement", False)
+        self.autLife_srv.setAutonomousAbilityEnabled("SpeakingMovement", False)
 
     def stop(self):
         # 1) stop motion
@@ -51,10 +81,10 @@ class MonAppli(object):
         print("Robot in rest state")
         
         # 2) unsubscribe from services
-        self.humanTracker.stop()
+        self.postureTracker.stop()
         self.objectTracker.stop()
         self.speechRecogn.stop()
-
+        
         # 3) re-active AL
         self.setAutonomousLife(True)
 
@@ -65,11 +95,21 @@ class MonAppli(object):
     def run(self):
         while (True):
             t1 = time.time()
-            self.humanTracker.step()
-            # for k,v in self.objectTracker.getObjects().items():
-            #     print(k,v)
+            robot, human = self.postureTracker.step()
+            objects = self.objectTracker.getObjects()
+
+            # sending posture data
+            buf = []
+            for p in robot+human :
+                for c in p :
+                    buf += list(struct.pack("f", c))
+
+            self.memExpData.seek(0)
+            self.memExpData.write(str(bytearray(buf)))
+            self.memExpData.flush()
+            
             t2 = time.time()
-            #print('loop time in ms : {:.3f}'.format((t2-t1)*1000))
+            print('loop time in ms : {:.3f}'.format((t2-t1)*1000))
 
                 
 

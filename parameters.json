@@ -1,0 +1,6 @@
+{"humanDepthInMeter" : 2.0,
+"vocabulary" : ["yes", "no", "next", "opposite", "likewise"],
+"micSensitivity" : 1.0,
+"showAttentionViewer" : "yes",
+"AttentionViewerPeriodInMs" : 100
+}

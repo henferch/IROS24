@@ -6,7 +6,7 @@ import numpy as np
 from Service import Service 
 
 class ObjectTrackService(Service):
-    def __init__(self, memory_srv, landmark_srv, motion_srv):
+    def __init__(self, memory_srv, landmark_srv, motion_srv, params={}):
         Service.__init__(self)
         self.memory_srv = memory_srv
         self.landmark_srv = landmark_srv
