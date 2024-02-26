@@ -113,7 +113,7 @@ sphere2.draw(1.0-g)
 
 # sphere 3
 sigmoid = Sigmoid(-1.0)
-mu =  sphere1.resol/2.0 - (sphere1.resol/8.0)
+mu =  sphere1.resol/2.0 - (sphere1.resol/16.0)
 s = []
 for i in range(sphere1.resol):
     for j in range(sphere1.resol):
@@ -124,7 +124,7 @@ sphere3.draw(s)
 
 # sphere 4
 s = []
-mu =  sphere1.resol/2.0 + (sphere1.resol/8.0)
+mu =  sphere1.resol/2.0 + (sphere1.resol/16.0)
 for i in range(sphere1.resol):
     for j in range(sphere1.resol):
         s.append(sigmoid.compute(mu, j))

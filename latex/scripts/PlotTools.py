@@ -26,11 +26,12 @@ class Sphere:
         self.title = title
         self.ax.set_title(self.title)
         self.resol = res
-        self.maxij = self.resol - 1.0
-        self.ijcenter = self.resol/2.0
-        self.radToIndex = self.resol/math.pi
+        #self.maxij = self.resol - 1.0
+        #self.ijcenter = self.resol/2.0
+        self.radToIndex = self.resol/math.pi        
         theta, phi = np.linspace(0, np.pi, self.resol), np.linspace(0, np.pi, self.resol)
         THETA, PHI = np.meshgrid(theta, phi)
+        THETA -= np.pi/2.0
         self.s_radius = 0.4
         #self.s_radius_2 = self.s_radius**2.0  
         self.s_center = np.array([0.0,0.0,0.0])
@@ -80,9 +81,10 @@ class Sphere:
     def getij(self, p):
         p1 = p[1]
         i = math.atan2(p1,p[2]) * self.radToIndex - 1.0
-        j = -math.atan2(p[0],p1) + np.pi/2.0
-        j = j * self.radToIndex - 1.0
-        
+        j = math.atan2(p1,p[0]) * self.radToIndex - 1.0
+        #j = -math.atan2(p[0],p1) + np.pi/2.0
+        #j = j * self.radToIndex - 1.0
+        #print(i,j, '-', math.atan2(p1,p[2]), math.atan2(p[2],p1))
         return i,j
 
     def intersect(self, r_origin, r_dir):
@@ -111,9 +113,16 @@ class Sphere:
                 k += 1
 
         self.fcolors = self.scamap.to_rgba(self.C)
+        #self.ax.set_proj_type('ortho')  # FOV = 0 deg
+        
+        #self.ax.plot_surface(self.X, self.Y, self.Z, facecolors=self.fcolors, rstride=1, cstride=1, linewidth=0, antialiased=False, alpha=0.7)
         self.ax.plot_surface(self.X, self.Y, self.Z, facecolors=self.fcolors, rstride=1, cstride=1, linewidth=0, antialiased=False, alpha=0.7)
+
+        #self.ax.set_proj_type('ortho')  # FOV = 0 deg
+        #self.ax.set_proj_type('persp', focal_length=1.1)
+
         #fig.colorbar(self.scamap)
-        self.ax.view_init(elev=0, azim=89, roll=0)
+        self.ax.view_init(elev=0, azim=0, roll=0)
         self.ax.set_aspect('equal')
         self.ax.grid(False)
         self.ax.axis('off')
@@ -122,4 +131,4 @@ class Sphere:
         return ax.plot3D([P1[0],P2[0]], [P1[1],P2[1]], [P1[2],P2[2]], color=color, linestyle="dashed", linewidth=0.5)[0]
     
     def plot3DPoint(self, ax, P1, color):
-        return ax.plot3D(P1[0], P1[1], P1[2], color=color, marker='o', markersize=10.0)[0]
+        return ax.plot3D(P1[0], P1[1], P1[2], color=color, marker='o', markersize=5.0)[0]

@@ -7,54 +7,116 @@ class Network:
         self._ut = Utils.getInstance()    
         self._ref = p_['ref']                   # attractor reference values
         self._N = self._ref.shape[0]            # attractor unit number
+        self._res = p_['res']                   # angle resolution 
         self._sigma = np.array(p_['sig'])              
         self._h = p_['h']                       # rest point h
         self._inh = p_['inh']                   # inhibition factor
         self._dt = p_['dt']                     # time step in ms
         self._tau = (p_['tau']) 
-        #self._one_Min_TAU = 1.0 - self._TAU
-        
-        self._W = np.zeros((self._N,self._N),dtype=np.float32) # recurrent weights
-        self._W_mem = np.zeros((self._N,self._N),dtype=np.float32) # recurrent weights        
-                
+        self._objects = p_['objects']
+        self._u_sel_u_pre_gain = 2.5
+        self._u_sel_sig_l = 100.0
+        self._nObjects = len(self._objects)
+
         # precomputed const 
         self._invSigma, self._den = self._ut.getMultiGaussianConst(self._sigma)
-                
-        # setting recurrent weights analytically
-        for i in range(self._N):
-            self._W[i,:] = self._ut.multiGaussianPrecomp(self._ref, self._ref[i,:], self._invSigma, self._den)            
-            #mgpc = self._ut.multiGaussianPrecomp(self._ref, self._ref[i,:], self._invSigma, self._den)
-            #self._W[i,:] = mgpc/mgpc.sum()
+        
+        Wo = [] 
+        for o in self._objects:
+            Wo.append(self._ut.multiGaussianPrecomp(self._ref, o, self._invSigma, self._den))
+        if len(Wo) > 0:
+            self._W_obj = np.vstack(Wo)
+        else:
+            self._W_obj = None
 
-        # setting recurrent memory weights
+        self._W_pre = np.zeros((self._N,self._N),dtype=np.float32) # recurrent weights
+        self._W_pre_right = np.zeros((self._N,),dtype=np.float32) # symetry in vertical axis, so only ine row is needed        
+        self._W_pre_left = np.zeros((self._N,),dtype=np.float32) # symetry in vertical axis, so only ine row is needed        
+
+        self._W_sel = np.zeros((self._N,self._N),dtype=np.float32) # recurrent weights        
+                        
+        # weights for u_pre
+        for i in range(self._N):
+            self._W_pre[i,:] = self._ut.multiGaussianPrecomp(self._ref, self._ref[i,:], self._invSigma, self._den)            
+
+        # weights for u_pre_left
+        mu =  self._res/2.0 + self._res/20.0
+        k = 0
+        for i in range(self._res):
+            for j in range(self._res):
+                self._W_pre_left[k] = self._ut.sigmoid(np.array([mu - j]),0, 2.0)[0]
+                k += 1
+        
+        # weights for u_pre_right
+        mu =  self._res/2.0 - self._res/20.0
+        k = 0
+        for i in range(self._res):
+            for j in range(self._res):
+                self._W_pre_right[k] = self._ut.sigmoid(np.array([j - mu]),0, 2.0)[0]
+                k += 1
+
+        # weights for u_sel
         for i in range(self._N):            
             mgpc = self._ut.multiGaussianPrecomp(self._ref, self._ref[i,:], self._invSigma, self._den)
             mgpc /= mgpc.max()
-            self._W_mem[i,:] = mgpc - 1.0
-            # # winh = np.ones((self._N,),dtype=np.float32)/(-self._N*1.0)
-            # winh = np.ones((self._N,),dtype=np.float32)*(-1.0)
-            # winh[i] = 0.0
-            # self._W_mem[i,:] = winh        
+            self._W_sel[i,:] = mgpc - 1.0
         
-        #print(self._W_mem)
-        self._W_inh = self._W + self._inh
+        #print(self._W_sel)
+        self._W_pre_inh = self._W_pre + self._inh
         
-        self._u = np.random.normal(0,0.01,self._N)*self._h
-        self._u_mem = -np.random.normal(0.1,0.01,self._N)
-                    
+        self._u_pre = np.random.normal(0,0.01,self._N)*self._h
+        self._u_sel = -np.random.normal(0.8,0.01,self._N)   
+        if self._nObjects > 0:              
+            self._o = np.zeros((self._nObjects,), dtype=np.float32)
+        else:
+            self._o = None
+            
+    def updateObjects(self, objects):
+        if len(objects) != self._nObjects:
+            raise Exception('the same number of tracked objects must be updated')
+        self._objects = objects
+        Wo = [] 
+        for o in self._objects:
+            Wo.append(self._ut.multiGaussianPrecomp(self._ref, o, self._invSigma, self._den))
+        self._W_obj = np.vstack(Wo)
+
     def step(self, input_):
-        du = -self._u + np.matmul(self._W_inh, self._u) + self._h
-        imp = np.zeros((self._N,),dtype=np.float32)
-        for i in input_:
-            imp += self._ut.multiGaussianPrecomp(self._ref, i, self._invSigma, self._den)
-        du += imp
-        self._u += self._dt*du/self._tau
+        # du_pre
+        du_pre = -self._u_pre + np.matmul(self._W_pre_inh, self._u_pre) + self._h
+        
+        # input 
+        inputObj = input_['o']
+        for i in range(self._nObjects):
+            du_pre += inputObj[i]*self._W_obj[i,:] 
+        
+        # right 
+        right = input_['r']
+        if right > 0.0:
+            du_pre += right*self._W_pre_right * self._u_pre
 
+        # left 
+        left = input_['l']
+        if left > 0.0:
+            du_pre += left*self._W_pre_left * self._u_pre
+
+        # next
+        next = input_['n']
+        if next > 0.0:
+            du_pre += next*self._u_sel
+
+        # pre-selection
+        self._u_pre += self._dt*du_pre/self._tau
+
+        
+        # selection
         noise = np.random.normal(0,0.01,self._N)
-        du_mem = -self._u_mem + np.matmul(self._W_mem, self._ut.sigmoid(self._u_mem, 0.0, 100.0)) + self._h + noise
-        # print('du_mem', du_mem)
-        # print('imp', imp)
-        du_mem += self._u*0.5
-        self._u_mem += self._dt*du_mem/self._tau
+        s_sel = self._u_sel + ( self._u_sel_u_pre_gain * self._u_pre )
+        s_sel_act = self._ut.sigmoid(s_sel, 0.0, self._u_sel_sig_l)
+        du_sel = -self._u_sel + np.matmul(self._W_sel, s_sel_act) + self._h + noise
+        self._u_sel += self._dt*du_sel/self._tau
 
-        return copy.copy(self._u), copy.copy(self._u_mem)
+        # object layer
+        if not self._W_obj is None:
+            self._o = self._ut.softmax(50.0 * np.matmul(self._W_obj,  self._u_sel))
+        
+        return copy.copy(self._u_pre), copy.copy(self._u_sel), copy.copy(self._o)

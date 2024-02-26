@@ -39,6 +39,7 @@ params = {\
     'dt' : dt,
     'inh' : 0.0,
     'tau' : 1.0,
+    'objects': objs_ij_refs
     }              
 
 network = Network(params) 
@@ -46,11 +47,12 @@ u = None
 u_mem = None
 t = 0.0
 T = 5.0
-all_u = []
+all_u_pre = []
 all_u_mem = []
+oWeights = np.ones(len(objects))
 while (t < T):
-    u, u_mem = network.step(objs_ij_refs)
-    all_u.append(u)
+    u_pre, u_mem, obj = network.step({'o':oWeights})
+    all_u_pre.append(u_pre)
     all_u_mem.append(u_mem)
     t += dt
 

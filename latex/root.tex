@@ -53,11 +53,11 @@
 %	From Egocentric Sensory Sphere to Joint Attention and Back 
 %}
 \title{\LARGE \bf
-	The Ego-sensory Sphere of Jointness in Attention
+	JA-EGO : The Ego-sensory Sphere of Joint Attention
 }
 
 
-\author{Hendry F. Chame$^{1}$ and Rachid Alami$^{2}$% <-this % stops a space
+\author{Hendry Ferreira Chame$^{1}$ and Rachid Alami$^{2}$% <-this % stops a space
 	%\thanks{*This work was not supported by any organization}% <-this % stops a space
 	\thanks{$^{1}$Team NeuroRhythms at LORIA-CNRS, Campus Scientifique, 615 Rue du Jardin-Botanique, 54506 Vand\oe uvre-l\`es-Nancy, France.
 		{\tt\small hendry.ferreira-chame@loria.fr}}%
@@ -67,8 +67,7 @@
 
 
 \begin{document}
-	
-	
+		
 	
 	\maketitle
 	\thispagestyle{empty}
@@ -78,9 +77,7 @@
 	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 	\begin{abstract}
 		
-		\small \bf Face-to-face interactions are pervasive in our everyday life. We are able to quickly share attention and communicate about objects in the environment with others without thinking too much about it, even when seeing things for the first time. For human-robot interaction research, when departing from cognitivism and embracing embodiment and 4E cognition research, progress has been achieved in reducing the need for exhaustive modeling and rigorous variable control. However, HRI is still lacking for general principles and guidelines defining mechanisms for ensuring joint attention and efficient task prototyping. This work proposes   
-		
-		%yet for human-robot interaction (HRI) research interesting situations for investigating interaction and communication. Sharing knowledge and attention with others is crucial for successful face-to-face communication world objects with others , events, features, episodes, and even imagination or abstract ideas in time and space. Inspired by human phenomenological, cognitive and behavioral research, this work focuses on the study of joint attention (JA) for human-robot interaction (HRI), based on two main assumptions: a) the perception and representation of attention jointness constitute an isomorphic relation, and b) inspiration on \textit{dynamic neural fields} (DNF) theory is a promising way to investigate contextual and non-linear spatio-temporal relations underlying attention and knowledge sharing in HRI. Taking into account the previous considerations, we propose a topology-based model for JA named TOP-JAM, which is able to represent and track in real-time JA states, from observations of behavioral data. More importantly, the model consists in a representation that can be directly understood by human beings, which conforms to robo-ethical principles in social robotics. This study evaluates computational properties of the model in simulation. Through a real experiment with the robot Pepper, the study shows that TOP-JAM is able to track JA in a triad interaction scenario..
+		\small \bf In everyday life we frequently run into face-to-face interactions where we quickly share attention and communicate about objects with others, be it for providing guidance to someone or commenting or some unusual thing or event, to name a few examples. In such situations, we don’t think too much about it, although we may not necessarily know where we are, we can talk about things in the environment even when seeing for the first time. As addressed in Moravec's Paradox, for human-robot interaction research, the scenario is not as simple as for human interaction. However, progress has been achieved when departing from cognitivist philosophy and embracing embodiment and 4E cognition research, as a source of inspiration for designing light and efficient models of interaction. This work goes in this direction and proposes a sensory fusion mechanism named JAEGO relying mostly on immediate perception and low level cognitive skills such as working memory, so a robot is able to share attention with the human based on local (egocentric) sources of information and very simple proxemics. The advantage of our approach is that, by exploiting embodiment, a very efficient and intuitive communication system can result, which is adaptable to everyday situations not requiring the agent to process extensive information about the environment. In order to assess our hypothesis, we performed studies in simulation and a real interaction with the robot Pepper in a joint attention task. Results showed the robot is able to correctly focus on objects of interest in the environment when interacting with the human.   
 		
 	\end{abstract}
 	
@@ -88,7 +85,74 @@
 	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 	\section{INTRODUCTION}
 	
-	This template provides authors with most of the formatting specifications needed for preparing electronic versions of their papers. All standard paper components have been specified for three reasons: (1) ease of use when formatting individual papers, (2) automatic compliance to electronic requirements that facilitate the concurrent or later production of electronic products, and (3) conformity of style throughout a conference proceedings. Margins, column widths, line spacing, and type styles are built-in; examples of the type styles are provided throughout this document and are identified in italic type, within parentheses, following the example. Some components, such as multi-leveled equations, graphics, and tables are not prescribed, although the various table text styles are provided. The formatter will need to create these components, incorporating the applicable criteria that follow.
+	This is the introduction of the research ...
+	
+	\section{RELATED WORK}
+	%Biological studies have pointed out to the existence of biological mechanisms to support essential cognitive functions such as attention, short-term memory, spatio-temporal sensory-motor coordination, and locomotion, among others.
+
+	Some works in the field of robotics have achieved impressive results by exploring attention saliency in sensory egocentric representations (e.g. for bottom-up \cite{ruesch2008} and top-down \cite{bodiroza2011} mechanisms). Most of these works have considered a sort of environment exploration task, so the robot can focus on learning new things based on novelty. Fewer research have studied joint attention tasks (e.g. \cite{bodiroza2011}) inspired on psychological theories of attention. Overall, the representation proposed has neglected bio-inspiration on neural systems, consisting mostly in storage arrays for data indexed by spherical tessellation mapping (see \cite{peters2009sensory}). As a result, the dynamics of pre-attentive processing has not being modeled as a process unfolding in the same space where attention selection is done. We believe that this is an important limitation, when considering the possibility of investigating compositionality in joint attention as a descending (top-down) generative process combined with an ascending (bottom-up) saliency process, susceptible of study as a dynamical system.   
+	
+	Another limitation of previous research is considering the robot as the only one in interaction given with embodied ego-sensory mapping representations, so data coming from the human is mostly represented in the robot ego-sensory sphere. In our opinion, this would be a too much egocentric view of joint action in HRI. Thus, the robot should be able to represent its own world while accepting the egocentric view of others and being able to handle such body correspondences dynamically. 
+	 
+	From our perspective, different works have constituted previous steps in the direction of proposing our current study which is worth mentioning. The work by \cite{chame2016} has proposed a sensory ego-cylindrical information fusion mechanism for egocentric localization allowing the robot to autonomous position with respect to object in the environment based on embodied representations. Concerning joint attention modeling, the model TOP-JAM \cite{chame2023top} was proposed for interaction situations mediated by objects where allocentric references for addressing the task would make sense (e.g. sharing attention around a table, participating in an assembly collaboration task, to name a few) considering an extended range of knowledge and attention sharing (i.e. individual, monitoring, common, and sharing \cite{siposova2019}). 
+	 
+	
+	% 
+	
+	
+	%More importantly, attention clues from the human are not processed in the same representation space
+	
+	%attention processes dynamics has not been 
+	
+	%the body posture of the human has not being considered as an source of information for the robot attention process. Moreover, the sensory ego-sphere has been proposed as a computational data structure which does not represents directly the focus of attention of participants, neglecting thus the dynamics of interaction, consisting mostly in a data storage repository indexed by tessellation spherical mapping (see \cite{peters2009sensory}). 
+	
+	
+	
+	
+	%\cite{ruesch2008}
+	
+	%The problem of placement of the egocentric localization reference is not trivial and would greatly depend on the task at hand.   
+	
+	%The origin of the ego-cylinder can be fixed to different parts of the body. There is no agreement in the literature on the placement for this structure.
+	
+	
+	 %... in the field of cognitive robotics, the work by \cite{peters2009sensory} has proposed a data structure in the form of a sensory ego-sphere located at the robot base frame as a mediating interface between sensors and cognitive processes. 
+	 
+	%The work by \cite{chame2016} has proposed a sensory ego-cylindrical information fusion mechanism for egocentric localization allowing the robot to autonomous position with respect to object in the environment based on embodied representations. 
+	
+	\begin{figure}[h!]
+		\begin{center}
+		\begin{tikzpicture}
+		\node [] at (0,0){
+			\includegraphics[scale=0.5,keepaspectratio]{fig/robot_pointing.png}};
+		\node at (0.0,2.4) [color=black] {\small \textbf{The robot sensory ego-sphere}};
+		\end{tikzpicture}
+		\caption{Left: the robot is pointing to a location in the space. Right: the attention state of the robot is shown as the activation of the neural network representing the sensory ego-sphere, as stimulated by the intersection of the forearm direction with by the sensory ego-sphere.}
+		\label{fig:robot_pointing}
+		\end{center}
+	\end{figure}
+
+	
+	\section{THE MATHEMATICAL MODEL}
+	
+	Let a ego-sphere representation of sensory information be modeled by the following neural network architecture \cite{amari1977}.
+	
+		\begin{figure}[h!]
+		\begin{center}
+			\begin{tikzpicture}
+			\node [] at (0,0){
+				\includegraphics[scale=0.7,keepaspectratio]{fig/filters.png}};
+			\node at (0.0,2.6) [color=black] {\small \textbf{Pre-selection filters}};
+			\node at (-2.6,0.1) [color=black] {\scriptsize Point excitation};
+			\node at (2.6,0.1) [color=black] {\scriptsize Point inhibition};
+			\node at (-2.7,-2.4) [color=black] {\scriptsize Right-side excitation};
+			\node at (2.7,-2.4) [color=black] {\scriptsize left-side excitation};
+			
+			\end{tikzpicture}
+			\caption{Filters functions affecting the pre-selection phase.}
+			\label{fig:filters}
+		\end{center}
+	\end{figure}
 	
 	\section{PROCEDURE FOR PAPER SUBMISSION}
 	
@@ -194,7 +258,7 @@
 	
 	\section{CONCLUSIONS}
 	
-	A conclusion section is not required. Although a conclusion may review the main points of the paper, do not replicate the abstract as the conclusion. A conclusion might elaborate on the importance of the work or suggest applications and extensions. 
+	Starting from the interest in ... 
 	
 	\addtolength{\textheight}{-12cm}   % This command serves to balance the column lengths
 	% on the last page of the document manually. It shortens
@@ -212,52 +276,21 @@
 	
 	
 	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-	\section*{APPENDIX}
+	%\section*{APPENDIX}
 	
-	Appendixes should appear before the acknowledgment.
+	%Appendixes should appear before the acknowledgment.
 	
 	\section*{ACKNOWLEDGMENT}
 	
-	The preferred spelling of the word acknowledgment in America is without an e after the g. Avoid the stilted expression, One of us (R. B. G.) thanks . . .  Instead, try R. B. G. thanks. Put sponsor acknowledgments in the unnumbered footnote on the first page.
+	This research was only possible with the collaboration of colleagues from the robotics teams of both LAAS-CNRS (project ANITI) and LORIA-CNRS (project Creativ’Lab).
 	
 	
 	
 	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 	
-	References are important to the reader; therefore, each citation must be complete and correct. If at all possible, references should be commonly available publications.
 	
-	
-	
-	\begin{thebibliography}{99}
-		
-		\bibitem{c1} G. O. Young, Synthetic structure of industrial plastics (Book style with paper title and editor), 	in Plastics, 2nd ed. vol. 3, J. Peters, Ed.  New York: McGraw-Hill, 1964, pp. 1564.
-		\bibitem{c2} W.-K. Chen, Linear Networks and Systems (Book style).	Belmont, CA: Wadsworth, 1993, pp. 123135.
-		\bibitem{c3} H. Poor, An Introduction to Signal Detection and Estimation.   New York: Springer-Verlag, 1985, ch. 4.
-		\bibitem{c4} B. Smith, An approach to graphs of linear forms (Unpublished work style), unpublished.
-		\bibitem{c5} E. H. Miller, A note on reflector arrays (Periodical styleAccepted for publication), IEEE Trans. Antennas Propagat., to be publised.
-		\bibitem{c6} J. Wang, Fundamentals of erbium-doped fiber amplifiers arrays (Periodical styleSubmitted for publication), IEEE J. Quantum Electron., submitted for publication.
-		\bibitem{c7} C. J. Kaufman, Rocky Mountain Research Lab., Boulder, CO, private communication, May 1995.
-		\bibitem{c8} Y. Yorozu, M. Hirano, K. Oka, and Y. Tagawa, Electron spectroscopy studies on magneto-optical media and plastic substrate interfaces(Translation Journals style), IEEE Transl. J. Magn.Jpn., vol. 2, Aug. 1987, pp. 740741 [Dig. 9th Annu. Conf. Magnetics Japan, 1982, p. 301].
-		\bibitem{c9} M. Young, The Techincal Writers Handbook.  Mill Valley, CA: University Science, 1989.
-		\bibitem{c10} J. U. Duncombe, Infrared navigationPart I: An assessment of feasibility (Periodical style), IEEE Trans. Electron Devices, vol. ED-11, pp. 3439, Jan. 1959.
-		\bibitem{c11} S. Chen, B. Mulgrew, and P. M. Grant, A clustering technique for digital communications channel equalization using radial basis function networks, IEEE Trans. Neural Networks, vol. 4, pp. 570578, July 1993.
-		\bibitem{c12} R. W. Lucky, Automatic equalization for digital communication, Bell Syst. Tech. J., vol. 44, no. 4, pp. 547588, Apr. 1965.
-		\bibitem{c13} S. P. Bingulac, On the compatibility of adaptive controllers (Published Conference Proceedings style), in Proc. 4th Annu. Allerton Conf. Circuits and Systems Theory, New York, 1994, pp. 816.
-		\bibitem{c14} G. R. Faulhaber, Design of service systems with priority reservation, in Conf. Rec. 1995 IEEE Int. Conf. Communications, pp. 38.
-		\bibitem{c15} W. D. Doyle, Magnetization reversal in films with biaxial anisotropy, in 1987 Proc. INTERMAG Conf., pp. 2.2-12.2-6.
-		\bibitem{c16} G. W. Juette and L. E. Zeffanella, Radio noise currents n short sections on bundle conductors (Presented Conference Paper style), presented at the IEEE Summer power Meeting, Dallas, TX, June 2227, 1990, Paper 90 SM 690-0 PWRS.
-		\bibitem{c17} J. G. Kreifeldt, An analysis of surface-detected EMG as an amplitude-modulated noise, presented at the 1989 Int. Conf. Medicine and Biological Engineering, Chicago, IL.
-		\bibitem{c18} J. Williams, Narrow-band analyzer (Thesis or Dissertation style), Ph.D. dissertation, Dept. Elect. Eng., Harvard Univ., Cambridge, MA, 1993. 
-		\bibitem{c19} N. Kawasaki, Parametric study of thermal and chemical nonequilibrium nozzle flow, M.S. thesis, Dept. Electron. Eng., Osaka Univ., Osaka, Japan, 1993.
-		\bibitem{c20} J. P. Wilkinson, Nonlinear resonant circuit devices (Patent style), U.S. Patent 3 624 12, July 16, 1990. 
-		
-		
-		
-		
-		
-		
-	\end{thebibliography}
-	
+	\bibliographystyle{acm}
+	\bibliography{references}	
 	
 	
 	
