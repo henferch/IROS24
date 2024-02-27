@@ -9,7 +9,7 @@ from PlotTools import *
 
 fig, ax = plt.subplots(1, 2, subplot_kw={'projection': '3d'}, figsize=(7, 7))
 fig.tight_layout()
-plt.rcParams['axes.titley'] = 0.95   
+#plt.rcParams['axes.titley'] = 0.95   
 
 res = 16
 sphere1 = Sphere(ax[0], res, 'Pre-selection', 'viridis')
@@ -42,7 +42,7 @@ for o in objects:
     # sphere1.plot3DLine(sphere1.ax, zero, o, 'red')
     # sphere1.plot3DPoint(sphere1.ax, o, 'black')
 
-print(objs_ij_refs)
+#print(objs_ij_refs)
 
 dt = 0.05
 params = {\
@@ -50,7 +50,9 @@ params = {\
     'res' : res,
     'sig': [[0.5,0.0],[0.0,0.5]],
     #'sig': [[0.75,0.0],[0.0,0.75]],
-    'h' : -0.025,
+    #'h' : -0.025,
+    'h_pre' : -0.01,
+    'h_sel' : -0.0001,
     'dt' : dt,
     'inh' : 0.001,
     'tau' : 2.0,
@@ -67,63 +69,115 @@ all_u_sel = []
 all_o = []
 all_t = []
 
-while (t < T):
-    all_t.append(t)
+# switch attention to objects
+def exp1(t):
     oWeights = np.ones(len(objects))
     lWeight = 0.0
     rWeight = 0.0
+    aWeight = 0.0
+    bWeight = 0.0
     nWeight = 0.0
+    if (t < 1.0 ):        
+        oWeights[0] = 10.0
+    elif (t > 15.0 and t < 16.0):
+        oWeights[1] = 10.0        
+    elif (t > 25.0 and t < 26.0 ):
+        oWeights[2] = 10.0
+    elif (t > 35.0 and t < 36.0 ):
+        oWeights[3] = 10.0
+    elif (t > 37.0 and t < 38.0 ):
+        oWeights[4] = 10.0
+    elif (t > 40.0 and t < 41.0 ):
+        oWeights[5] = 10.0
+    return oWeights, lWeight, rWeight, aWeight, bWeight, nWeight
 
-    # if (t < 3.0 ):
-    #     oWeights[0] = 4.0
-    # elif (t > 10.0 and t < 10.1):
-    #     #lWeight = 2.0
-    #     nWeight = 1.5
-
-    if (t < 3.0 ):
-        #network._u_sel -= 10.5
-        #u_pre, u_sel = network.step(objs_ij_refs)
-        oWeights[0] = 4.0
-    elif (t > 15.0 and t < 18.0):
-        oWeights[1] = 4.0        
-    elif (t > 25.0 and t < 28.1 ):
-        oWeights[2] = 4.0
-    elif (t > 35.0 and t < 38.1 ):
-        oWeights[0] = 4.0
-    elif (t > 40.0 and t < 42.1 ):
-        lWeight = 2.0 
-    elif (t > 45.0 and t < 47.1 ):
-        rWeight = 2.0
-    elif (t > 80.0 and t < 82.1 ):
-        lWeight = 2.0
+# switch attention to the other side
+def exp2(t):
+    oWeights = np.ones(len(objects))
+    lWeight = 0.0
+    rWeight = 0.0
+    aWeight = 0.0
+    bWeight = 0.0
+    nWeight = 0.0
+    if (t < 1.0 ):        
+        oWeights[0] = 10.0
+    elif (t > 10.0 and t < 11.0):
+        aWeight = 3.0        
+    elif (t > 20.0 and t < 21.0):
+        bWeight = 3.0        
+    elif (t > 30.0 and t < 31.0 ):
+        aWeight = 3.0
     
-    # else:
-    #     oWeights = np.ones(len(objects))
-    u_pre, u_sel, o = network.step({'o':oWeights, 'l' : lWeight, 'r': rWeight, 'n': nWeight})
+    return oWeights, lWeight, rWeight, aWeight, bWeight, nWeight
+
+# switch attention to the above and below
+def exp3(t):
+    oWeights = np.ones(len(objects))
+    lWeight = 0.0
+    rWeight = 0.0
+    aWeight = 0.0
+    bWeight = 0.0
+    nWeight = 0.0
+    if (t < 1.0 ):        
+        oWeights[0] = 10.0
+    elif (t > 10.0 and t < 11.0):
+        aWeight = 3.0        
+    elif (t > 20.0 and t < 21.0):
+        bWeight = 3.0        
+    # elif (t > 30.0 and t < 31.0 ):
+    #     aWeight = 3.0
+    
+    return oWeights, lWeight, rWeight, aWeight, bWeight, nWeight
+
+while (t < T):
+    all_t.append(t)
+    
+    # experiment to be performed
+    #oWeights, lWeight, rWeight, aWeight, bWeight, nWeight = exp1(t)
+    #oWeights, lWeight, rWeight, aWeight, bWeight, nWeight = exp2(t)
+    oWeights, lWeight, rWeight, aWeight, bWeight, nWeight = exp3(t)
+
+    u_pre, u_sel, o = network.step({'o':oWeights, 'l' : lWeight, 'r': rWeight, 'a' : aWeight, 'b': bWeight, 'n': nWeight})
     all_u_pre.append(u_pre)
     all_u_sel.append(u_sel)
     all_o.append(o)
     t += dt
     
+
 sphere1.draw(u_pre)
 sphere2.draw(u_sel)
+#sphere2.draw(network._W_pre_below)
+#sphere2.draw(network._W_pre_above)
+#sphere2.draw(network._W_pre_left)
 
 fig.subplots_adjust(bottom=0.15)
 cbar_ax = fig.add_axes([0.25, 0.14, 0.5, 0.015])
 
 fig.colorbar(sphere1.scamap, cax=cbar_ax, location="bottom", orientation="horizontal")
 
-plt.figure(2)
-plt.title("Evolution of U")
-u_pre = np.vstack(all_u_pre)
-plt.imshow(u_pre.transpose())
-plt.colorbar()
+fig, (ax1, ax2, ax3) = plt.subplots(nrows=3, figsize=(7, 7))
 
-plt.figure(3)
-plt.title("Evolution of U sel")
+ax1.set_title("Evolution of $u_\mathrm{pre}$")
+u_pre = np.vstack(all_u_pre)
+im1 = ax1.imshow(u_pre.transpose())
+cbar_ax = fig.add_axes([0.92, 0.685, 0.015, 0.164])
+fig.colorbar(im1, cax=cbar_ax, orientation='vertical')
+ax1.get_xaxis().set_visible(False)
+
+ax2.set_title("Evolution of $u_\mathrm{sel}$")
 u_sel = np.vstack(all_u_sel)
-plt.imshow(u_sel.transpose())
-plt.colorbar()
+im2 = ax2.imshow(u_sel.transpose())
+cbar_ax = fig.add_axes([0.92, 0.4125, 0.015, 0.164])
+fig.colorbar(im2, cax=cbar_ax, orientation='vertical')
+ax2.get_xaxis().set_visible(False)
+
+ax3.set_title("Object selection")
+all_o = np.vstack(all_o)
+for i in range(all_o.shape[1]):
+    ax3.plot(np.array(all_t), all_o[:,i], label='Object {}'.format(i+1))
+ax3.set_xlim([all_t[0],all_t[-1]])
+ax3.legend(fontsize="7")
+
 
 # plt.figure(4)
 # plt.title("Selection mean")
@@ -134,20 +188,14 @@ plt.colorbar()
 # #plt.plot(np.array(all_t), u_sel_mean)
 # plt.plot(np.array(all_t), selection)
 
-plt.figure(5)
-plt.title("Object selection")
-all_o = np.vstack(all_o)
-for i in range(all_o.shape[1]):
-    #plt.plot(np.array(all_t), selection*all_o[:,i])
-    plt.plot(np.array(all_t), all_o[:,i])
 
-plt.figure(6)
-plt.title("U Pre Matrix")
-u_sel = np.vstack(all_u_sel)
-plt.imshow(network._u_pre.reshape((res,res)))
-plt.xlim([0,res-1.0])
-plt.ylim([0,res-1.0])
-plt.colorbar()
+# plt.figure(6)
+# plt.title("U Pre Matrix")
+# u_sel = np.vstack(all_u_sel)
+# plt.imshow(network._u_pre.reshape((res,res)))
+# plt.xlim([0,res-1.0])
+# plt.ylim([0,res-1.0])
+# plt.colorbar()
 
 
 # plt.figure(6)
