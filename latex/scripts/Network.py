@@ -31,10 +31,10 @@ class Network:
             self._W_obj = None
 
         self._W_pre = np.zeros((self._N,self._N),dtype=np.float32) # recurrent weights
-        self._W_pre_right = np.zeros((self._N,),dtype=np.float32) # symetry in vertical axis, so only ine row is needed        
-        self._W_pre_left = np.zeros((self._N,),dtype=np.float32) # symetry in vertical axis, so only ine row is needed        
-        self._W_pre_above = np.zeros((self._N,),dtype=np.float32) # symetry in vertical axis, so only ine row is needed        
-        self._W_pre_below = np.zeros((self._N,),dtype=np.float32) # symetry in vertical axis, so only ine row is needed        
+        #self._W_pre_right = np.zeros((self._N,),dtype=np.float32) # symetry in vertical axis, so only ine row is needed        
+        #self._W_pre_left = np.zeros((self._N,),dtype=np.float32) # symetry in vertical axis, so only ine row is needed        
+        #self._W_pre_above = np.zeros((self._N,),dtype=np.float32) # symetry in vertical axis, so only ine row is needed        
+        #self._W_pre_below = np.zeros((self._N,),dtype=np.float32) # symetry in vertical axis, so only ine row is needed        
 
         self._W_sel = np.zeros((self._N,self._N),dtype=np.float32) # recurrent weights        
                         
@@ -147,7 +147,7 @@ class Network:
         # next
         next = input_['n']
         if next > 0.0:
-            du_pre += next*self._u_sel
+            du_pre += -next*(self._ut.softmax(50.0*self._u_sel))
 
         # pre-selection
         self._u_pre += self._dt*du_pre/self._tau

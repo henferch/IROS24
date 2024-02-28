@@ -12,6 +12,7 @@ fig.tight_layout()
 #plt.rcParams['axes.titley'] = 0.95   
 
 res = 16
+#res = 21
 sphere1 = Sphere(ax[0], res, 'Pre-selection', 'viridis')
 sphere2 = Sphere(ax[1], res, 'Selection', 'viridis')
 
@@ -70,29 +71,29 @@ all_o = []
 all_t = []
 
 # switch attention to objects
-def exp1(t):
+def exp1(t, ow):    
     oWeights = np.ones(len(objects))
     lWeight = 0.0
     rWeight = 0.0
     aWeight = 0.0
     bWeight = 0.0
-    nWeight = 0.0
+    nWeight = 0.0    
     if (t < 1.0 ):        
-        oWeights[0] = 10.0
-    elif (t > 15.0 and t < 16.0):
-        oWeights[1] = 10.0        
-    elif (t > 25.0 and t < 26.0 ):
-        oWeights[2] = 10.0
-    elif (t > 35.0 and t < 36.0 ):
-        oWeights[3] = 10.0
-    elif (t > 37.0 and t < 38.0 ):
-        oWeights[4] = 10.0
+        oWeights[0] = ow
+    elif (t > 10.0 and t < 11.0):
+        oWeights[1] = ow
+    elif (t > 20.0 and t < 21.0 ):
+        oWeights[2] = ow
+    elif (t > 30.0 and t < 31.0 ):
+        oWeights[3] = ow
     elif (t > 40.0 and t < 41.0 ):
-        oWeights[5] = 10.0
+        oWeights[4] = ow
+    elif (t > 50.0 and t < 51.0 ):
+        oWeights[5] = ow
     return oWeights, lWeight, rWeight, aWeight, bWeight, nWeight
 
 # switch attention to the other side
-def exp2(t):
+def exp2(t, ow):    
     oWeights = np.ones(len(objects))
     lWeight = 0.0
     rWeight = 0.0
@@ -100,18 +101,18 @@ def exp2(t):
     bWeight = 0.0
     nWeight = 0.0
     if (t < 1.0 ):        
-        oWeights[0] = 10.0
+        oWeights[0] = ow
     elif (t > 10.0 and t < 11.0):
-        aWeight = 3.0        
+        lWeight = 3.0        
     elif (t > 20.0 and t < 21.0):
-        bWeight = 3.0        
+        lWeight = 3.0        
     elif (t > 30.0 and t < 31.0 ):
-        aWeight = 3.0
+        rWeight = 3.0
     
     return oWeights, lWeight, rWeight, aWeight, bWeight, nWeight
 
 # switch attention to the above and below
-def exp3(t):
+def exp3(t, ow):
     oWeights = np.ones(len(objects))
     lWeight = 0.0
     rWeight = 0.0
@@ -119,7 +120,7 @@ def exp3(t):
     bWeight = 0.0
     nWeight = 0.0
     if (t < 1.0 ):        
-        oWeights[0] = 10.0
+        oWeights[0] = ow
     elif (t > 10.0 and t < 11.0):
         aWeight = 3.0        
     elif (t > 20.0 and t < 21.0):
@@ -129,13 +130,39 @@ def exp3(t):
     
     return oWeights, lWeight, rWeight, aWeight, bWeight, nWeight
 
+# switch to next object
+def exp4(t, ow):
+    oWeights = np.ones(len(objects))
+    lWeight = 0.0
+    rWeight = 0.0
+    aWeight = 0.0
+    bWeight = 0.0
+    nWeight = 0.0    
+    oWeights[0] = ow
+    oWeights[4] = ow
+    nw = 15.0    
+    if (t < 1.0 ):      
+        oWeights[0] = 1.0                                 
+    elif (t > 10.0 and t < 11.0):
+        nWeight = nw
+    elif (t > 20.0 and t < 21.0):
+        nWeight = nw
+    elif (t > 30.0 and t < 31.0 ):
+         nWeight = nw
+    elif (t > 40.0 and t < 41.0 ):
+         nWeight = nw
+    
+    return oWeights, lWeight, rWeight, aWeight, bWeight, nWeight
+
 while (t < T):
     all_t.append(t)
     
+    ow = 16.0
     # experiment to be performed
-    #oWeights, lWeight, rWeight, aWeight, bWeight, nWeight = exp1(t)
-    #oWeights, lWeight, rWeight, aWeight, bWeight, nWeight = exp2(t)
-    oWeights, lWeight, rWeight, aWeight, bWeight, nWeight = exp3(t)
+    #oWeights, lWeight, rWeight, aWeight, bWeight, nWeight = exp1(t, ow)
+    #oWeights, lWeight, rWeight, aWeight, bWeight, nWeight = exp2(t, ow)
+    #oWeights, lWeight, rWeight, aWeight, bWeight, nWeight = exp3(t, ow)
+    oWeights, lWeight, rWeight, aWeight, bWeight, nWeight = exp4(t, ow)
 
     u_pre, u_sel, o = network.step({'o':oWeights, 'l' : lWeight, 'r': rWeight, 'a' : aWeight, 'b': bWeight, 'n': nWeight})
     all_u_pre.append(u_pre)

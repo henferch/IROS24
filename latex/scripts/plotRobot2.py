@@ -23,13 +23,6 @@ def getTransfrom(motion_service, name):
     f = motion_service.getTransform(name, frame, useSensorValues)
     return np.array(f).reshape((4,4))
 
-def getij(p, res):
-        radToIndex = res/np.pi
-        p1 = p[1]
-        i = (math.atan2(p1,p[2]) + np.pi/2.0) * radToIndex - 1.0
-        j = (math.atan2(p1,p[0]) + np.pi/2.0)* radToIndex - 1.0
-        return i,j
-
 def getRobotFramesPos(motion_service):
     
     dFrames = {} 
@@ -142,7 +135,18 @@ def plotEgoSphere(ax, center, cmap, res, radius):
     return {'obj': obj, 'scamap' : scamap, 'X': X, 'Y': Y, 'Z': Z , 'C' : C}
     #return ax.plot_surface(X, Y, Z, rstride=1, cstride=1, linewidth=0, color='red', antialiased=False, alpha=0.3), scamap
 
-def render(motion_service, ax, objRobot, objEgoSph, rightArmEgo, network, radius):
+def getij(p, res):
+        radToIndex = (res*1.0)/math.pi
+        p1 = p[1]
+        angle = math.atan2(p[1],p[2])
+        print("p", p, "angle", (angle/math.pi)*180.0 )
+        #i = (math.atan2(p1,p[2]))* radToIndex - 1.0
+        i = (angle)* radToIndex - 1.0
+        #j = (math.atan2(p1,p[0]) + np.pi/2.0)* radToIndex - 1.0
+        j = (math.atan2(p1,p[0]))* radToIndex - 1.0
+        return i,j
+
+def render(motion_service, ax, objRobot, objEgoSph, rightArmEgo, leftArmEgo, network, radius):
     
     dFrames = getRobotFramesPos(motion_service)
 
@@ -167,12 +171,26 @@ def render(motion_service, ax, objRobot, objEgoSph, rightArmEgo, network, radius
 
     RElbowRoll = dFrames['RElbowRoll']
     RWristYaw = dFrames['RWristYaw']
-    p1, p2 = intersect(dFrames['Torso'], radius, RElbowRoll, RWristYaw)
+    LElbowRoll = dFrames['LElbowRoll']
+    LWristYaw = dFrames['LWristYaw']
+    #torso = dFrames['Torso']
+    pR1, pR2 = intersect(shoulder_center, radius, RElbowRoll, RWristYaw-RElbowRoll)
+    pL1, pL2 = intersect(shoulder_center, radius, LElbowRoll, LWristYaw-LElbowRoll)
+    # iL, jL = getij(pL1-torso, network._res)
+    # iR, jR = getij(pR1-torso, network._res)
 
     # updating network
-    pij = getij(p1, network._res)    
-    network.updateObjects([pij])
-    u_pre, u_sel, o = network.step({'o':[1.0], 'l' : 0.0, 'r': 0.0, 'n': 0.0})
+    ptL = pL1-shoulder_center
+    ptL = np.array([-ptL[1], ptL[0], ptL[2]])
+    ptR = pR1-shoulder_center
+    ptR = np.array([-ptR[1], ptR[0], ptR[2]])
+    iL, jL = getij(ptL, network._res)
+    iR, jR = getij(ptR, network._res)
+            
+    #print(i,j)
+    #print(pij)
+    network.updateObjects([np.array([iR,jR]), np.array([iL,jL])])
+    u_pre, u_sel, o = network.step({'o':[1.0, 1.0], 'l' : 0.0, 'r': 0.0, 'a':0.0, 'b':0.0, 'n': 0.0})
 
     # plotting ego-sphere         
     X = objEgoSph['X']
@@ -193,10 +211,11 @@ def render(motion_service, ax, objRobot, objEgoSph, rightArmEgo, network, radius
     objEgoSph['obj'] = ax.plot_surface(X, Y, Z, facecolors=fcolors, rstride=1, cstride=1, linewidth=0, antialiased=False, alpha=0.7) 
     
     # # plotting arm-ego intersection point 
-    set_data_3DPoint(rightArmEgo, p1)
+    set_data_3DPoint(leftArmEgo, pL1)
+    set_data_3DPoint(rightArmEgo, pR1)
     
     ax.figure.canvas.draw()
-    print('render')
+    #print('render')
 
 def main(session):
     """
@@ -213,13 +232,13 @@ def main(session):
     # Send robot to Stand Init
     #posture_service.goToPosture("StandInit", 0.5)
 
-    print(motion_service.getBodyNames('Body'))
-    print(motion_service.getSensorNames())
+    # print(motion_service.getBodyNames('Body'))
+    # print(motion_service.getSensorNames())
 
     res = 16
     radius = 0.25
 
-    fig, ax = plt.subplots(1, 1, subplot_kw={'projection': '3d'}, figsize=(14, 14))
+    fig, ax = plt.subplots(1, 1, subplot_kw={'projection': '3d'}, figsize=(10, 10))
     fig.tight_layout()
 
     # #fig = plt.figure()
@@ -227,7 +246,7 @@ def main(session):
     ax.view_init(elev=0, azim=0)
 
     dt = 0.05
-    objs_ij = [np.array([0.0,0.0])]
+    objs_ij = [np.array([-1.0,-1.0]), np.array([-1.0,-1.0])]
 
     refs = []
     for i in range(res):
@@ -238,37 +257,43 @@ def main(session):
         'ref': refs,
         'res' : res,
         'sig': [[0.5,0.0],[0.0,0.5]],
-        'h' : -0.025,
+        #'h' : -0.025,
+        'h_pre' : -0.01,
+        'h_sel' : -0.0001,
         'dt' : dt,
         'inh' : 0.001,
-        'tau' : 2.0,
+        'tau' : 0.2,
         'objects': objs_ij
         }              
 
     network = Network(params) 
     
     
-    torso = getTransfrom(motion_service,'Torso')[:,3]
-
+    #torso = getTransfrom(motion_service,'Torso')[:,3]
+    shoulder_center = (getTransfrom(motion_service,'RShoulderRoll')[:,3] + getTransfrom(motion_service,'LShoulderRoll')[:,3] )/ 2.0
     # plotting intersection point
     
-    rightArmEgo = plot3DPoint(ax, torso, 'red')
+    rightArmEgo = plot3DPoint(ax, shoulder_center, 'red')
+    leftArmEgo = plot3DPoint(ax, shoulder_center, 'red')
 
     objRobot = plotRobotBody(motion_service, ax, 'darkcyan', 3.0)
 
-    objEgoSph = plotEgoSphere(ax, torso, 'viridis', res, radius)
+    objEgoSph = plotEgoSphere(ax, shoulder_center, 'viridis', res, radius)
     
+    ax.set_xlabel('x')
+    ax.set_ylabel('y')
+    ax.set_zlabel('z')
     ax.set_xlim([-0.75, 0.75])
     ax.set_ylim([-0.75, 0.75])
     ax.set_zlim([-0.01, 1.5])
-    ax.set_xticks([-0.75, 0.75])
-    ax.set_yticks([-0.75, 0.75])
-    ax.set_zticks([0.0, 1.5])
+    # ax.set_xticks([-0.75, 0.75])
+    # ax.set_yticks([-0.75, 0.75])
+    # ax.set_zticks([0.0, 1.5])
     ax.set_aspect('equal')
     ax.grid(False)
 
     timer = fig.canvas.new_timer(interval=100)
-    timer.add_callback(render, motion_service, ax, objRobot, objEgoSph, rightArmEgo, network, radius)
+    timer.add_callback(render, motion_service, ax, objRobot, objEgoSph, rightArmEgo, leftArmEgo, network, radius)
     timer.start()
 
     plt.show()
