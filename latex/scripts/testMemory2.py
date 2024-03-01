@@ -3,22 +3,26 @@ from mpl_toolkits.mplot3d import Axes3D  # noqa: F401 unused import
 from mpl_toolkits.mplot3d.axes3d import get_test_data
 import numpy as np
 from numpy.linalg import inv
-from Network import Network
-from PlotTools import *
+from NetworkGeodesic import NetworkGeodesic
+#from PlotTools import *
+from GeodesicDome import GeodesicDome
 from Utils import Utils
 
 
 fig, ax = plt.subplots(1, 2, subplot_kw={'projection': '3d'}, figsize=(7, 7))
 fig.tight_layout()
-#plt.rcParams['axes.titley'] = 0.95   
 
-res = 16
-#res = 21
-sphere1 = Sphere(ax[0], res, 'Pre-selection', 'viridis')
-sphere2 = Sphere(ax[1], res, 'Selection', 'viridis')
+# Icosahedron
+center = np.array([0.0,0.0,0.0])
+tesselation = 3        
+sigma = 0.001
+radius = 1.0
+objects = [np.array([0.0,0.0,0.0]), np.array([0.0,0.0,0.0])]
+params = {'tesselation': tesselation, 'scale' : radius, 'center': center}        
+egoSphere1 = GeodesicDome(params)
+egoSphere2 = GeodesicDome(params)
 
 objects = []
-zero = np.array([0.0,0.0,0.0])
 
 for i in range(2):
     p = np.array([-0.4,0.5,-0.2 + i *(0.4)])
@@ -32,38 +36,28 @@ for i in range(2):
     p = np.array([0.4,0.5,-0.2 + i *(0.4)])
     objects.append(p)
 
-# p = np.array([0.4,0.5,0.3])
-# objects.append(p)
-
-objs_ij_refs = []
+objs_int = []
 for o in objects:
-    p, _ = sphere1.intersect(zero, o)
-    i,j = sphere1.getij(p)
-    objs_ij_refs.append(np.array([i,j]))
-    # sphere1.plot3DPoint(sphere1.ax, p, 'red')
-    # sphere1.plot3DLine(sphere1.ax, zero, o, 'red')
-    # sphere1.plot3DPoint(sphere1.ax, o, 'black')
+    p, _ = egoSphere1.intersect(center, o-center)
+    objs_int.append(p)
 
-#print(objs_ij_refs)
-
-dt = 0.05
 ut = Utils.getInstance()
+dt = 0.05
+refs = egoSphere1.getV()
+dt = 0.05        
 params = {\
-    'ut': ut,
-    'ref': sphere1.getRefs(),
-    'res' : res,
-    'sig': [[0.5,0.0],[0.0,0.5]],
-    #'sig': [[0.75,0.0],[0.0,0.75]],
-    #'h' : -0.025,
+    'ut': ut,    
+    'ref': refs,
+    'sig': np.eye(3)*sigma,
     'h_pre' : -0.01,
     'h_sel' : -0.0001,
     'dt' : dt,
-    'inh' : 0.001,
-    'tau' : 2.0,
-    'objects': objs_ij_refs
-    }              
+    'inh' : 0.0001,
+    'tau' : 0.2,
+    'objects': objs_int
+    }
 
-network = Network(params) 
+network = NetworkGeodesic(params) 
 u_pre = None
 u_mem = None
 t = 0.0
@@ -174,8 +168,8 @@ while (t < T):
     t += dt
     
 
-sphere1.draw(u_pre)
-sphere2.draw(u_sel)
+egoSphere1.plot(ax[0], u_pre)
+egoSphere2.plot(ax[1], u_sel)
 #sphere2.draw(network._W_pre_below)
 #sphere2.draw(network._W_pre_above)
 #sphere2.draw(network._W_pre_left)
@@ -183,7 +177,7 @@ sphere2.draw(u_sel)
 fig.subplots_adjust(bottom=0.15)
 cbar_ax = fig.add_axes([0.25, 0.14, 0.5, 0.015])
 
-fig.colorbar(sphere1.scamap, cax=cbar_ax, location="bottom", orientation="horizontal")
+fig.colorbar(egoSphere1.scamap, cax=cbar_ax, location="bottom", orientation="horizontal")
 
 fig, (ax1, ax2, ax3) = plt.subplots(nrows=3, figsize=(7, 7))
 

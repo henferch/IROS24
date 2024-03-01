@@ -46,6 +46,7 @@ class GeodesicDome:
         self.f_N = len(self.f)
 
         self._renderObj = None
+        self.scamap = None
 
         # # Check the number of vertices / faces
         print('num of vertices = {}, num of faces = {}'.format(self.v_N, self.f_N))
@@ -208,11 +209,11 @@ class GeodesicDome:
 
     def render(self, state):
         #self._renderObj.remove()
-        scamap = plt.cm.ScalarMappable(cmap='viridis')
+        self.scamap = plt.cm.ScalarMappable(cmap='viridis')
         face_act = np.zeros((self.f_N), dtype=np.float32)
         for v in range(self.v_N):
             face_act[self.v_to_f[v]] += state[v]
-        fcolors = scamap.to_rgba(face_act)        
+        fcolors = self.scamap.to_rgba(face_act)        
         self.tri.set_facecolors(fcolors)
         #self._renderObj = ax.add_collection3d(self.tri)                    
             
