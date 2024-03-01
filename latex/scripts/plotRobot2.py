@@ -49,8 +49,7 @@ def plot3DLine(ax, P1, P2, color, linewidth):
 def plot3DPoint(ax, P1, color):    
     #graph, = ax.plot3D(P1[0], P1[1], P1[2], color=color, marker='o', markersize=5.0)
     #return ax.scatter(P1[0], P1[1], P1[2], color=color, marker='o')
-    return ax.plot([P1[0]], [P1[1]], [P1[2]], color=color, marker='o')[0]
-    return graph
+    return ax.plot([P1[0]], [P1[1]], [P1[2]], color=color, marker='o')[0]    
 
 def set_data_3DLine(obj, P1, P2):
     obj.set_data([P1[0],P2[0]], [P1[1],P2[1]])

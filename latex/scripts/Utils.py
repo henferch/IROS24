@@ -177,5 +177,21 @@ class Utils:
     
     def getMaxRef(self, ref_, state_):
         return ref_[np.argmax(state_)]
+    
+    def setPlotData3DLine(self, obj, P1, P2):
+        obj.set_data([P1[0],P2[0]], [P1[1],P2[1]])
+        obj.set_3d_properties([P1[2],P2[2]])
+
+    def setPlotData3DPoint(self, obj, P1):
+        obj.set_data(P1[0], P1[1])
+        obj.set_3d_properties(P1[2])
+    
+    def plot3DLine(self, ax, P1, P2, color, linewidth):
+        return ax.plot3D([P1[0],P2[0]], [P1[1],P2[1]], [P1[2],P2[2]], color=color, linewidth=linewidth)[0]
+
+    def plot3DPoint(self, ax, P1, color):    
+        return ax.plot([P1[0]], [P1[1]], [P1[2]], color=color, marker='o')[0]    
+
+
 
 

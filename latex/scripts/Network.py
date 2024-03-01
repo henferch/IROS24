@@ -1,10 +1,9 @@
 import numpy as np
-from Utils import Utils
 import copy
 
 class Network:
     def __init__(self, p_= None) :
-        self._ut = Utils.getInstance()    
+        self._ut = p_['ut']    
         self._ref = p_['ref']                   # attractor reference values
         self._N = self._ref.shape[0]            # attractor unit number
         self._res = p_['res']                   # angle resolution 
@@ -152,7 +151,7 @@ class Network:
         # pre-selection
         self._u_pre += self._dt*du_pre/self._tau
 
-        
+
         # selection
         noise = np.random.normal(0,0.01,self._N)
         s_sel = self._u_sel + ( self._u_sel_u_pre_gain * self._u_pre )
@@ -165,3 +164,9 @@ class Network:
             self._o = self._ut.softmax(50.0 * np.matmul(self._W_obj,  self._u_sel))
         
         return copy.copy(self._u_pre), copy.copy(self._u_sel), copy.copy(self._o)
+    
+    def getU_pre(self):
+        return copy.copy(self._u_pre)
+    
+    def getU_sel(self):
+        copy.copy(self._u_sel), copy.copy(self._o)
