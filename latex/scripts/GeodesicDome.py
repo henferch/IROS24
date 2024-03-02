@@ -145,7 +145,7 @@ class GeodesicDome:
         # self.tri.set_linewidth(0.1)
         self.tri.set_alpha(0.4)
         scamap = plt.cm.ScalarMappable(cmap='viridis')
-        fcolors = scamap.to_rgba(state)
+        fcolors = scamap.to_rgba(face_act)
         self.tri.set_facecolors(fcolors)        
         self._renderObj = ax.add_collection3d(self.tri)
         

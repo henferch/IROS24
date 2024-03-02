@@ -134,15 +134,19 @@ class Utils:
             return ls_
         return s_
     
-    def multiGaussianPrecomp(self, mu_, v_, invSigma_, den_):     
-        g = []
-        v = np.array(v_)
-        n = mu_.shape[0]
-        mu = mu_.reshape((n,-1))
-        for i in range(n):
-            diff = np.array(mu[i,:]) - v
-            g.append((np.exp(-0.5 * np.dot(np.dot(diff, invSigma_), diff)) / den_))
-        return np.array(g)
+    # def multiGaussianPrecomp(self, mu_, v_, invSigma_, den_):     
+    #     g = []
+    #     v = np.array(v_)
+    #     n = mu_.shape[0]
+    #     mu = mu_.reshape((n,-1))
+    #     for i in range(n):
+    #         diff = np.array(mu[i,:]) - v
+    #         g.append((np.exp(-0.5 * np.dot(np.dot(diff, invSigma_), diff)) / den_))
+    #     return np.array(g)
+    
+    def multiGaussianPrecomp(self, mu_, v_, invSigma_, den_):
+        diff = mu_ - v_
+        return np.exp(-0.5 * np.sum(np.matmul(diff, invSigma_) * diff, axis=1)) / den_
             
     def multiGaussian(self, mu_, v_, sigma_):
         invSigma = np.linalg.inv(sigma_)
@@ -150,6 +154,10 @@ class Utils:
         k = sigma_.shape[0]*1.0
         den = np.sqrt( (2.0*np.pi)**k + np.abs(sigmaDet))    
         return self.multiGaussianPrecomp(mu_, v_, invSigma, den)        
+
+    def gaussian(self, mu_, v_, sigma_):    
+        return sigma_*np.sqrt( 2.0*np.pi) * np.exp( -0.5* (v_-mu_)**2.0/(sigma_*sigma_))        
+
 
     def softmax(self, x_):
         ex = np.exp(x_)

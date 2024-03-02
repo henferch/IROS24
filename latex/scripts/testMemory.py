@@ -162,10 +162,10 @@ while (t < T):
     
     ow = 16.0
     # experiment to be performed
-    #oWeights, lWeight, rWeight, aWeight, bWeight, nWeight = exp1(t, ow)
+    oWeights, lWeight, rWeight, aWeight, bWeight, nWeight = exp1(t, ow)
     #oWeights, lWeight, rWeight, aWeight, bWeight, nWeight = exp2(t, ow)
     #oWeights, lWeight, rWeight, aWeight, bWeight, nWeight = exp3(t, ow)
-    oWeights, lWeight, rWeight, aWeight, bWeight, nWeight = exp4(t, ow)
+    #oWeights, lWeight, rWeight, aWeight, bWeight, nWeight = exp4(t, ow)
 
     u_pre, u_sel, o = network.step({'o':oWeights, 'l' : lWeight, 'r': rWeight, 'a' : aWeight, 'b': bWeight, 'n': nWeight})
     all_u_pre.append(u_pre)
