@@ -21,6 +21,7 @@ def render(ax, robot, egoSph, rightArmEgo, leftArmEgo, network, ut):
     
     robot.updateRobotFramesPos()
     robot.render()
+
     Torso, RElbowRoll, RWristYaw, LElbowRoll, LWristYaw = robot.getIntersectionPoints()
 
     pR1, pR2 = egoSph.intersect(RElbowRoll, RWristYaw-RElbowRoll)

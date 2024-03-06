@@ -50,6 +50,23 @@ class RobotPlot:
         f = self.motion_service.getTransform('Torso', self.frame, True)
         return np.array([f[3],f[7],f[11]])
     
+    def setRobotFramesPos(self, dFrames):
+        self.RShoulderRoll  = dFrames['RShoulderRoll']
+        self.RElbowRoll = dFrames['RElbowRoll'] 
+        self.RWristYaw = dFrames['RWristYaw'] 
+        self.RArm = dFrames['RArm']
+        self.LShoulderRoll  = dFrames['LShoulderRoll']
+        self.LElbowRoll = dFrames['LElbowRoll']
+        self.LWristYaw = dFrames['LWristYaw']
+        self.LArm = dFrames['LArm']
+        self.HeadYaw = dFrames['HeadYaw']
+        self.HeadTouch = dFrames['HeadTouch']
+        self.HipPitch  = dFrames['HipPitch']
+        self.KneePitch  = dFrames['KneePitch']
+        self.Leg = dFrames['Leg']
+        self.Torso = dFrames['Torso']
+        
+
     def getRobotFramesPos(self):
         
         self.updateRobotFramesPos()
@@ -109,9 +126,10 @@ class RobotPlot:
     #     obj.set_data([P1[0],P2[0]], [P1[1],P2[1]])
     #     obj.set_3d_properties([P1[2],P2[2]])
 
-    def plot(self, ax, color, linewidth):
+    def plot(self, ax, color, linewidth, useSensor=True):
 
-        self.getRobotFramesPos()
+        if useSensor:
+            self.getRobotFramesPos()
 
         #plotting head 
         shoulder_center = (self.RShoulderRoll + self.LShoulderRoll) / 2.0
@@ -135,9 +153,10 @@ class RobotPlot:
     def getIntersectionPoints(self):
         return self.Torso, self.RElbowRoll, self.RWristYaw, self.LElbowRoll, self.LWristYaw
 
-    def render(self):
+    def render(self, useSensor=True):
     
-        self.getRobotFramesPos()
+        if useSensor:
+            self.getRobotFramesPos()
 
         #plotting head 
         shoulder_center = (self.RShoulderRoll + self.LShoulderRoll) / 2.0

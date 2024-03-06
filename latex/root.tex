@@ -53,11 +53,11 @@
 %	From Egocentric Sensory Sphere to Joint Attention and Back 
 %}
 \title{\LARGE \bf
-	JA-EGO : The Ego-sensory Sphere of Joint Attention
+	JA-EGO : The Egocentric Dimension of Joint Attention in HRI
 }
 
 
-\author{Hendry Ferreira Chame$^{1}$ and Rachid Alami$^{2}$% <-this % stops a space
+\author{Hendry F. Chame$^{1}$ and Rachid Alami$^{2}$% <-this % stops a space
 	%\thanks{*This work was not supported by any organization}% <-this % stops a space
 	\thanks{$^{1}$Team NeuroRhythms at LORIA-CNRS, Campus Scientifique, 615 Rue du Jardin-Botanique, 54506 Vand\oe uvre-l\`es-Nancy, France.
 		{\tt\small hendry.ferreira-chame@loria.fr}}%
@@ -77,7 +77,16 @@
 	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 	\begin{abstract}
 		
-		\small \bf In everyday life we frequently run into face-to-face interactions where we quickly share attention and communicate about objects with others, be it for providing guidance to someone or commenting or some unusual thing or event, to name a few examples. In such situations, we don’t think too much about it, although we may not necessarily know where we are, we can talk about things in the environment even when seeing for the first time. As addressed in Moravec's Paradox, for human-robot interaction research, the scenario is not as simple as for human interaction. However, progress has been achieved when departing from cognitivist philosophy and embracing embodiment and 4E cognition research, as a source of inspiration for designing light and efficient models of interaction. This work goes in this direction and proposes a neural network for ego-spheric sensory fusion named JA-EGO relying mostly on immediate sensation and low level cognitive skills such as working memory, so a robot is able to share attention with the human based on local (egocentric) sources of information and basic proxemics. The advantage of our approach is that, by exploiting embodiment, a very efficient and intuitive communication system can result, which is adaptable to everyday situations not requiring the agent to process extensive information about the environment. In order to assess our hypothesis, we performed studies in simulation and a real interaction with the robot Pepper in a joint attention task. Results showed the robot is able to correctly focus on objects of interest in the environment when interacting with the human.   
+		\small \bf Despite important progress in recent years, there is a long way to go for including social robots in our environments, capable of adaptation, interaction and communication. Our research is concerned with the study of social cognition in HRI, in particular with communication skills relying on joint attention (JA) and knowledge sharing. Since JA involves low-level cognitive skills, we take into account the implications addressed by Moravec's Paradox and focus on the aspect of knowledge representation. By embracing embodiment and 4E cognition principles, we investigate the notion of egocentric localization and propose a neural network representation suited for joint attention research named JA-EGO. Inspired by \textit{dynamic fields theory}, the model consists in a dynamical system representation which fuses information from immediate sensation and provides the means for attention selection and working memory under the influence of top-down and bottom-up modulation processes of attention in HRI. We firstly studied the attention selection model in simulations application scenarios. We then conducted a real experiment with the robot Pepper considering egocentric sources of information and basic proxemics. Results showed that JA-EGO is a convenient representation for HRI situations allowing the human and the robot to share attention and knowledge about objects in the environment. 
+		
+		%\small \bf Despite important progress in recent years robots are still far behind from exhibiting the sophistication of cognitive skills observed in human beings. Our research is concerned with the study of social cognition in HRI, in particular with the concept of joint attention (JA) and knowledge sharing. Given the fact that JA involves low-level cognitive skills, we take into account the implications addressed by Moravec's Paradox and consider the aspect of knowledge representation as crucial for HRI. Hence, our work departs from views of JA based on cognitivist philosophy and embraces embodiment and 4E cognition principles, as a source of inspiration for proposing adaptable and efficient models of interaction which do not depend extensively on environmental modeling and variable control. Within this direction, in this work we explore the notion of egocentric spherical localization and propose a neural network representation of the human and the robot attention state named JA-EGO. Inspired by dynamic fields theory, the model consists in a dynamical system representation provided with information from low-level sensory acquisitions representing cognitive skills such as attention selection from immediate sensation. We tested the model firstly in simulations for exploring some application scenarios. We then conducted a real experiment with the robot Pepper considering local (egocentric) sources of information and basic proxemics. Results showed that JA-EGO is a convenient representation for HRI situations allowing the human and the robot to share attention and knowledge about objects in the environment. 
+		
+		
+		
+		
+		%In everyday life we frequently run into face-to-face interactions where we quickly share attention and communicate about objects with others. In such situations, we can talk about things in the environment even when seeing for the first time. As addressed in Moravec's Paradox, for human-robot interaction research, the scenario is not as simple as for human interaction. However, progress has been achieved when departing from cognitivist philosophy and embracing embodiment and 4E cognition research, as a source of inspiration for designing light and efficient models of interaction. This work goes in this direction and proposes a neural network for ego-spheric sensory fusion named JA-EGO relying mostly on immediate sensation and low level cognitive skills such as working memory, so a robot is able to share attention with the human based on local (egocentric) sources of information and basic proxemics. The advantage of our approach is that, by exploiting embodiment, a very efficient and intuitive communication system can result, which is adaptable to everyday situations not requiring the agent to process extensive information about the environment. In order to assess our hypothesis, we performed studies in simulation and a real interaction with the robot Pepper in a joint attention task. Results showed the robot is able to correctly focus on objects of interest in the environment when interacting with the human.
+		
+		%\small \bf In everyday life we frequently run into face-to-face interactions where we quickly share attention and communicate about objects with others, be it for providing guidance to someone or commenting or some unusual thing or event, to name a few examples. In such situations, we don’t think too much about it, although we may not necessarily know where we are, we can talk about things in the environment even when seeing for the first time. As addressed in Moravec's Paradox, for human-robot interaction research, the scenario is not as simple as for human interaction. However, progress has been achieved when departing from cognitivist philosophy and embracing embodiment and 4E cognition research, as a source of inspiration for designing light and efficient models of interaction. This work goes in this direction and proposes a neural network for ego-spheric sensory fusion named JA-EGO relying mostly on immediate sensation and low level cognitive skills such as working memory, so a robot is able to share attention with the human based on local (egocentric) sources of information and basic proxemics. The advantage of our approach is that, by exploiting embodiment, a very efficient and intuitive communication system can result, which is adaptable to everyday situations not requiring the agent to process extensive information about the environment. In order to assess our hypothesis, we performed studies in simulation and a real interaction with the robot Pepper in a joint attention task. Results showed the robot is able to correctly focus on objects of interest in the environment when interacting with the human.   
 		
 	\end{abstract}
 	
@@ -85,9 +94,23 @@
 	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 	\section{INTRODUCTION}
 	
-	This is the introduction of the research ...
+	According to Moravec's paradox, although machines can perform tasks at adults' level of reasoning and intelligence (like playing checkers), they have tremendous difficulty with sensory-motor or social skills, as demonstrated by a one-year-old child. Behind this paradox remains the question in artificial intelligence research of what sort of knowledge representation would be suitable for allowing a machine to accomplish cognitive tasks, which has important philosophical implications. Recent research has contrasted from one side the Cartesian (traditional) view of social cognition as a process confined to the brain, to the notion of an \textit{embodied}, \textit{embedded}, \textit{enacted} and \textit{extended} process, unfolding between the brain, the body and environment in interaction; a perspective known as \textit{4E cognition} \cite{Newen2018}.      
 	
-	\section{RELATED WORK}
+	From the perspective of 4E cognition research, we believe that for social robots to leave the lab and adapt to human environments, it is crucial to provide them with forms of behavior regulation which take into account the dynamics of human low-level social skill processes such as the capacity of engaging in \textit{joint attention} (JA), and the possibility of such processes be modulated in direct interaction. Moreover, we study JA as a multi-dimensional construct involving cognitive skills so constituting forms of social attention at distinct levels of interaction and knowledge sharing \cite{siposova2019}. 
+	
+	As a continuation of previous research in which we proposed a model for tracking JA in HRI within a topology-based representation constituting a \textit{scale of jointness} \cite{chame2023top}, in this work we investigate the more fundamental aspect of attention selection and how such mechanism could allow the emergence of JA in human-robot interaction from top-down and bottom-up modulation processes. For this, we suppose unconstrained situations where agents can become interested in objects on the environment and eventually share attention and knowledge about it (e.g. situations like asking someone for direction or commenting about salient stimulus like a noise or an object). 
+	
+	From the considerations above, we propose the model named JA-EGO for tracking the attention focus of agents as represented from egocentric perspective, and resulting from acquisitions from robot's on-board sensory of agents body posture and local stimulus. For this, we model the evolution of attention selection as a dynamical system process represented by a neural network inspired on \textit{dynamic neural fields} theory \cite{amari1977}, which tracks egocentric focus of attention from spherical localization references. 
+	  
+	  
+	This document is organized as follows: Section \ref{sec:previous} discusses previous works and contextualizes our contribution according to limitations in state of the art research. Section \ref{sec:model} presents the mathematical definition of the model and discusses theoretical assumptions behind it. Section \ref{sec:methodology} describes the methodology of the work, consisting in a preliminary study conducted in simulation for evaluating attention tracking based on the selection process, followed by an experiment with the robot Pepper considering a joint attention interaction situation based on egocentric sources of information and basic proxemics about objects in the environment. Section \ref{sec:results} reports the study’s results, and Section \ref{sec:conclusions} presents conclusions and future perspectives.
+	  
+%	For this, an egocentric perspective for localization is adopted where the robot is able to represent the dynamics of its own focus of attention in an sensory ego-spherical representation as well as tracking others' focus of attention. 
+	
+	
+	\section{PREVIOUS WORK}
+	\label{sec:previous}
+	
 	%Biological studies have pointed out to the existence of biological mechanisms to support essential cognitive functions such as attention, short-term memory, spatio-temporal sensory-motor coordination, and locomotion, among others.
 
 	Some works in the field of robotics have achieved impressive results by exploring attention saliency in sensory egocentric representations (e.g. for bottom-up \cite{ruesch2008} and top-down \cite{bodiroza2011} mechanisms). Most of these works have considered a sort of environment exploration task, so the robot can focus on learning new things based on novelty. Fewer research have studied joint attention tasks (e.g. \cite{bodiroza2011}) inspired on psychological theories of attention. Overall, the representation proposed has neglected bio-inspiration on neural systems, consisting mostly in storage arrays for data indexed by spherical tessellation mapping (see \cite{peters2009sensory}). As a result, the dynamics of pre-attentive processing has not being modeled as a process unfolding in the same space where attention selection is done. We believe that this is an important limitation, when considering the possibility of investigating compositionality in joint attention as a descending (top-down) generative process combined with an ascending (bottom-up) saliency process, susceptible of study as a dynamical system.   
@@ -135,6 +158,7 @@
 	
 	\section{THE MATHEMATICAL MODEL}
 	
+	\label{sec:model}
 	Let a ego-sphere representation of sensory information be modeled by the following neural network architecture \cite{amari1977}.
 	
 		\begin{figure}[h!]
@@ -154,111 +178,16 @@
 		\end{center}
 	\end{figure}
 	
-	\section{PROCEDURE FOR PAPER SUBMISSION}
 	
-	\subsection{Selecting a Template (Heading 2)}
-	
-	First, confirm that you have the correct template for your paper size. This template has been tailored for output on the US-letter paper size. 
-	It may be used for A4 paper size if the paper size setting is suitably modified.
-	
-	\subsection{Maintaining the Integrity of the Specifications}
-	
-	The template is used to format your paper and style the text. All margins, column widths, line spaces, and text fonts are prescribed; please do not alter them. You may note peculiarities. For example, the head margin in this template measures proportionately more than is customary. This measurement and others are deliberate, using specifications that anticipate your paper as one part of the entire proceedings, and not as an independent document. Please do not revise any of the current designations
-	
-	\section{MATH}
-	
-	Before you begin to format your paper, first write and save the content as a separate text file. Keep your text and graphic files separate until after the text has been formatted and styled. Do not use hard tabs, and limit use of hard returns to only one return at the end of a paragraph. Do not add any kind of pagination anywhere in the paper. Do not number text heads-the template will do that for you.
-	
-	Finally, complete content and organizational editing before formatting. Please take note of the following items when proofreading spelling and grammar:
-	
-	\subsection{Abbreviations and Acronyms} Define abbreviations and acronyms the first time they are used in the text, even after they have been defined in the abstract. Abbreviations such as IEEE, SI, MKS, CGS, sc, dc, and rms do not have to be defined. Do not use abbreviations in the title or heads unless they are unavoidable.
-	
-	\subsection{Units}
-	
-	\begin{itemize}
-		
-		\item Use either SI (MKS) or CGS as primary units. (SI units are encouraged.) English units may be used as secondary units (in parentheses). An exception would be the use of English units as identifiers in trade, such as 03.5-inch disk drive.
-		\item Avoid combining SI and CGS units, such as current in amperes and magnetic field in oersteds. This often leads to confusion because equations do not balance dimensionally. If you must use mixed units, clearly state the units for each quantity that you use in an equation.
-		\item Do not mix complete spellings and abbreviations of units: XX or Owebers per square meterQ, not Owebers/m2.  Spell out units when they appear in text: S. . . a few henries, not . . . a few H.
-		\item Use a zero before decimal points: 0.25, not 0.25. Use cm not SS. (bullet list)
-		
-	\end{itemize}
-	
-	
-	\subsection{Equations}
-	
-	The equations are an exception to the prescribed specifications of this template. You will need to determine whether or not your equation should be typed using either the Times New Roman or the Symbol font (please no other font). To create multileveled equations, it may be necessary to treat the equation as a graphic and insert it into the text after your paper is styled. Number equations consecutively. Equation numbers, within parentheses, are to position flush right, as in (1), using a right tab stop. To make your equations more compact, you may use the solidus ( / ), the exp function, or appropriate exponents. Italicize Roman symbols for quantities and variables, but not Greek symbols. Use a long dash rather than a hyphen for a minus sign. Punctuate equations with commas or periods when they are part of a sentence, as in
-	
-	$$
-	\alpha + \beta = \chi \eqno{(1)}
-	$$
-	
-	Note that the equation is centered using a center tab stop. Be sure that the symbols in your equation have been defined before or immediately following the equation. Use (1), not Eq. (1) or equation (1), except at the beginning of a sentence: Equation (1) is . . .
-	
-	\subsection{Some Common Mistakes}
-	\begin{itemize}
-		
-		
-		\item The word data is plural, not singular.
-		\item The subscript for the permeability of vacuum ?0, and other common scientific constants, is zero with subscript formatting, not a lowercase letter o.
-		\item In American English, commas, semi-/colons, periods, question and exclamation marks are located within quotation marks only when a complete thought or name is cited, such as a title or full quotation. When quotation marks are used, instead of a bold or italic typeface, to highlight a word or phrase, punctuation should appear outside of the quotation marks. A parenthetical phrase or statement at the end of a sentence is punctuated outside of the closing parenthesis (like this). (A parenthetical sentence is punctuated within the parentheses.)
-		\item A graph within a graph is an inset, not aninsert. The word alternatively is preferred to the word alternately (unless you really mean something that alternates).
-		\item Do not use the word essentially to mean approximately or effectively.
-		\item In your paper title, if the words that uses can accurately replace the word using, capitalize the u; if not, keep using lower-cased.
-		\item Be aware of the different meanings of the homophones affect and effect, complement and compliment, discreet and discrete, principal and principle.
-		\item Do not confuse imply and infer.
-		\item The prefix non is not a word; it should be joined to the word it modifies, usually without a hyphen.
-		\item There is no period after the et in the Latin abbreviation et al..
-		\item The abbreviation i.e. means that is, and the abbreviation e.g. means for example.
-		
-	\end{itemize}
-	
-	
-	\section{USING THE TEMPLATE}
-	
-	Use this sample document as your LaTeX source file to create your document. Save this file as {\bf root.tex}. You have to make sure to use the cls file that came with this distribution. If you use a different style file, you cannot expect to get required margins. Note also that when you are creating your out PDF file, the source file is only part of the equation. {\it Your \TeX\ $\rightarrow$ PDF filter determines the output file size. Even if you make all the specifications to output a letter file in the source - if your filter is set to produce A4, you will only get A4 output. }
-	
-	It is impossible to account for all possible situation, one would encounter using \TeX. If you are using multiple \TeX\ files you must make sure that the ``MAIN`` source file is called root.tex - this is particularly important if your conference is using PaperPlaza's built in \TeX\ to PDF conversion tool.
-	
-	\subsection{Headings, etc}
-	
-	Text heads organize the topics on a relational, hierarchical basis. For example, the paper title is the primary text head because all subsequent material relates and elaborates on this one topic. If there are two or more sub-topics, the next level head (uppercase Roman numerals) should be used and, conversely, if there are not at least two sub-topics, then no subheads should be introduced. Styles named Heading 1, Heading 2, Heading 3, and Heading 4 are prescribed.
-	
-	\subsection{Figures and Tables}
-	
-	Positioning Figures and Tables: Place figures and tables at the top and bottom of columns. Avoid placing them in the middle of columns. Large figures and tables may span across both columns. Figure captions should be below the figures; table heads should appear above the tables. Insert figures and tables after they are cited in the text. Use the abbreviation Fig. 1, even at the beginning of a sentence.
-	
-	\begin{table}[h]
-		\caption{An Example of a Table}
-		\label{table_example}
-		\begin{center}
-			\begin{tabular}{|c||c|}
-				\hline
-				One & Two\\
-				\hline
-				Three & Four\\
-				\hline
-			\end{tabular}
-		\end{center}
-	\end{table}
-	
-	
-	\begin{figure}[thpb]
-		\centering
-		\framebox{\parbox{3in}{We suggest that you use a text box to insert a graphic (which is ideally a 300 dpi TIFF or EPS file, with all fonts embedded) because, in an document, this method is somewhat more stable than directly inserting a picture.
-		}}
-		%\includegraphics[scale=1.0]{figurefile}
-		\caption{Inductance of oscillation winding on amorphous
-			magnetic core versus DC bias magnetic field}
-		\label{figurelabel}
-	\end{figure}
-	
-	
-	Figure Labels: Use 8 point Times New Roman for Figure labels. Use words rather than symbols or abbreviations when writing Figure axis labels to avoid confusing the reader. As an example, write the quantity Magnetization, or Magnetization, M, not just M. If including units in the label, present them within parentheses. Do not label axes only with units. In the example, write Magnetization (A/m) or Magnetization {A[m(1)]}, not just A/m. Do not label axes with a ratio of quantities and units. For example, write Temperature (K), not Temperature/K.
-	
+	\section{METHODOLOGY}
+	\label{sec:methodology}
+
+	\section{RESULTS}
+	\label{sec:results}
+
 	\section{CONCLUSIONS}
+	\label{sec:conclusions}
 	
-	Starting from the interest in ... 
 	
 	\addtolength{\textheight}{-12cm}   % This command serves to balance the column lengths
 	% on the last page of the document manually. It shortens
