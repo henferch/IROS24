@@ -135,15 +135,15 @@ class GeodesicDome:
             P2 = o + u*d2
         return P1,P2
 
-    def plot(self, ax, state):                
+    def plot(self, ax, state, alpha=0.4):                
         face_act = np.zeros((self.f_N), dtype=np.float32)
         for v in range(self.v_N):
             face_act[self.v_to_f[v]] += state[v]
         centered = self.v + self.center
         self.tri = Poly3DCollection(centered[self.f])
-        # self.tri.set_edgecolor('k')
-        # self.tri.set_linewidth(0.1)
-        self.tri.set_alpha(0.4)
+        self.tri.set_edgecolor('gray')
+        self.tri.set_linewidth(0.1)
+        self.tri.set_alpha(alpha)
         scamap = plt.cm.ScalarMappable(cmap='viridis')
         fcolors = scamap.to_rgba(face_act)
         self.tri.set_facecolors(fcolors)        

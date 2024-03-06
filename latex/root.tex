@@ -53,16 +53,16 @@
 %	From Egocentric Sensory Sphere to Joint Attention and Back 
 %}
 \title{\LARGE \bf
-	JA-EGO : The Egocentric Dimension of Joint Attention in HRI
+	JA-EGO: The Egocentric Dimension of Joint Attention in HRI
 }
 
 
 \author{Hendry F. Chame$^{1}$ and Rachid Alami$^{2}$% <-this % stops a space
 	%\thanks{*This work was not supported by any organization}% <-this % stops a space
-	\thanks{$^{1}$Team NeuroRhythms at LORIA-CNRS, Campus Scientifique, 615 Rue du Jardin-Botanique, 54506 Vand\oe uvre-l\`es-Nancy, France.
-		{\tt\small hendry.ferreira-chame@loria.fr}}%
-	\thanks{$^{2}$Team Robotics and InteractionS (RIS) at LAAS-CNRS, Universit\'e de Toulouse, CNRS, Toulouse, France
-		{\tt\small rachid.alami@laas.fr}}%
+	\thanks{$^{1}$LORIA-CNRS (NeuroRhythms team). Address: Campus Scientifique, 615 Rue du Jardin-Botanique, 54506 Vand\oe uvre-l\`es-Nancy, France.
+		{\small E-mail: hendry.ferreira-chame@loria.fr}.}%
+	\thanks{$^{2}$LAAS-CNRS (Robotics and InteractionS team). Address: 7 Av. du Colonel Roche, 31400 Toulouse, France.
+		{\small E-mail: rachid.alami@laas.fr}.}%
 }
 
 
@@ -98,7 +98,19 @@
 	
 	From the perspective of 4E cognition research, we believe that for social robots to leave the lab and adapt to human environments, it is crucial to provide them with forms of behavior regulation which take into account the dynamics of human low-level social skill processes such as the capacity of engaging in \textit{joint attention} (JA), and the possibility of such processes be modulated in direct interaction. Moreover, we study JA as a multi-dimensional construct involving cognitive skills so constituting forms of social attention at distinct levels of interaction and knowledge sharing \cite{siposova2019}. 
 	
-	As a continuation of previous research in which we proposed a model for tracking JA in HRI within a topology-based representation constituting a \textit{scale of jointness} \cite{chame2023top}, in this work we investigate the more fundamental aspect of attention selection and how such mechanism could allow the emergence of JA in human-robot interaction from top-down and bottom-up modulation processes. For this, we suppose unconstrained situations where agents can become interested in objects on the environment and eventually share attention and knowledge about it (e.g. situations like asking someone for direction or commenting about salient stimulus like a noise or an object). 
+	\begin{figure}[h!]
+		\begin{center}
+			\begin{tikzpicture}
+			\node [] at (0,0){
+				\includegraphics[scale=1.6,keepaspectratio]{fig/multi_robots.png}};
+			\node at (0.0,4.1) [color=black] {\small \textbf{Tracking of pre-selective attention}};
+			\end{tikzpicture}
+			\caption{The scene shows a situation where two agents are interacting about the orange object, whereas another agent is leaving the scene. Three other objects are present the effect of each object agents ego-spherical localization at a pre-selective stage is shown.}
+			\label{fig:multi_robots}
+		\end{center}
+	\end{figure}
+
+	As a continuation of previous research in which we proposed a model for tracking JA in HRI within a topology-based representation constituting a \textit{scale of jointness} \cite{chame2023top}, in this work we investigate the more fundamental aspect of attention selection and how such mechanism could allow the emergence of JA in human-robot interaction from top-down and bottom-up modulation processes. For this, as shown in Fig. \ref{fig:multi_robots}, we suppose unconstrained situations where agents can become interested in objects on the environment and eventually share attention and knowledge about it (e.g. situations like asking someone for direction or commenting about salient stimulus like a noise or an object). 
 	
 	From the considerations above, we propose the model named JA-EGO for tracking the attention focus of agents as represented from egocentric perspective, and resulting from acquisitions from robot's on-board sensory of agents body posture and local stimulus. For this, we model the evolution of attention selection as a dynamical system process represented by a neural network inspired on \textit{dynamic neural fields} theory \cite{amari1977}, which tracks egocentric focus of attention from spherical localization references. 
 	  
