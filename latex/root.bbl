@@ -1,4 +1,4 @@
-\begin{thebibliography}{1}
+\begin{thebibliography}{10}
 
 \bibitem{amari1977}
 {\sc Amari, S.-i.}
@@ -26,6 +26,27 @@
 \newblock In {\em 2023 IEEE International Conference on Robotics and Automation
   (ICRA)\/} (2023).
 
+\bibitem{heikkila2019}
+{\sc Heikkil{\"a}, P., Lammi, H., Niemel{\"a}, M., Belhassein, K., Sarthou, G.,
+  Tammela, A., Clodic, A., and Alami, R.}
+\newblock Should a robot guide like a human? a qualitative four-phase study of
+  a shopping mall robot.
+\newblock In {\em Social Robotics: 11th International Conference, ICSR 2019,
+  Madrid, Spain, November 26--29, 2019, Proceedings 11\/} (2019), Springer,
+  pp.~548--557.
+
+\bibitem{itti1998}
+{\sc Itti, L., Koch, C., and Niebur, E.}
+\newblock A model of saliency-based visual attention for rapid scene analysis.
+\newblock {\em IEEE Transactions on pattern analysis and machine intelligence
+  20}, 11 (1998), 1254--1259.
+
+\bibitem{koch1985}
+{\sc Koch, C., and Ullman, S.}
+\newblock Shifts in selective visual attention: towards the underlying neural
+  circuitry.
+\newblock {\em Human neurobiology 4}, 4 (1985), 219--227.
+
 \bibitem{Newen2018}
 {\sc Newen, A., Gallagher, S., and De~Bruin, L.}
 \newblock {34E Cognition: Historical Roots, Key Concepts, and Central Issues}.
@@ -46,9 +67,31 @@
 \newblock In {\em 2008 IEEE International Conference on Robotics and
   Automation\/} (2008), IEEE, pp.~962--967.
 
+\bibitem{samsonovich97}
+{\sc Samsonovich, A., and McNaughton, B.~L.}
+\newblock Path integration and cognitive mapping in a continuous attractor
+  neural network model.
+\newblock {\em Journal of Neuroscience 17}, 15 (1997), 5900--5920.
+
+\bibitem{schoner2016}
+{\sc Sch{\"o}ner, G., and Spencer, J.~P.}
+\newblock {\em Dynamic thinking: A primer on dynamic field theory}.
+\newblock Oxford University Press, 2016.
+
+\bibitem{siagian2014}
+{\sc Siagian, C., Chang, C.~K., and Itti, L.}
+\newblock Autonomous mobile robot localization and navigation using a
+  hierarchical map representation primarily guided by vision.
+\newblock {\em Journal of Field Robotics 31}, 3 (2014), 408--440.
+
 \bibitem{siposova2019}
 {\sc Siposova, B., and Carpenter, M.}
 \newblock A new look at joint attention and common knowledge.
 \newblock {\em Cognition 189\/} (2019), 260--274.
+
+\bibitem{treisman1980}
+{\sc Treisman, A.~M., and Gelade, G.}
+\newblock A feature-integration theory of attention.
+\newblock {\em Cognitive psychology 12}, 1 (1980), 97--136.
 
 \end{thebibliography}
