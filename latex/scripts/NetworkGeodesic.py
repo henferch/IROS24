@@ -64,7 +64,7 @@ class NetworkGeodesic:
         self._W_pre_inh = self._W_pre + self._inh
         
         self._u_pre = np.random.normal(0,0.01,self._N)*self._h_pre
-        self._u_sel = -np.random.normal(0.8,0.01,self._N)   
+        self._u_sel = -np.random.normal(0.1,0.01,self._N)   
         if self._nObjects > 0:              
             self._o = np.zeros((self._nObjects,), dtype=np.float32)
         else:

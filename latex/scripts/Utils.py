@@ -197,8 +197,8 @@ class Utils:
     def plot3DLine(self, ax, P1, P2, color, linewidth, linestyle='solid'):
         return ax.plot3D([P1[0],P2[0]], [P1[1],P2[1]], [P1[2],P2[2]], color=color, linewidth=linewidth, linestyle=linestyle)[0]
 
-    def plot3DPoint(self, ax, P1, color):    
-        return ax.plot([P1[0]], [P1[1]], [P1[2]], color=color, marker='o')[0]    
+    def plot3DPoint(self, ax, P1, color, marker='o', markersize=5.0):    
+        return ax.plot([P1[0]], [P1[1]], [P1[2]], color=color, marker=marker, markersize=markersize)[0]    
 
 
 

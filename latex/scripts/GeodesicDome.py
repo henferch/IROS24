@@ -47,6 +47,7 @@ class GeodesicDome:
 
         self._renderObj = None
         self.scamap = None
+        self.cmap = "viridis"
 
         # # Check the number of vertices / faces
         print('num of vertices = {}, num of faces = {}'.format(self.v_N, self.f_N))
@@ -135,20 +136,24 @@ class GeodesicDome:
             P2 = o + u*d2
         return P1,P2
 
-    def plot(self, ax, state, alpha=0.4):                
+    def plot(self, ax, state, alpha=0.4, showVertex=False, showEdges=False):                
         face_act = np.zeros((self.f_N), dtype=np.float32)
         for v in range(self.v_N):
             face_act[self.v_to_f[v]] += state[v]
         centered = self.v + self.center
         self.tri = Poly3DCollection(centered[self.f])
-        self.tri.set_edgecolor('gray')
-        self.tri.set_linewidth(0.1)
+        if showEdges:
+            self.tri.set_edgecolor('gray')
+            self.tri.set_linewidth(0.5)
         self.tri.set_alpha(alpha)
-        scamap = plt.cm.ScalarMappable(cmap='viridis')
+        scamap = plt.cm.ScalarMappable(cmap=self.cmap)
         fcolors = scamap.to_rgba(face_act)
         self.tri.set_facecolors(fcolors)        
         self._renderObj = ax.add_collection3d(self.tri)
-        
+        if showVertex:
+            for v in self.v:
+                self._ut.plot3DPoint(ax, v,'gray', 'o', 1.0)
+            
 
     def tessellate(self, iter=1):
         def newvert(v0, v1):

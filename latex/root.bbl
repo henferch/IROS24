@@ -1,5 +1,11 @@
 \begin{thebibliography}{10}
 
+\bibitem{albus1991}
+{\sc Albus, J.~S.}
+\newblock Outline for a theory of intelligence.
+\newblock {\em IEEE transactions on systems, man, and cybernetics 21}, 3
+  (1991), 473--509.
+
 \bibitem{amari1977}
 {\sc Amari, S.-i.}
 \newblock Dynamics of pattern formation in lateral-inhibition type neural
@@ -26,6 +32,12 @@
 \newblock In {\em 2023 IEEE International Conference on Robotics and Automation
   (ICRA)\/} (2023).
 
+\bibitem{grotz2017}
+{\sc Grotz, M., Habra, T., Ronsse, R., and Asfour, T.}
+\newblock Autonomous view selection and gaze stabilization for humanoid robots.
+\newblock In {\em 2017 IEEE/RSJ International Conference on Intelligent Robots
+  and Systems (IROS)\/} (2017), IEEE, pp.~1427--1434.
+
 \bibitem{heikkila2019}
 {\sc Heikkil{\"a}, P., Lammi, H., Niemel{\"a}, M., Belhassein, K., Sarthou, G.,
   Tammela, A., Clodic, A., and Alami, R.}
@@ -46,6 +58,13 @@
 \newblock Shifts in selective visual attention: towards the underlying neural
   circuitry.
 \newblock {\em Human neurobiology 4}, 4 (1985), 219--227.
+
+\bibitem{marques2022}
+{\sc Marques-Villarroya, S., Castillo, J.~C., Gamboa-Montero, J.~J.,
+  Sevilla-Salcedo, J., and Salichs, M.~A.}
+\newblock A bio-inspired endogenous attention-based architecture for a social
+  robot.
+\newblock {\em Sensors 22}, 14 (2022), 5248.
 
 \bibitem{Newen2018}
 {\sc Newen, A., Gallagher, S., and De~Bruin, L.}

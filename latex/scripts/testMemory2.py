@@ -46,13 +46,14 @@ ut = Utils.getInstance()
 refs = egoSphere1.getV()
 dt = 0.05        
 params = {\
-    'ut': ut,    
+    'ut': ut,    'h_pre' : -0.01,
     'ref': refs,
     'sig': np.eye(3)*sigma,
     'h_pre' : -0.01,
     #'h_sel' : -0.0001,
     'h_sel' : -0.0001,
     'dt' : dt,
+    #'inh' : 0.0001,
     'inh' : 0.0001,
     'tau_pre' : 0.2,
     'tau_sel' : 0.2,
@@ -176,8 +177,9 @@ while (t < T):
 egoSphere1.plot(ax[0], u_pre)
 # for o in objs_int:
 #     ut.plot3DPoint(ax[0], o, 'red')
-# for o in objects:
-#     ut.plot3DPoint(ax[0], o, 'black')
+for o,p in zip(objects,objs_int):
+    ut.plot3DLine(ax[0], o, p, 'red', 0.4, 'dashdot')
+    ut.plot3DPoint(ax[0], o, 'black')
 egoSphere2.plot(ax[1], u_sel)
 for a in ax:
     a.view_init(elev=0, azim=0)

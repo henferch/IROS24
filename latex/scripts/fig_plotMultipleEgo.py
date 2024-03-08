@@ -1,7 +1,7 @@
 #! /usr/bin/env python
 # -*- encoding: UTF-8 -*-
 
-"""Example: Use transformInterpolations Method on Arm"""
+"""This figure displays best in python 2.7"""
 
 import sys
 import motion
@@ -210,9 +210,9 @@ def main():
     params['objects'] = pointsEgos[2]
     network3 = Network(params) 
 
-    egoSphere1.plot(ax, network1.getU_pre(), 0.5)
-    egoSphere2.plot(ax, network2.getU_pre(), 0.5)
-    egoSphere3.plot(ax, network3.getU_pre(), 0.5)
+    egoSphere1.plot(ax, network1.getU_pre(), 0.5, False, True)
+    egoSphere2.plot(ax, network2.getU_pre(), 0.5, False, True)
+    egoSphere3.plot(ax, network3.getU_pre(), 0.5, False, True)
     
     ax.set_xlabel('x')
     ax.set_ylabel('y')
