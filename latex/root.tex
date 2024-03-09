@@ -56,7 +56,8 @@
 	%JA-EGO: The Egocentric Dimension of Joint Attention in HRI
 	%JA-EGO: Neural Network-based Sensory Ego-Spheres for \\ Joint Attention in Human-Robot Interaction
 	%AEGO: Modeling Attention For HRI In Ego-Sphere Neural Networks
-	AEGO: Ego-Sphere Neural Networks for Attention Selection in HRI 
+	%AEGO: Ego-Sphere Neural Networks for Attention Selection in HRI 
+	AEGO: Attention in Ego-Sphere Neural Networks for HRI 
 	%NET-EGO: Attention in HRI from Neural Network Ego-Spheres
 	%N2A-EGO: Attention in HRI from Ego-Sphere Neural Networks
 	%N2A-EGO: Modeling Attention for HRI in Neural Network Ego-Spheres
@@ -200,7 +201,7 @@
 	\begin{figure}[h!]
 		\begin{tikzpicture}
 		\node [] at (0,0){
-			\includegraphics[scale=0.39,keepaspectratio]{fig/model.eps}};
+			\includegraphics[scale=0.37,keepaspectratio]{fig/model.eps}};
 		\node at (0.0,3.0) [color=black] {\small \textbf{AEGO architectural view}};
 		\end{tikzpicture}
 		%\fcolorbox{white}{white}{
@@ -217,7 +218,7 @@
 	Let the activation of the $i^\mathrm{th}$ neuron encode the dynamics of stimulation affecting a location  $\mathbf{x}_i$ in 3D Cartesian coordinates at a polyhedron surface representing the agent's ego-space, such that 
 		
 	\begin{equation}
-	\tau_\mathrm{u} \dot{\mathbf{u}}_{i(t)} = -\mathbf{u}_{i(t-1)} + h_\mathrm{u} + \sum_{j}^{} (\mathbf{U}_{ij}+\epsilon)\mathbf{u}_{i(t-1)} + \mathbf{s}_{i(t,\Xi)} 
+	\tau_\mathrm{u} \dot{\mathbf{u}}_{i(t)} = -\mathbf{u}_{i(t-1)} + q_\mathrm{u} + \sum_{j}^{} (\mathbf{U}_{ij}+\epsilon)\mathbf{u}_{i(t-1)} + \mathbf{s}_{i(t,\Xi)} 
 	\label{eq:pre-sel}
 	\end{equation}
 
@@ -228,14 +229,14 @@
 	\label{eq:pre-sel-syn}
 	\end{equation}
 	
-	The term $\mathbf{s}_{i(t,\Xi)}$ represents the stimulation received at time instant $t$ affecting the ego-space locations $\Xi$. As it is going to be detailed in Section \ref{sec:methodology}, this term models stimulation from both top-down and bottom-up processes. Finally, in \eqref{eq:pre-sel} $h_\mathrm{u}$ corresponds to the activation resting state, $\tau_\mathrm{u}$ is the a time constant, and $\epsilon$ is a global inhibition factor affecting lateral interactions between neurons.
+	The term $\mathbf{s}_{i(t,\Xi)}$ represents the stimulation received at time instant $t$ affecting the ego-space locations $\Xi$. As it is going to be detailed in Section \ref{sec:methodology}, this term models stimulation from both top-down and bottom-up processes. Finally, in \eqref{eq:pre-sel} $q_\mathrm{u}$ corresponds to the activation resting state, $\tau_\mathrm{u}$ is the a time constant, and $\epsilon$ is a global inhibition factor affecting lateral interactions between neurons.
 	 
 	\subsection{Attention selection phase}
 	
 	Let the activation of the $i^\mathrm{th}$ neuron represent the dynamics of an attention selection process at a particular location in the ego-space, such that 
 	
 	\begin{equation}
-	\tau_\mathrm{a} \dot{\mathbf{a}}_{i(t)} = -\mathbf{a}_{i(t-1)} + h_\mathrm{a} + \sum_{j}^{} \mathbf{A}_{ij}f\left(\mathbf{a}_{(t-1)}, \mathbf{u}_{(t)}\right) 
+	\tau_\mathrm{a} \dot{\mathbf{a}}_{i(t)} = -\mathbf{a}_{i(t-1)} + q_\mathrm{a} + \sum_{j}^{} \mathbf{A}_{ij}f\left(\mathbf{a}_{(t-1)}, \mathbf{u}_{(t)}\right) 
 	\label{eq:sel}
 	\end{equation}
 	
@@ -249,11 +250,11 @@
 	\noindent with $\varphi = \mathrm{max}(\mathbf{U}_{i:})^{-1}$ a scaling factor. The activation function $f$ in \eqref{eq:sel} is defined so
 
 	\begin{equation}
-	f\left(\mathbf{a}_{(t-1)}, \mathbf{u}_{(t)}\right) = \mathrm{sigmoid} \left(\alpha \left(\mathbf{a}_{i(t-1)} + \varsigma \mathbf{u}_{i(t)}\right)\right)
+	f\left(\mathbf{a}_{(t-1)}, \mathbf{u}_{(t)}\right) = \mathrm{sigmoid} \left(\alpha \left(\mathbf{a}_{i(t-1)} + \gamma_\mathrm{u} \mathbf{u}_{i(t)}\right)\right)
 	\label{eq:sel-fa}
 	\end{equation}
 	
-	\noindent being $\varsigma$ and $\alpha$ gain constants.
+	\noindent being $\gamma_\mathrm{u}$ and $\alpha$ gain constants.
 	
 	\subsection{Object focus output layer}
 	
@@ -307,7 +308,7 @@
 	
 	\subsection{Simulations}
 	
-	Table \ref{tab:params} presents common parameters for the pre-selection, selection and output layers described in Eqs. \eqref{eq:pre-sel}, \eqref{eq:sel} and \eqref{eq:out}. For the simulated scenarios, the state of the network is obtained by numerical integration with the Euler method, according to the time-step $dt$. As shown in Fig \ref{fig:sim_objs} six objects where simulated as sources of stimulation to the agent. In total, three interactions considering the recognition of basic words where studied, which is described next. 
+	Table \ref{tab:params} presents common parameters for the pre-selection, selection and output layers described in Eqs. \eqref{eq:pre-sel}, \eqref{eq:sel} and \eqref{eq:out}. The state of the network is obtained by numerical integration by the Euler method, according to the time-step $dt$. As shown in Fig \ref{fig:sim_objs}, six objects where simulated as bottom-up sources of stimulation to the agent. Three interactions situation relying of the recognition of basic words where considered to explore top-down modulation of attention. These situations are described below.
 	
 	%\setlength{\tabcolsep}{1.5pt}
 	\renewcommand{\arraystretch}{1.2} % add a bit of more vertical space in table rows
@@ -324,11 +325,12 @@
 				\cellcolor{gray!8}$\epsilon$ & \cellcolor{gray!8}0.0001\\
 				$\tau_{\mathrm{u}}, \tau_{\mathrm{a}}$ & 200 ms\\
 				\cellcolor{gray!8}$\mathbf{\Sigma}$ & \cellcolor{gray!8}$0.01\mathbf{I}_3$ \\
-				$h_\mathrm{u}$ & -0.01 \\
-				\cellcolor{gray!8}$h\mathrm{a}$ & \cellcolor{gray!8}-0.0001 \\
+				$q_\mathrm{u}$ & -0.01 \\
+				\cellcolor{gray!8}$q\mathrm{a}$ & \cellcolor{gray!8}-0.0001 \\
 				$\gamma_{\mathrm{k}}$ & 250\\
-				\cellcolor{gray!8}$\alpha$ & \cellcolor{gray!8}100 \\
-				$\varsigma$ & 2.5 \\
+				\cellcolor{gray!8}$\gamma_\mathrm{u}$ & \cellcolor{gray!8}2.5\\
+				$\gamma_\mathrm{n}$ & 15.5 \\
+				\cellcolor{gray!8}$\alpha$ & \cellcolor{gray!8}100\\
 			\end{tabular}
 		\end{center}
 	\end{table}
@@ -338,7 +340,12 @@
 			\begin{tikzpicture}
 			\node [] at (0,0){
 				\includegraphics[scale=1.1,keepaspectratio]{fig/sim_objs.png}};
-			\node at (0.0,2.7) [color=black] {\small \textbf{Local stimulation}};
+			\begin{scope}[shift={(3.0, -1.8)}]
+			\draw[line width=1pt,darkcyan,-stealth](0.1,0)--(-0.5,-0.5) node[anchor=north east]{x};
+			\draw[line width=1pt,darkcyan,-stealth](0.1,0.0)--(-0.9,0) node[anchor=north east]{y};
+			\draw[line width=1pt,darkcyan,-stealth](0.1,0)--(0.1,1) node[anchor=north east]{z};
+			\end{scope}			
+			\node at (0.0,2.7) [color=black] {\small \textbf{Simulated bottom-up stimulation}};
 			\begin{scope}[shift={(-0.8, 0.1)}, scale=1.7]
 			\node at (0.2,-0.9) [color=red!70] {\small $\mathbf{p}_1$ };
 			\node at (0.2,-0.25) [color=red!70] {\small $\mathbf{p}_2$ };
@@ -356,60 +363,80 @@
 			\node at (-0.9,-0.13) [color=black!70] {\small $\mathbf{\hat{p}}_6$ };
 			\end{scope}
 			\end{tikzpicture}
-			\caption{Stimulation was simulated at six locations in the sensory ego-space. Objects' center coordinates $\mathbf{p}_i$ and corresponding projection $\mathbf{\hat{p}}_i$ on the sensory ego-space are shown. }
+			\caption{Bottom-up stimulation at six locations in the sensory ego-space, The objects' center coordinates $\mathbf{p}_i$ and projection $\mathbf{\hat{p}}_i$ on the sensory ego-space are shown. To improve visualization, the frame of reference is shown at bottom-right but it is located at the ego-sphere's center}
 			\label{fig:sim_objs}
 			\end{center}
 		\end{figure}
 				
 	\subsubsection{Focus on a specific object}
 	
-	we investigated the possibility of attending to a specific object as modulated by top-down processes. For this, the term $\mathbf{s}_{i(t,\Xi)}$ in Eq. \eqref{eq:pre-sel} was modeled such that
+	we investigated the possibility of attending to a specific object as modulated by top-down processes. For this, it is assumed that the agent is able to track and recognize objects in the scene while associating unique words for addressing to them. A numerical ID could serve this purpose. Thus, once the human says "three", attention should be directed to location $\mathbf{\hat{p}}_3$ as shown in Fig. \ref{fig:sim_objs}. For this, the term $\mathbf{s}_{i(t,\Xi)}$ in Eq. \eqref{eq:pre-sel} can be set so
 	
 	\begin{equation}
-	\mathbf{s}_{i(t,\Xi)} = \sum_{j}^{} \gamma_\mathrm{j}\mathbf{O}_{ij(t)}\left(|\mathbf{\hat{p}}_{j(t)} - \mathbf{x}_{i(t)}|\right)
+	\mathbf{s}_{i(t,\Xi)} = \sum_{j}^{} \gamma_{\mathrm{o}j}\mathbf{O}_{ij(t)}\left(|\mathbf{\hat{p}}_{j(t)} - \mathbf{x}_{i(t)}|\right)
 	\label{eq:sim1}
 	\end{equation}
 	
-	\noindent with $\mathbf{\hat{p}}_i$ the projection on the ego-space of objects' estimated center of mass coordinates. Interest was modeled through the gain $\gamma_\mathrm{j}$. For bottom-up saliency it was set to $\gamma_\mathrm{bu} = 0.9$, whereas for top-down modulation of interest it was set to $\gamma_\mathrm{td} = 12\gamma_\mathrm{bu}$, acting on the model through a one second step function. The local influence of stimulus $\mathbf{O}_{ij}$ is selected conforming to Eq. \eqref{eq:pre-sel-syn}.
+	Interest to the $j^{\mathrm{th}}$ object is modeled through the gain $\gamma_{\mathrm{o}j}$. For bottom-up saliency  $\gamma_\mathrm{bu} = 0.9$ for all detected objects, whereas for top-down modulation it is set to $\gamma_\mathrm{td} = 12\gamma_\mathrm{bu}$. As the object's name is recognized with probability $w$, when exceeding a given threshold it influences the model according to a unit step function $\lambda = f(t_\mathrm{w}, t_\mathrm{w}+\delta_\mathrm{t})$, thus
 	
-	\subsubsection{Search around and object} this simulation considered an interaction situation based on proxemics where someone takes the agent's perspective and indicates a topological reference such as turning attention to the another stimulus located at right, left, above or below in egocentric perspective. Hence, the term $\mathbf{s}_{i(t,\Xi)}$ in Eq. \eqref{eq:pre-sel} was modeled so
+	 \begin{equation}
+	 \gamma_{\mathrm{o}j} = \lambda\gamma_\mathrm{td}+ (1-\lambda)\gamma_\mathrm{bu}
+	 \label{eq:sim1-step}
+	 \end{equation}
+	
+	\noindent The duration $\delta_\mathrm{t} = 1\ \mathrm{sec}$. The local influence of stimuli in the neural field $\mathbf{O}_{ij(t)}$ is set conforming to Eq. \eqref{eq:pre-sel-syn}.
+	
+	\subsubsection{Searching around and object} this simulation considered interactions base on perspective-taking, where someone indicates a topological reference in agent's perspective such as turning attention to a stimulus at \textit{right}, \textit{left}, \textit{above} or \textit{below}, which are terms recognized by the robot. Thus, $\mathbf{s}_{i(t,\Xi)}$ in Eq. \eqref{eq:pre-sel} is modeled such that
 	
 	\begin{equation}
 	\mathbf{s}_{i(t,\Xi)} = \sum_{j}^{} f\left(\gamma_\mathrm{r}m_{(t)}\right)\ g\left(\left|\boldsymbol{\hat{\mu}}_{(t)} - \mathbf{x}_{i(t)}\right|\right)
 	\label{eq:sim2}
 	\end{equation}
-	\noindent where $f(.)$ is the sigmoid function with $\gamma_\mathrm{r}$ representing a gain constant and $g(.)$ is the multivariate Gaussian function (see Eq. \eqref{eq:pre-sel-syn}). The coordinates of the projection $\boldsymbol{\hat{\mu}}$ on the ego-sphere representing attention selection is defined so 
+	\noindent where $f(.)$ is the sigmoid function with $\gamma_\mathrm{r}$ representing a gain constant and $g(.)$ is the multivariate Gaussian function (see Eq. \eqref{eq:pre-sel-syn}). The coordinates of the projection $\boldsymbol{\hat{\mu}}$ on the ego-sphere, representing attention selection, are obtained so 
 	
 	\begin{equation}
 	\boldsymbol{\hat{\mu}}_{(t)} = \sum_{i}^{}\mathbf{k}_\mathrm{i(t-1)}\mathbf{\hat{p}}_{i(t)}
 	\label{eq:sim2-mu}
 	\end{equation}
 	
-	\noindent In horizontal search, the $y$ coordinate of the points are considered, whereas in vertical search the $z$ coordinate is more relevant. Therefore, $m_{(t)}$ in Eq. \eqref{eq:sim2} is selected so
+	It is interest noticing that by considering feedback from the output layer $\mathbf{k}_\mathrm{i(t-1)}$ at previous time step (see Eq. \eqref{eq:out}), a local search could be achieved if the agent was actually focusing on a particular object. For the case of horizontal search, the $y$ coordinate of the points projection are considered, whereas for vertical search the $z$ coordinate would be of more relevance. Therefore, $m_{(t)}$ in Eq. \eqref{eq:sim2} is selected so
 	
 	\begin{equation}
 	m_{(t)} = 
 	\left\{
 	\begin{split}
-	\boldsymbol{\hat{\mu}}_{\mathrm{y}(t)}- \mathbf{\hat{p}}_{j\mathrm{y}(t)} & : \mathrm{right}\\
-	\mathbf{\hat{p}}_{j\mathrm{y}(t)} - \boldsymbol{\hat{\mu}}_{\mathrm{y}(t)}& : \mathrm{left}\\
-	\boldsymbol{\hat{\mu}}_{\mathrm{z}(t)}- \mathbf{\hat{p}}_{j\mathrm{z}(t)} & : \mathrm{above}\\
-	\mathbf{\hat{p}}_{j\mathrm{z}(t)} - \boldsymbol{\hat{\mu}}_{\mathrm{z}(t)} & : \mathrm{below}\\
+	\boldsymbol{\hat{\mu}}_{\mathrm{y}(t)}- \mathbf{\hat{p}}_{j\mathrm{y}(t)} & : \mathrm{``right"}\\
+	\mathbf{\hat{p}}_{j\mathrm{y}(t)} - \boldsymbol{\hat{\mu}}_{\mathrm{y}(t)}& : \mathrm{``left"}\\
+	\boldsymbol{\hat{\mu}}_{\mathrm{z}(t)}- \mathbf{\hat{p}}_{j\mathrm{z}(t)} & : \mathrm{``above"}\\
+	\mathbf{\hat{p}}_{j\mathrm{z}(t)} - \boldsymbol{\hat{\mu}}_{\mathrm{z}(t)} & : \mathrm{``below"}\\
 	\end{split}\right.
 	\label{eq:sim2-m}
 	\end{equation}
 	
-	\subsubsection{Focus on another object} in this simulation scenario the robot loses attention to an object form receiving negative feedback from the human. Thus, let the term $\mathbf{s}_{i(t,\Xi)}$ in Eq. \eqref{eq:pre-sel} be modeled considering the gain constant $\gamma_\mathrm{w}$ such that
+	\noindent Similarly to previous scenario, the gain $\gamma_{\mathrm{o}j}$ is set conforming to Eq. \eqref{eq:sim1-step} with duration $\delta_\mathrm{t} = 1\ \mathrm{sec}$. 
+	
+	\subsubsection{Focus on another object} the situation considered here is the agent's lost of interest to an object form receiving negative feedback from the human. For this, inhibitory feedback from the selection layer $\mathbf{a}_{(t-1)}$ is provided to the pre-selection later $\mathbf{u}_{(t)}$ (see Eqs. \eqref{eq:pre-sel},\eqref{eq:sel}). The term $\mathbf{s}_{i(t,\Xi)}$ in Eq. \eqref{eq:pre-sel} is modeled with a gain constant $\gamma_\mathrm{n}$, such that
 	
 	\begin{equation}
-	\mathbf{s}_{i(t,\Xi)} = -\mathrm{softmax}\left(\gamma_\mathrm{w}\mathbf{a}_{i(t)}\right)
+	\mathbf{s}_{i(t,\Xi)} = -\mathrm{softmax}\left(\gamma_\mathrm{n}\mathbf{a}_{i(t-1)}\right)
 	\label{eq:sim3}
 	\end{equation}
 	
+	\noindent The gain $\gamma_{\mathrm{o}j}$ is set conforming to Eq. \eqref{eq:sim1-step} but the duration of stimulation is selected shorter for this case $\delta_\mathrm{t} = 0.5\ \mathrm{sec}$. 
+		
 	%next*(self._ut.softmax(15.5*self._u_sel))
 	
 	\subsection{Experiment}
 	
+	An interaction experiment was designed with the robot Pepper. Since the robot is capable of recognizing typical landmarks, some were attached to locations on the environment representing objects. The robot is also capable of speech recognition within dialog context, so it was programmed to recognize the terms \textit{above}, \textit{below}, \textit{left}, \textit{right}, \textit{no}, \textit{one}, \textit{two}, \textit{three}, and so on. The ego-space was placed at the robot's \textit{Torso} frame, when in Stand-up posture. In this study we do not consider the possibility of rotation and translation of the ego-sphere (which would require of geometrical remapping), so the experiment would correspond to situations of short interactions where participants talk about a stimuli. 
+	
+	The library MediaPipe was used to track the human skeleton and represent his/her ego-sphere, from the robot's on-board camera acquisitions. Thus, the robot was programmed to keep the human's full body in view during interaction. The human provided feedback to the robot verbally or by pointing to locations in the environment. In order to track non-verbal focus of attention, the intersection of both forearms with the ego-sphere was considered as a measure of interest to the surrounding. As for the robot, the human's ego-sphere is assumed to be fixed during interaction. In order provide the robot with perspective-taking, a learning stage was designed so the human points to objects during 5 seconds and name the respective object. Hence, stimulation from the human non-verbal behavior is modeled with gain $\gamma_{\mathrm{h}}$, with the human activation layer $\mathbf{a}_{\mathrm{h}(t)}$ and the Hebbian synaptic weights $\mathbf{H}_{ij(t)}$, such that  
+		
+	\begin{equation}
+		\mathbf{s}_{i(t,\Xi)} = \gamma_{\mathrm{h}}\sum_{j}^{} \mathbf{H}_{ij(t)}\mathbf{a}_{\mathrm{h}j(t)}
+		\label{eq:exp}
+	\end{equation}
+		
 	\section{RESULTS}
 	\label{sec:results}
 
@@ -422,7 +449,7 @@
 		\node at (0.0,3.9) [color=black] {\small \textbf{Searching around operators}};
 		\end{tikzpicture}
 		\end{center}
-		\caption{The AEGO model, as detailed in Eqs. \eqref{eq:pre-sel}, \eqref{eq:sel} and \eqref{eq:out}.}
+		\caption{As described in the simulation \textit{searching around an object}, the top-down modulation of attention is shown after instantaneous recognition of the words \textit{left}, \textit{right}, \textit{above}, and \textit{below} see (Eq. \eqref{eq:sim2}), relative to $\mathbf{\hat{p}}_3$.}
 	\label{fig:sim2}
 	\end{figure}
 
