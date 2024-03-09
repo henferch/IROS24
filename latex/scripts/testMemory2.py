@@ -200,7 +200,7 @@ cbar_ax = fig.add_axes([0.25, 0.14, 0.5, 0.015])
 
 fig.colorbar(egoSphere1.scamap, cax=cbar_ax, location="bottom", orientation="horizontal")
 
-fig, (ax1, ax2, ax3) = plt.subplots(nrows=3, figsize=(7, 7))
+fig, (ax1, ax2, ax3) = plt.subplots(nrows=3, figsize=(3, 7))
 
 ax1.set_title("Evolution of $u_\mathrm{pre}$")
 u_pre = np.vstack(all_u_pre)
