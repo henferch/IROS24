@@ -1493,7 +1493,7 @@
        style="fill:none;stroke:#cc4125;stroke-width:0.565;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:0.98039216;marker-end:url(#Arrow1Mend-6-9-26-8-2)" />
     <path
        style="fill:none;stroke:#646464;stroke-width:0.565;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#Arrow1Mend-6-9-1)"
-       d="M 77.019457,100.07735 11.496192,99.690793 11.496,158.63379 h 13.368"
+       d="M 77.019457,100.07735 11.496192,99.690793 11.496,165.81245 l 14.568152,7e-5"
        id="path7257-4-4-6"
        inkscape:connector-curvature="0"
        sodipodi:nodetypes="cccc" />
