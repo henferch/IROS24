@@ -137,10 +137,10 @@
 	
 	%Biological studies have pointed out to the existence of biological mechanisms to support essential cognitive functions such as attention, short-term memory, spatio-temporal sensory-motor coordination, and locomotion, among others.
 
-	According to \cite{albus1991} an \textit{ego-sphere} consists in two dimensional spherical map of the world as perceived by an observer placed at its center. This interesting idea has inspired several works in the field of robotics. A study by \cite{ruesch2008} has showed how attention and short-term memory can be modulated through saliency maps and allow the robot to explore the environment exploration based on novelty. A work by \cite{bodiroza2011} focused on intuitive HRI, including the possibility of top-down modulation of attention. The aspect of representation has also been studied in \cite{peters2009sensory}, so the ego-sphere has been implemented as a storage data-base indexed by spherical tessellation mapping. Other contributions based on these ideas could be mentioned (eg. \cite{grotz2017}, \cite{marques2022}).
+	According to \cite{albus1991} an \textit{ego-sphere} consists in a two dimensional spherical map of the world as perceived by an observer placed at its center. This interesting idea has inspired several works in the field of robotics. A study by \cite{ruesch2008} has showed how attention and short-term memory can be modulated through saliency maps and allow the robot to explore the environment based on novelty. A work by \cite{bodiroza2011} focused on intuitive HRI, including the possibility of top-down modulation of attention. The aspect of representation has also been studied in \cite{peters2009sensory}, so the ego-sphere has been implemented as a storage data-base indexed by spherical tessellation mapping. Other contributions based on these ideas could be mentioned (e.g. \cite{grotz2017}, \cite{marques2022}).
 	
 	
-	To our knowledge, previous research has not explored sufficiently the aspect of interaction dynamics between locations represented in the ego-sphere, considering at most basic forms of interaction spread between nodes. Moreover, excusing saliency map approaches (e.g. \cite{ruesch2008}), the dynamics of attention was modeled as a process governed by knowledge represented in the form of production rules, where the possibility of compositionality from low-level sensory to higher-level decision space has been of less importance. 
+	To our knowledge, previous research has not explored sufficiently the aspect of interaction dynamics between locations represented in the ego-sphere, considering at most basic forms of interaction spread between nodes. Moreover, excluding saliency map approaches (e.g. \cite{ruesch2008}), the dynamics of attention was modeled as a process governed by knowledge represented in the form of production rules, where the possibility of compositionality from low-level sensory to higher-level decision space has been of less importance. 
 	 
 	
 	%in the field have achieved impressive results by exploring attention saliency in sensory egocentric representations under the effect of modulation processes (e.g. bottom-up \cite{ruesch2008} and top-down \cite{bodiroza2011}). Although most research have considered environment exploration tasks, so the robot can focus on learning new things based on novelty, some have studied social cognition or joint attention tasks inspired on psychological theories of attention (e.g. \cite{ruesch2008}). 
@@ -229,7 +229,7 @@
 	\label{eq:pre-sel-syn}
 	\end{equation}
 	
-	The term $\mathbf{s}_{i(t,\Xi)}$ represents the stimulation received at time instant $t$ affecting the ego-space locations $\Xi$. As it is going to be detailed in Section \ref{sec:methodology}, this term models stimulation from both top-down and bottom-up processes. Finally, in \eqref{eq:pre-sel} $q_\mathrm{u}$ corresponds to the activation resting state, $\tau_\mathrm{u}$ is the a time constant, and $\epsilon$ is a global inhibition factor affecting lateral interactions between neurons.
+	The term $\mathbf{s}_{i(t,\Xi)}$ represents the stimulation received at time instant $t$ affecting the ego-space locations $\Xi$. As it is going to be detailed in Section \ref{sec:methodology}, this term models stimulation from both top-down and bottom-up processes. Finally, in Eq. \eqref{eq:pre-sel} $q_\mathrm{u}$ corresponds to the activation resting state, $\tau_\mathrm{u}$ is the a time constant, and $\epsilon$ is a global inhibition factor affecting lateral interactions between neurons.
 	 
 	\subsection{Attention selection phase}
 	
@@ -247,7 +247,7 @@
 	\label{eq:sel-syn}
 	\end{equation}
 	
-	\noindent with $\varphi = \mathrm{max}(\mathbf{U}_{i:})^{-1}$ a scaling factor. The activation function $f$ in \eqref{eq:sel} is defined so
+	\noindent with $\varphi = \mathrm{max}(\mathbf{U}_{i:})^{-1}$ a scaling factor. The activation function $f$ in Eq. \eqref{eq:sel} is defined so
 
 	\begin{equation}
 	f\left(\mathbf{a}_{(t-1)}, \mathbf{u}_{(t)}\right) = \mathrm{sigmoid} \left(\alpha \left(\mathbf{a}_{i(t-1)} + \gamma_\mathrm{u} \mathbf{u}_{i(t)}\right)\right)
@@ -258,14 +258,14 @@
 	
 	\subsection{Object focus output layer}
 	
-	Let the probability of attending to particular objects $\mathbf{k}_\mathrm{i(t)}$ be modeled as an output layer, such that
+	Let the probability $\mathbf{k}_\mathrm{i(t)}$ of attending to the $i^\mathrm{th}$ object be modeled as the output layer, such that
 	
 	\begin{equation}
 	\mathbf{k}_\mathrm{i(t)} = \mathrm{softmax}\left(\gamma_{\mathrm{k}}\sum_{j}^{} \mathbf{O}_{ij(t)}\mathbf{a}_{j(t)}\right)
 	\label{eq:out}
 	\end{equation}
 	
-	\noindent where $\gamma_{\mathrm{k}}$ represents a gain factor constant.
+	\noindent where $\mathbf{O}_{ij}(|\mathbf{\hat{p}}_i-\mathbf{x}_j|)$ is obtained from Eq. \eqref{eq:pre-sel-syn} with $\mathbf{\hat{p}}_i$ the projection of the object's center of mass in the ego-sphere, and $\gamma_{\mathrm{k}}$ represents a gain factor constant.
 	
 	%\tau\dot{u}_i(x,t) = -u_i(x,t) + h + s_i(x,t) + \sum\limits_{i=0}^{j=N-1} w(|x_i-x_j|)f\left(u\left(x_j,t\right)\right)
 
@@ -428,15 +428,16 @@
 	
 	\subsection{Experiment}
 	
-	An interaction experiment was designed with the robot Pepper. Since the robot is capable of recognizing typical landmarks, some were attached to locations on the environment representing objects. The robot is also capable of speech recognition within dialog context, so it was programmed to recognize the terms \textit{above}, \textit{below}, \textit{left}, \textit{right}, \textit{no}, \textit{one}, \textit{two}, \textit{three}, and so on. The ego-space was placed at the robot's \textit{Torso} frame, when in Stand-up posture. In this study we do not consider the possibility of rotation and translation of the ego-sphere (which would require of geometrical remapping), so the experiment would correspond to situations of short interactions where participants talk about a stimuli. 
+	An interaction experiment was designed with the robot Pepper. Since the robot is capable of recognizing typical landmarks, some were attached to locations on the environment representing objects. The robot is also capable of speech recognition within dialog context, so it was programmed to recognize the terms \textit{above}, \textit{below}, \textit{left}, \textit{right}, \textit{no}, \textit{one}, \textit{two}, \textit{three}, and so on. The ego-space was placed at the robot's \textit{Torso} frame, when in Stand-up posture. In this study we do not consider the possibility of rotation and translation of the ego-sphere (which would require of geometrical remapping), so the experiment would correspond to situations of short interactions where participants talk about objects around. 
 	
-	The library MediaPipe was used to track the human skeleton and represent his/her ego-sphere, from the robot's on-board camera acquisitions. Thus, the robot was programmed to keep the human's full body in view during interaction. The human provided feedback to the robot verbally or by pointing to locations in the environment. In order to track non-verbal focus of attention, the intersection of both forearms with the ego-sphere was considered as a measure of interest to the surrounding. As for the robot, the human's ego-sphere is assumed to be fixed during interaction. In order provide the robot with perspective-taking, a learning stage was designed so the human points to objects during 5 seconds and name the respective object. Hence, stimulation from the human non-verbal behavior is modeled with gain $\gamma_{\mathrm{h}}$, with the human activation layer $\mathbf{a}_{\mathrm{h}(t)}$ and the Hebbian synaptic weights $\mathbf{H}_{ij(t)}$, such that  
+	\textcolor{orange}{[I got until here ...]}
+	%The library MediaPipe was used to track the human skeleton and represent his/her ego-sphere, from the robot's on-board camera acquisitions. Thus, the robot was programmed to keep the human's full body in view during interaction. The human provided feedback to the robot verbally or by pointing to locations in the environment. In order to track non-verbal focus of attention, the intersection of both forearms with the ego-sphere (once reaching a certain height with respect to center frame located at the torso) was considered as a measure of interest to the surrounding. As for the robot, the human's ego-sphere is assumed to be fixed during interaction. To provide the robot with perspective-taking, a learning stage was designed so the human points to objects during 5 seconds while naming them. Hence, stimulation from human's non-verbal behavior is modeled with gain $\gamma_{\mathrm{h}}$, the human activation layer $\mathbf{a}_{\mathrm{h}(t)}$ and Hebbian synaptic weights $\mathbf{H}_{ij(t)}$, such that  
 		
-	\begin{equation}
-		\mathbf{s}_{i(t,\Xi)} = \gamma_{\mathrm{h}}\sum_{j}^{} \mathbf{H}_{ij(t)}\mathbf{a}_{\mathrm{h}j(t)}
-		\label{eq:exp}
-	\end{equation}
-		
+%	\begin{equation}
+%		\mathbf{s}_{i(t,\Xi)} = \gamma_{\mathrm{h}}\sum_{j}^{} \mathbf{H}_{ij(t)}\mathbf{a}_{\mathrm{h}j(t)}
+%		\label{eq:exp}
+%	\end{equation}
+%		
 	\section{RESULTS}
 	\label{sec:results}
 
@@ -453,17 +454,17 @@
 	\label{fig:sim2}
 	\end{figure}
 
-	\begin{figure}[h!]
-		\begin{center}
-			\begin{tikzpicture}
-			\node [] at (0,0){
-				\includegraphics[scale=2.39,keepaspectratio]{fig/sim2_around_lr.png}};
-			\node at (0.0,4.8) [color=black] {\small \textbf{Searching around operators}};
-			\end{tikzpicture}
-		\end{center}
-		\caption{In the experiment, the operator where activated at times 10, 20, 30 seconds, in the order \textit{left}, \textit{left}, \textit{right}, \textit{left}.}
-		\label{fig:sim2-lr}
-	\end{figure}
+%	\begin{figure}[h!]
+%		\begin{center}
+%			\begin{tikzpicture}
+%			\node [] at (0,0){
+%				\includegraphics[scale=2.39,keepaspectratio]{fig/sim2_around_lr.png}};
+%			\node at (0.0,4.8) [color=black] {\small \textbf{Searching around operators}};
+%			\end{tikzpicture}
+%		\end{center}
+%		\caption{In the experiment, the operator where activated at times 10, 20, 30 seconds, in the order \textit{left}, \textit{left}, \textit{right}, \textit{left}.}
+%		\label{fig:sim2-lr}
+%	\end{figure}
 
 	\section{CONCLUSIONS}
 	\label{sec:conclusions}
