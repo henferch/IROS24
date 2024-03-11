@@ -7,21 +7,26 @@ from Service import Service
 
 class ObjectTrackService(Service):
     def __init__(self, memory_srv, landmark_srv, motion_srv, params={}):
-        Service.__init__(self)
+        Service.__init__(self, params)
+
         self.memory_srv = memory_srv
         self.landmark_srv = landmark_srv
         self.motion_srv = motion_srv
 
-        # Connect the event callback.
-        self.subscriber = self.memory_srv.subscriber("LandmarkDetected")
-        self.subscriber.signal.connect(self.onLandmarkDetected)
-        periodInMs = 500        
-        self.landmark_srv.subscribe(self.user, periodInMs, 0.0 )
-        self.got_landmark = False
-        self.landmarkTheoreticalSize = 0.093 #in meters
-        # Set here the current camera ("CameraTop" or "CameraBottom").
-        self.currentCamera = "CameraTop"
-        self.landmarks = {}
+        if self.realRobot: 
+
+            # Connect the event callback.
+            self.subscriber = self.memory_srv.subscriber("LandmarkDetected")
+            self.subscriber.signal.connect(self.onLandmarkDetected)
+            periodInMs = 500        
+            self.landmark_srv.subscribe(self.user, periodInMs, 0.0 )
+            self.got_landmark = False
+            self.landmarkTheoreticalSize = 0.093 #in meters
+            # Set here the current camera ("CameraTop" or "CameraBottom").
+            self.currentCamera = "CameraTop"
+            self.landmarks = {}
+        else:
+            self.landmarks = self.parameters["simulation"]["landmarks"]
         
     def onLandmarkDetected(self, markData):
         """
@@ -63,7 +68,8 @@ class ObjectTrackService(Service):
         return self.landmarks
 
     def stop(self):
-        self.landmark_srv.unsubscribe(self.user)
+        if self.realRobot:
+            self.landmark_srv.unsubscribe(self.user)
         print ("Désinscription de LandmarkDetector")
         
         

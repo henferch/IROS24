@@ -17,6 +17,7 @@ center = np.array([0.0,0.0,0.0])
 tesselation = 3        
 sigma = 0.005
 sigma = 0.01
+#sigma = 0.003
 radius = 1.0
 objects = [np.array([0.0,0.0,0.0]), np.array([0.0,0.0,0.0])]
 params = {'tesselation': tesselation, 'scale' : radius, 'center': center}        
@@ -164,9 +165,9 @@ while (t < T):
     
     # experiment to be performed
     #oWeights, lWeight, rWeight, aWeight, bWeight, nWeight = exp1(t, o_base, o_act)
-    oWeights, lWeight, rWeight, aWeight, bWeight, nWeight = exp2(t, o_base, o_act)
+    #oWeights, lWeight, rWeight, aWeight, bWeight, nWeight = exp2(t, o_base, o_act)
     #oWeights, lWeight, rWeight, aWeight, bWeight, nWeight = exp3(t, o_base, o_act)
-    #oWeights, lWeight, rWeight, aWeight, bWeight, nWeight = exp4(t, o_base, o_act)
+    oWeights, lWeight, rWeight, aWeight, bWeight, nWeight = exp4(t, o_base, o_act)
 
     u_pre, u_sel, o = network.step({'o':oWeights, 'l' : lWeight, 'r': rWeight, 'a' : aWeight, 'b': bWeight, 'n': nWeight})
     all_u_pre.append(u_pre)
@@ -183,9 +184,9 @@ for o,p in zip(objects,objs_int):
 egoSphere2.plot(ax[1], u_sel)
 for a in ax:
     a.view_init(elev=0, azim=0)
-    a.set_xlim([-1.5,1.5])
-    a.set_ylim([-1.5,1.5])
-    a.set_zlim([-1.5,1.5])
+    a.set_xlim([-1.0,1.0])
+    a.set_ylim([-1.0,1.0])
+    a.set_zlim([-1.0,1.0])
     a.grid(False)
     a.axis('off')
     a.set_aspect('equal')
@@ -257,8 +258,3 @@ ax3.legend(fontsize="7")
 
 
 plt.show()
-
-
-
-
-

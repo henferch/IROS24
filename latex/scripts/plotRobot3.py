@@ -31,6 +31,7 @@ def render(ax, robot, egoSph, rightArmEgo, leftArmEgo, network, ut):
     u_pre, u_sel, o = network.step({'o':[1.0, 1.0], 'l' : 0.0, 'r': 0.0, 'a':0.0, 'b':0.0, 'n': 0.0})
 
     egoSph.render(u_pre)
+    #egoSph.render(u_sel)
     
     # # plotting arm-ego intersection point 
     ut.setPlotData3DPoint(leftArmEgo, pL1)
@@ -87,6 +88,7 @@ def main(session):
         'h_pre' : -0.01,
         'h_sel' : -0.0001,
         'dt' : dt,
+        #'inh' : 0.0001,
         'inh' : 0.0001,
         'tau' : 0.2,
         'objects': objects

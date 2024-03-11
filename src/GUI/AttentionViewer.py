@@ -4,11 +4,12 @@ import json
 import matplotlib.pyplot as plt
 import mmap
 import posix_ipc as pos
+import sys
 
 class AttentionViewer():
     def __init__(self, params={}):
         
-        self.user = "ManipHFC2024"
+        self.user = params['expID']
         fig = plt.figure()
         self.ax = plt.axes(projection='3d')
 
@@ -76,7 +77,7 @@ class AttentionViewer():
         self.ax.set_zticks([0.0, 1.5])
         #self.ax.set_aspect('equal')
         self.ax.grid(False)
-        self.timer = fig.canvas.new_timer(interval=params['AttentionViewerPeriodInMs'])
+        self.timer = fig.canvas.new_timer(interval=params['attentionViewerPeriodInMs'])
         self.timer.add_callback(self.render)
         self.timer.start()
 
@@ -184,14 +185,21 @@ class AttentionViewer():
         self.ax.figure.canvas.draw()
 
 
-if __name__ == "__main__":    
+if __name__ == "__main__":
+
     # Opening JSON file
-    f = open('parameters.json')
-    parameters = json.load(f)
-    f.close()
+    params = None
+    try:
+        f = open('/home/hfchame/Workspace/VSCode/IROS24/src/parameters.json')
+        params = json.load(f)
+        f.close()
+    except Exception as ex:
+        print ("Can't load parameters from file 'parameters.json'. Error: {}".format(ex))
+        sys.exit(1)
+
     viewer = None 
     try:
-        viewer = AttentionViewer(parameters)
+        viewer = AttentionViewer(params)
     except KeyboardInterrupt:
         print("Program stopped by user")
         viewer.stop()

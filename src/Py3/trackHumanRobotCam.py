@@ -10,12 +10,13 @@ import cv2
 import mmap
 import posix_ipc as pos
 import struct
-from Py3.HumanPoseSegmentation import *
+import json
+from AEGO.Human import HumanTracker
 
 
-def main():
-    user = "ManipHFC2024"
-    segmentation = HumanPoseSegmentation()  
+def main(params):
+    user = params['expID']
+    humanTracker = HumanTracker()  
     pVersion = "3"
 
     # Image size VGA
@@ -50,7 +51,7 @@ def main():
         img = imgData.reshape(imgShape)    
         img_RGB = cv2.cvtColor(img, cv2.COLOR_RGB2BGR)
 
-        img_seg, joints = segmentation.step(img_RGB)
+        img_seg, joints = humanTracker.step(img_RGB)
 
         ##print(joints)
 
@@ -73,7 +74,15 @@ def main():
             break
 
 
-
-
 if __name__ == "__main__":
-     main()
+      # Opening JSON file
+    params = None
+    try:
+        f = open('/home/hfchame/Workspace/VSCode/IROS24/src/parameters.json')
+        params = json.load(f)
+        f.close()
+    except Exception as ex:
+        print ("Can't load parameters from file 'parameters.json'. Error: {}".format(ex))
+        sys.exit(1)
+
+    main(params)

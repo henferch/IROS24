@@ -59,7 +59,7 @@ class Utils:
             np.random.seed(7)
             self._t0 = self.getCurrentTimeMS()
             self._uniqueNetIds = {}
-            self._eps = 1.0e-10
+            self._eps = 1.0e-30
             Utils.__instance = self
                         
     def getEpsilon(self):        
@@ -160,9 +160,8 @@ class Utils:
 
 
     def softmax(self, x_):
-        ex = np.exp(x_ + self._eps)
-        den = ex.sum() 
-        return ex/den
+        ex = np.exp(x_)
+        return ex/ex.sum()
 
     """ 
     x: data
@@ -170,7 +169,7 @@ class Utils:
     l: transition slope 
     """
     def sigmoid(self, x_, c_=0.0, l_=1.0):
-        return 1.0/(1.0+np.exp(-l_*(x_-c_) + self._eps))         
+        return 1.0/(1.0+np.exp(-l_*(x_-c_)))         
     
     def getLinRef(self, min_, max_, n_):
         mu = [min_]

@@ -16,16 +16,21 @@ from JAEgoQi.ObjectTrackService import ObjectTrackService
 from JAEgoQi.SpeechRecognitionService import SpeechRecognitionService
 
 class MonAppli(object):
-    def __init__(self, app):
+    def __init__(self, app, params):
         super(MonAppli, self).__init__()
         app.start()
 
-        self.user = "ManipHFC2024" 
+        self.user = params["expID"] 
+        self.dt = params["dt"]
+    
+        self.parameters = params
 
-        # Opening JSON file
-        f = open('parameters.json')
-        self.parameters = json.load(f)
-        f.close()
+        self.useRobotCam = self.parameters['camSource'] == 'robot' # ["web","robot"]
+        self.realRobot = self.parameters['robotSource'] == 'robot' # ["robot", "sim"]
+        self.dt = self.parameters['dt']
+
+        if (self.useRobotCam and not self.realRobot):
+            raise Exception('Impossible to use the robot camera in simulation')
 
         session = app.session
         
@@ -34,11 +39,19 @@ class MonAppli(object):
         self.posture_srv = session.service("ALRobotPosture") 
         self.autLife_srv = session.service("ALAutonomousLife")
         self.basicAwareness_srv = session.service("ALBasicAwareness")
-        self.faceDetection_srv = session.service("ALFaceDetection") 
-        self.video_srv = session.service("ALVideoDevice") 
-        self.memory_srv = session.service("ALMemory")
-        self.landmark_srv = session.service("ALLandMarkDetection")
-        self.speech_srv = session.service("ALSpeechRecognition")
+
+        self.faceDetection_srv = None 
+        self.video_srv = None 
+        self.memory_srv = None
+        self.landmark_srv = None
+        self.speech_srv = None
+
+        if self.realRobot :
+            self.faceDetection_srv = session.service("ALFaceDetection") 
+            self.video_srv = session.service("ALVideoDevice") 
+            self.memory_srv = session.service("ALMemory")
+            self.landmark_srv = session.service("ALLandMarkDetection")
+            self.speech_srv = session.service("ALSpeechRecognition")
 
         # disabling autonomous life
         self.setAutonomousLife(False)
@@ -62,7 +75,7 @@ class MonAppli(object):
         self.postureTracker = PostureTrackService(self.video_srv, self.motion_srv, self.parameters)
         self.objectTracker = ObjectTrackService(self.memory_srv, self.landmark_srv, self.motion_srv, self.parameters)
         self.speechRecogn = SpeechRecognitionService(self.memory_srv, self.speech_srv, self.parameters)
-           
+    
     def setAutonomousLife(self, valeur=True):
 
         # self.basicAwareness_srv.pauseAwareness()
@@ -84,7 +97,7 @@ class MonAppli(object):
         self.postureTracker.stop()
         self.objectTracker.stop()
         self.speechRecogn.stop()
-        
+            
         # 3) re-active AL
         self.setAutonomousLife(True)
 
@@ -93,10 +106,15 @@ class MonAppli(object):
         sys.exit(1)
 
     def run(self):
+        t = 0.0
+        expected = int(self.dt*1000)
+        print("Main loop started ...")
+        print("Press CONTROL+C to stop")
         while (True):
             t1 = time.time()
             robot, human = self.postureTracker.step()
             objects = self.objectTracker.getObjects()
+            speech = self.speechRecogn.step(t)
 
             # sending posture data
             buf = []
@@ -109,14 +127,16 @@ class MonAppli(object):
             self.memExpData.flush()
             
             t2 = time.time()
-            print('loop time in ms : {:.3f}'.format((t2-t1)*1000))
+            dt = t2 - t1
+            t += self.dt
+            #print('loop time in ms : {:.3f}, expected : {} '.format((t2-t1)*1000, expected))
 
                 
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     robot_IP = "127.0.0.1"
-    robot_IP = "192.168.137.166"
+    #robot_IP = "192.168.137.166"
 
     parser.add_argument("--ip", type=str, default=robot_IP,
                         help="Robot IP address. On robot or Local Naoqi: use '127.0.0.1'.")
@@ -124,6 +144,21 @@ if __name__ == "__main__":
                         help="Naoqi port number")
 
     args = parser.parse_args()
+
+    # Opening JSON file
+    params = None
+    try:
+        f = open('/home/hfchame/Workspace/VSCode/IROS24/src/parameters.json')
+        params = json.load(f)
+        f.close()
+    except Exception as ex:
+        print ("Can't load parameters from file 'parameters.json'. Error: {}".format(ex))
+        sys.exit(1)
+
+    if args.ip == "127.0.0.1":
+        params['robotSource'] = 'sim'
+    else:
+        params['robotSource'] = 'robot'
 
     print("Debut d'application")    
     try:
@@ -134,7 +169,7 @@ if __name__ == "__main__":
         print ("Can't connect to Naoqi at ip \"" + args.ip + "\" on port " + str(args.port) +".\n"
                "Please check your script arguments. Run with -h option for help.")
         sys.exit(1)
-    monAppli = MonAppli(app)
+    monAppli = MonAppli(app, params)
     try:
         monAppli.run()
     except KeyboardInterrupt:
