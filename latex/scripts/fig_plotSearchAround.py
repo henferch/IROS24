@@ -121,4 +121,4 @@ for k in range(4):
     for o in objs_int:
         ut.plot3DPoint(ax, o, 'red', 'x')
 
-plt.show()
+#plt.show()

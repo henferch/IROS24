@@ -460,21 +460,62 @@
 %		
 	\section{RESULTS}
 	\label{sec:results}
+	
+	The studies in simulation showed the possibility of modulating attention selection with the proposed embodied operators. As illustrated in Fig \ref{fig:sim2}, by taking into account the agent's current focus of attention, it is possible to induce neural dynamics in localized regions of the ego-sphere for helping it to respond to embodied references in verbal speech. This is shown in Fig. \ref{fig:sim2-around} which consisted in an interaction simulation during 60 seconds. Here, the operators \textit{left}, \textit{right}, \textit{above} and \textit{below} were employed so the agent could focus on the six stimuli one at a time. Similar results were obtained for the operations \textit{focusing on named objects} and \textit{loosing interest on something}.
 
 	\begin{figure}[h!]
 		\begin{center}
 			
 		\begin{tikzpicture}
 		\node [] at (0,0){
-			%\includegraphics[scale=2.39,keepaspectratio]{fig/sim2_around.png}};
-		\includegraphics[scale=1.3,keepaspectratio]{fig/sim2_around2.png}};
-		%\node at (0.0,3.9) [color=black] {\small \textbf{Searching around operators}};
-		\node at (0.0,1.6) [color=black] {\small \textbf{Searching around operators}};
+		\includegraphics[scale=1.3,keepaspectratio]{fig/sim2_around_op.png}};
+		\node at (0.0,1.4) [color=black] {\small \textbf{Embodied operators}};
+		\node at (-3.4,-1.2) [color=black] {\scriptsize \textit{left}};
+		\node at (-1.1,-1.2) [color=black] {\scriptsize \textit{right}};
+		\node at (1.2,-1.2) [color=black] {\scriptsize \textit{above}};
+		\node at (3.4,-1.2) [color=black] {\scriptsize \textit{below}};
 		\end{tikzpicture}
 		\end{center}
-		\caption{As described in the simulation \textit{searching around an object}, the top-down modulation of attention is shown after instantaneous recognition of the words \textit{left}, \textit{right}, \textit{above}, and \textit{below} see (Eq. \eqref{eq:sim2}), relative to $\mathbf{\hat{p}}_3$.}
+		\caption{Operators described in the simulation scenario \textit{searching around objects}. The top-down modulation of attention is shown after instantaneous recognition of the words \textit{left}, \textit{right}, \textit{above}, and \textit{below} see (Eq. \eqref{eq:sim2}), relative to the location $\mathbf{\hat{p}}_3$ in Fig. \ref{fig:sim_objs}).}
 	\label{fig:sim2}
 	\end{figure}
+
+\begin{figure}[h!]
+	\begin{center}
+		\begin{tikzpicture}
+		\node [] at (0,0){
+			\includegraphics[scale=0.5,keepaspectratio]{fig/sim2_around.pdf}};
+		\node at (0.0,4.6) [color=black] {\small \textbf{Searching around objects}};
+		
+		%maxval u_pre =  0.1
+		%minxval u_pre =  -0.01						
+		\draw (3.3,4.1) node[rotate=0,scale=1] { \tiny 0.1};
+		\draw (3.3,1.85) node[rotate=0,scale=1] { \tiny -0.01};
+		
+		%maxval u_sel =  0.0011999622746858437
+		%minxval u_sel =  -1.4
+		\draw (3.3,4.1-2.9) node[rotate=0,scale=1] { \tiny 0.001};
+		\draw (3.3,1.85-2.9) node[rotate=0,scale=1] { \tiny -1.4};
+		
+		\draw (-4.2,3) node[rotate=0,scale=1] { \scriptsize $\mathbf{u}_{(t)}$};
+		\draw (-4.2,0) node[rotate=0,scale=1] { \scriptsize $\mathbf{a}_{(t)}$};
+		\draw (-4.2,-3) node[rotate=0,scale=1] { \scriptsize $\mathbf{k}_{(t)}$};
+		\draw (-0.5,-4.5) node[rotate=0,scale=1] { \scriptsize Time in seconds};
+		\draw (-3.2,-1.5) node[rotate=0,scale=1] { \tiny $\mathrm{k}_{1}$};
+		\draw (-2.5,-1.5) node[rotate=0,scale=1] { \tiny $\mathrm{k}_{2}$};
+		\draw (-1.6,-1.5) node[rotate=0,scale=1] { \tiny $\mathrm{k}_{3}$};
+		\draw (-0.8,-1.5) node[rotate=0,scale=1] { \tiny $\mathrm{k}_{4}$};
+		\draw (0.0,-1.5) node[rotate=0,scale=1] { \tiny $\mathrm{k}_{5}$};
+		\draw (0.8,-1.5) node[rotate=0,scale=1] { \tiny $\mathrm{k}_{6}$};
+		
+		\draw[color=black!80] (-3.85,-4) -- (-3.85,-1.8);
+		\end{tikzpicture}
+	\end{center}
+	\caption{Focusing initially on object 3 (relative to $\mathbf{\hat{p}}_3$, see Fig. \ref{fig:sim_objs}), the agent switches attention to surrounding objects, from instantaneous recognition of words in the sequence: \textit{right}, \textit{above}, \textit{left}, \textit{left} and \textit{below} (see Eqs. \eqref{eq:sim2}\eqref{eq:sim2-m}).}
+	\label{fig:sim2-around}
+\end{figure}
+
+Concerning the experiment, results showed that during the learning phase the human was able to learn the objects' name taught by the robot, whereas the robot was able to learn the embodied relation of the human to such objects. A total of six trials were recorded in the experiment's room (see Fig. \ref{fig:exp_scene}). It is important mentioning that the human was only instructed to stand up between the landmarks while facing the robot. No marks where added to the floor to control the human's position. This was done to introduce variability in the trials. Figure \ref{fig:exp_hebb} shows  the comparison of attention modulation from learning in the first trial (see Eq. \eqref{eq:hebb_rule}), so object saliency is induced on other trials (see Eq; \eqref{eq:hebb_stim}) without re-learning. This shows that the Hebbian plasticity rule policy used was able to generalize for the trials of the experiment.
 
 \begin{figure}[h!]
 	\begin{center}
@@ -485,34 +526,18 @@
 		\node at (0.0,3.6) [color=black] {\small \textbf{The experimental scene}};
 		\end{tikzpicture}
 	\end{center}
-	\caption{Several landmarks tracked by the robot were attached to fixed locations at the scene emulating objects.}
+	\caption{Landmarks stickers tracked by the robot were attached to locations in the room emulating objects.}
 	\label{fig:exp_scene}
-\end{figure}
-
-
-	\begin{figure}[h!]
-	\begin{center}
-		
-		\begin{tikzpicture}
-		\node [] at (0,0){
-			%\includegraphics[scale=1.3,keepaspectratio]{fig/exp_frame_0.png}};
-			\includegraphics[scale=1.32,keepaspectratio]{fig/exp_frame_1.png}};
-			%\includegraphics[scale=2.32,keepaspectratio]{fig/exp_frame_2.png}};
-		\node at (0.0,6.0) [color=black] {\small \textbf{Pointing at experiment}};
-		\end{tikzpicture}
-	\end{center}
-	\caption{The ego-spheres are shown for the robot (left) and the human (center, rotated 160° around the $z$ axis to improve visualization). The human skeleton is tracked from the robot's camera (right). Each row corresponds to pointing at a given landmark. After the Hebbian learning phase, the human pointing at gesture stimulates locations in the robot's ego-sphere which relate to saliency around landmarks locations, helping the robot to focus attention on such objects.}
-	\label{fig:exp_frame_0}
 \end{figure}
 
 \begin{figure}[h!]
 	\begin{center}
-				
+		
 		\begin{tikzpicture}
 		\node [] at (-0.5,0){
 			\includegraphics[scale=0.46,keepaspectratio]{fig/plot_generalisation.pdf}};
 		
-		\node at (-0.4,3.3) [color=black] {\small \textbf{Hebbian learning}};
+		\node at (-0.4,3.3) [color=black] {\small \textbf{Hebbian plasticity and generalisation}};
 		
 		% removing unwanted labels
 		\filldraw[draw=white,color=white] (-4.4,2.5) rectangle (3.7,2.7);	
@@ -532,7 +557,7 @@
 		\node at (0.7+0.5,0.1-3.2) [color=black] {\scriptsize Object 3};
 		\filldraw[draw=black,color=hebb4] (0.0+2.0,0.0-3.2) rectangle (0.2+2.0,0.2-3.2);	
 		\node at (0.7+2.0,0.1-3.2) [color=black] {\scriptsize Object 4};
-
+		
 		\node at (2.9,2.7) [color=black] {\scriptsize $\mathbf{u}_{\mathrm{r}(t)}$};
 		
 		%\filldraw[draw=black,color=lightgray] (1,1) rectangle (1.2,1.2);		
@@ -540,44 +565,32 @@
 		%\filldraw[draw=black,color=lightgray] (1,1) rectangle (1.2,1.2);
 		\end{tikzpicture}
 	\end{center}
-	\caption{The instantaneous state of $\mathbf{a}_{\mathrm{h}(t)}$ representing the human focus of attention at time $t$ is propagated to the pre-selection layer of the robot such that $\mathbf{u}_{\mathrm{r}(t)}=\mathbf{H}\mathbf{a}_{\mathrm{h}(t)}$, though the learned Hebbian synaptic weight matrix $\mathbf{H}$. Although variability due to the human positioning was present, the attention state of the human was able to modulate the activity for all six trials to modulate corresponding regions associated to pointed objects at the robot's pre-selective stage.}
+	\caption{The instantaneous state of $\mathbf{a}_{\mathrm{h}(t)}$ representing the human focus of attention at time $t$ stimulates the robot's pre-selection layer $\mathbf{u}_{\mathrm{r}(t)}$ conforming to Eq. \eqref{eq:hebb_stim}. Although variability due to the human positioning was present, the attention state of the human, modulated by intersecting his/her forearms' direction when pointing with the ego-sphere was able to modulate the robot's attention for all experiential trials, from one single learning trial.}
 	\label{fig:exp_hebb}
 \end{figure}
 
+Figure \ref{fig:exp_frames} shown a sequence of pointing gestures from the robots on-board camera. Both agent's ego-sphere were tracked during the experience. In this case, the robot was observing the human in the interaction phase. 
+
+after learning so the activity comming from the human  and the corresponding activity in  
+
 	\begin{figure}[h!]
-		\begin{center}
-			\begin{tikzpicture}
-			\node [] at (0,0){
-				\includegraphics[scale=0.5,keepaspectratio]{fig/sim2_around_lr.pdf}};
-			\node at (0.0,4.6) [color=black] {\small \textbf{Searching around operators}};
+	\begin{center}
+		
+		\begin{tikzpicture}
+		\node [] at (0,0){
+			%\includegraphics[scale=1.3,keepaspectratio]{fig/exp_frame_0.png}};
+			\includegraphics[scale=1.32,keepaspectratio]{fig/exp_frame_1.png}};
+			%\includegraphics[scale=2.32,keepaspectratio]{fig/exp_frame_2.png}};
+		\node at (0.0,6.0) [color=black] {\small \textbf{Interaction sequence}};
+		\end{tikzpicture}
+	\end{center}
+	\caption{The ego-spheres are shown for the robot (left) and the human (center, rotated 160° around the $z$ axis to improve visualization). The human skeleton is tracked from the robot's camera (right). Each row corresponds to pointing at a given landmark. After the Hebbian learning phase, the human pointing at gesture stimulates locations in the robot's ego-sphere which relate to saliency around landmarks locations, helping the robot to focus attention on such objects.}
+	\label{fig:exp_frames}
+\end{figure}
 
-			%maxval u_pre =  0.1
-			%minxval u_pre =  -0.01						
-			\draw (3.3,4.1) node[rotate=0,scale=1] { \tiny 0.1};
-			\draw (3.3,1.85) node[rotate=0,scale=1] { \tiny -0.01};
 
-			%maxval u_sel =  0.0011999622746858437
-			%minxval u_sel =  -1.4
-			\draw (3.3,4.1-2.9) node[rotate=0,scale=1] { \tiny 0.001};
-			\draw (3.3,1.85-2.9) node[rotate=0,scale=1] { \tiny -1.4};
-						
-			\draw (-4.2,3) node[rotate=0,scale=1] { \scriptsize $\mathbf{u}_{(t)}$};
-			\draw (-4.2,0) node[rotate=0,scale=1] { \scriptsize $\mathbf{a}_{(t)}$};
-			\draw (-4.2,-3) node[rotate=0,scale=1] { \scriptsize $\mathbf{k}_{(t)}$};
-			\draw (-0.5,-4.5) node[rotate=0,scale=1] { \scriptsize Time in seconds};
-			\draw (-3.2,-1.5) node[rotate=0,scale=1] { \tiny $\mathrm{k}_{1}$};
-			\draw (-2.5,-1.5) node[rotate=0,scale=1] { \tiny $\mathrm{k}_{2}$};
-			\draw (-1.6,-1.5) node[rotate=0,scale=1] { \tiny $\mathrm{k}_{3}$};
-			\draw (-0.8,-1.5) node[rotate=0,scale=1] { \tiny $\mathrm{k}_{4}$};
-			\draw (0.0,-1.5) node[rotate=0,scale=1] { \tiny $\mathrm{k}_{5}$};
-			\draw (0.8,-1.5) node[rotate=0,scale=1] { \tiny $\mathrm{k}_{6}$};
-			
-			\draw[color=black!80] (-3.85,-4) -- (-3.85,-1.8);
-			\end{tikzpicture}
-		\end{center}
-		\caption{In the experiment, the operator where activated at times 10, 20, 30 seconds, in the order \textit{left}, \textit{left}, \textit{right}, \textit{left}.}
-		\label{fig:sim2-lr}
-	\end{figure}
+
+	
 
 	\section{CONCLUSIONS}
 	\label{sec:conclusions}
