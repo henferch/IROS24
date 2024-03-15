@@ -112,11 +112,11 @@ def exp2(t, o_base, o_act):
     if (t < 1.0 ):        
         oWeights[0] = o_act
     elif (t > 10.0 and t < 11.0):
-        lWeight = o_act*3.0        
+        lWeight = o_act
     elif (t > 20.0 and t < 21.0):
-        lWeight = o_act*3.0        
+        lWeight = o_act
     elif (t > 30.0 and t < 31.0 ):
-        rWeight = o_act*3.0
+        rWeight = o_act
     
     return oWeights, lWeight, rWeight, aWeight, bWeight, nWeight
 
@@ -131,9 +131,9 @@ def exp3(t, o_base, o_act):
     if (t < 1.0 ):        
         oWeights[0] = o_act
     elif (t > 10.0 and t < 11.0):
-        aWeight = o_act*3.0  
+        aWeight = o_act
     elif (t > 20.0 and t < 21.0):
-        bWeight = o_act*3.0  
+        bWeight = o_act
     # elif (t > 30.0 and t < 31.0 ):
     #     aWeight = 3.0
     
@@ -154,7 +154,7 @@ def exp4(t, o_base, o_act):
         oWeights[0] = o_base
         #oWeights[2] = o_base               
     elif (t > 10.0 and t < 10.5):
-        nWeight = 0.75
+        nWeight = 0.5
     elif (t > 20.0 and t < 20.5):
         nWeight = 0.75
     elif (t > 30.0 and t < 30.5 ):
@@ -175,15 +175,15 @@ def exp5(t, o_base, o_act):
     if (t < 1.0 ):        
         oWeights[2] = o_act
     elif (t > 10.0 and t < 11.0):
-        lWeight = o_act*3.0        
+        lWeight = o_act
     elif (t > 20.0 and t < 21.0):
-        aWeight = o_act*3.0        
+        aWeight = o_act
     elif (t > 30.0 and t < 31.0 ):
-        rWeight = o_act*3.0
+        rWeight = o_act
     elif (t > 40.0 and t < 41.0 ):
-        rWeight = o_act*3.0
+        rWeight = o_act
     elif (t > 50.0 and t < 51.0 ):
-        bWeight = o_act*3.0
+        bWeight = o_act
     
     return oWeights, lWeight, rWeight, aWeight, bWeight, nWeight
 
@@ -192,14 +192,14 @@ while (t < T):
     all_t.append(t)
     o_base = 0.9
     o_act = 12.0
-    o_act = 9.0
+    o_act = 9.0*3.0
     
     # experiment to be performed
     #oWeights, lWeight, rWeight, aWeight, bWeight, nWeight = exp1(t, o_base, o_act)
     #oWeights, lWeight, rWeight, aWeight, bWeight, nWeight = exp2(t, o_base, o_act)
     #oWeights, lWeight, rWeight, aWeight, bWeight, nWeight = exp3(t, o_base, o_act)
-    #oWeights, lWeight, rWeight, aWeight, bWeight, nWeight = exp4(t, o_base, o_act)
-    oWeights, lWeight, rWeight, aWeight, bWeight, nWeight = exp5(t, o_base, o_act)
+    oWeights, lWeight, rWeight, aWeight, bWeight, nWeight = exp4(t, o_base, o_act)
+    #oWeights, lWeight, rWeight, aWeight, bWeight, nWeight = exp5(t, o_base, o_act)
 
     u_pre, u_sel, o = network.step({'o':oWeights, 'l' : lWeight, 'r': rWeight, 'a' : aWeight, 'b': bWeight, 'n': nWeight})
     all_u_pre.append(u_pre)
@@ -267,7 +267,7 @@ ax2.get_yaxis().set_visible(False)
 #ax3.set_title("Object selection")
 all_o = np.vstack(all_o)
 for i in range(all_o.shape[1]):
-    ax3.plot(np.array(all_t), all_o[:,i], label='p$_{}$'.format(i+1))
+    ax3.plot(np.array(all_t), all_o[:,i], label='      '.format(i+1))
     #ax3.set_xlim([all_t[0],all_t[-1]])
 ax3.set_xlim([all_t[0],all_t[-1]*1.25])
 ax3.set_xticks([0,10,20,30,40,50,60])
@@ -279,5 +279,10 @@ ax3.spines['right'].set_visible(False)
 ax3.spines['bottom'].set_visible(False)
 ax3.spines['left'].set_visible(False)
 
-#plt.show()
-fig.savefig('sim2_around_lr.pdf')
+print('minxval u_pre = ', np.min(np.min(u_pre.transpose(), axis=1)))
+print('minxval u_sel = ', np.min(np.min(u_sel.transpose(), axis=1)))
+print('maxval u_pre = ', np.max(np.max(u_pre.transpose(), axis=1)))
+print('maxval u_sel = ', np.max(np.max(u_sel.transpose(), axis=1)))
+
+plt.show()
+#fig.savefig('sim2_around_lr.pdf')

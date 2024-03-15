@@ -22,6 +22,8 @@ with open('{}W_hr.npy'.format(dataPath), 'rb') as f:
 all_PA = []
 all_ID = []
 
+
+
 for exp in range(5,12):
     
     print("processisng experiment {}".format(exp))
@@ -68,6 +70,21 @@ d = {'PA1': all_PA[:,0].tolist(),\
 #print(d)
 df = pd.DataFrame(data=d)
 
+
+# import plotly.graph_objects as go
+# fig = go.Figure(
+#     data=[go.Bar(y=[2, 1, 3])],
+#     layout_title_text="A Figure Displaying Itself",
+#     layout = {'xaxis': {'title': 'x-label',
+#                         'visible': True,
+#                         'showticklabels': True},
+#               'yaxis': {'title': 'y-label',
+#                         'visible': False,
+#                         'showticklabels': False}
+#               }
+# )
+# fig
+
 fig = go.Figure(data=
     go.Parcoords(
         line = dict(color = df['Landmark'],
@@ -76,21 +93,30 @@ fig = go.Figure(data=
         dimensions = list([
             dict(range = [minv[0],maxv[0]],
                 #constraintrange = [4,8],
-                label = 'Pointing at 1', values = df['PA1']),
+                label = '', values = df['PA1']),
             dict(range = [minv[1],maxv[1]],
-                label = 'Pointing at 2', values = df['PA2']),
+                label = '', values = df['PA2']),
             dict(range = [minv[2],maxv[2]],
-                label = 'Pointing at 3', values = df['PA3']),
+                label = '', values = df['PA3']),
             dict(range = [minv[3],maxv[3]],
-                label = 'Pointing at 4', values = df['PA4'])
+                label = '', values = df['PA4'])
         ])
-    )
+    ),
+    layout = {'xaxis': {'title': 'x-label',
+                        'visible': False,
+                        'showticklabels': False},
+              'yaxis': {'title': 'y-label',
+                        'visible': False,
+                        'showticklabels': False}
+              }
 )
 
 fig.update_layout(
+    xaxis = {'showticklabels': False, 'tickvals': []},
+    yaxis = {'showticklabels': False, 'tickvals': []},
     plot_bgcolor = 'white',
     paper_bgcolor = 'white',
-    font = {'size':20, 'family':'Times New Roman'},
+    font = {'size':18, 'family':'Times New Roman'},
     margin=dict(l=70, r=50, t=50, b=50)
     #newselection = {'line':{'width':10.0}}
    # selections={'line':{'width':10.0}}
@@ -103,7 +129,7 @@ fig.update_layout(
 #                               #color_scale = [[1,'purple'],[2,'lightseagreen'],[3,'gold'],[4,'green']],
 #                               color_continuous_midpoint=4)
 # #fig.update_traces(line={'width':2.5})
-fig.write_image('plot_generalisation.pdf',scale=2.0)
+fig.write_image('plot_generalisation.pdf')
        
 print("program end")
     
