@@ -57,7 +57,7 @@
 	%JA-EGO: Neural Network-based Sensory Ego-Spheres for \\ Joint Attention in Human-Robot Interaction
 	%AEGO: Modeling Attention For HRI In Ego-Sphere Neural Networks
 	%AEGO: Ego-Sphere Neural Networks for Attention Selection in HRI 
-	AEGO: Modeling Attention for HRI in Ego-Spheres Neural Networks
+	AEGO: Modeling Attention for HRI in Ego-Sphere Neural Networks
 	%NET-EGO: Attention in HRI from Neural Network Ego-Spheres
 	%N2A-EGO: Attention in HRI from Ego-Sphere Neural Networks
 	%N2A-EGO: Modeling Attention for HRI in Neural Network Ego-Spheres
@@ -65,7 +65,7 @@
 }
 
 
-\author{Hendry F. Chame$^{1}$ and Rachid Alami$^{2}$% <-this % stops a space
+\author{Hendry Ferreira Chame$^{1}$ and Rachid Alami$^{2}$% <-this % stops a space
 	%\thanks{*This work was not supported by any organization}% <-this % stops a space
 	\thanks{$^{1}$LORIA-CNRS (NeuroRhythms team). Campus Scientifique, 615 Rue du Jardin-Botanique, 54506 Vand\oe uvre-l\`es-Nancy, France.
 		{\tt \small hendry.ferreira-chame@loria.fr}.}%
@@ -88,7 +88,7 @@
 		
 		%\small \bf Despite important progress in recent years, there is a long way to go for including social robots capable of adaptation, interaction and communication in our environments. Our research is concerned with the study of social cognition in HRI, in particular with communication skills relying on joint attention (JA) and knowledge sharing. Since JA involves low-level cognitive skills, we take into account the implications addressed by Moravec's Paradox and focus on the aspect of knowledge representation. By embracing embodiment and 4E cognition principles, we investigate the notion of egocentric localization and propose a neural network representation suited for joint attention research named JA-EGO. Inspired by \textit{dynamic fields theory}, the model consists in a dynamical system representation which fuses information from immediate sensation and provides the means for attention selection and working memory under the influence of top-down and bottom-up modulation processes of attention in HRI. We firstly studied the selection model in simulations and analyzed some application scenarios. We then conducted a real experiment with the robot Pepper considering propioception, vision and basic proxemics. Results showed that JA-EGO is a convenient representation for HRI situations allowing the human and the robot to share attention and knowledge about objects in the environment. 
 		
-		\small \bf Despite important progress in recent years, social robots are still far away from showing sophisticated skills of interaction and adaptation to human environments. Our research is concerned with the study of social cognition in HRI, notably with communication skills relying on joint attention (JA) and knowledge sharing. Since JA involves low-level cognitive skills, we take into account the implications addressed by Moravec's Paradox and focus on the aspect of knowledge representation. Inspired by embodiment and 4E cognition principles, we study egocentric localization through the concept of sensory \textit{ego-sphere}. We propose a neural network model of attention selection named AEGO from \textit{dynamic fields theory}, which takes into account the dynamics of bottom-up and top-down modulation processes and the effects of neural excitatory and inhibitory synaptic interaction. We studied the model in simulations and analyzed some application scenarios in HRI. We then conducted a real experiment for a JA-based task with the robot Pepper, considering proprioception, vision and basic natural language recognition. Results showed that AEGO is a convenient representation for HRI allowing the human and the robot to share attention and knowledge about objects in the environment.
+		\small \bf Despite important progress in recent years, social robots are still far away from showing advanced behavior for interaction and adaptation in human environments. Our research is concerned with the study of social cognition in HRI, notably with communication skills relying on joint attention (JA) and knowledge sharing. Since JA involves low-level cognitive processes, we take into account the implications addressed by Moravec's Paradox and focus on the aspect of knowledge representation. Inspired by embodiment and 4E cognition principles, we study egocentric localization through the concept of sensory \textit{ego-sphere}. We propose a neural network model of attention selection named AEGO from \textit{dynamic fields theory}, which takes into account the dynamics of bottom-up and top-down modulation processes and the effects of neural excitatory and inhibitory synaptic interaction. We studied the model in simulations and analyzed some application scenarios in HRI. We conducted an experiment with the robot Pepper for a JA task based on proprioception, vision, basic natural language and Hebbian plasticity. Results showed that AEGO is a convenient representation for HRI, allowing the human and the robot to share attention and knowledge about objects without relying on extensive modeling of the environment.
 		
 		%\small \bf Despite important progress in recent years robots are still far behind from exhibiting the sophistication of cognitive skills observed in human beings. Our research is concerned with the study of social cognition in HRI, in particular with the concept of joint attention (JA) and knowledge sharing. Given the fact that JA involves low-level cognitive skills, we take into account the implications addressed by Moravec's Paradox and consider the aspect of knowledge representation as crucial for HRI. Hence, our work departs from views of JA based on cognitivist philosophy and embraces embodiment and 4E cognition principles, as a source of inspiration for proposing adaptable and efficient models of interaction which do not depend extensively on environmental modeling and variable control. Within this direction, in this work we explore the notion of egocentric spherical localization and propose a neural network representation of the human and the robot attention state named JA-EGO. Inspired by dynamic fields theory, the model consists in a dynamical system representation provided with information from low-level sensory acquisitions representing cognitive skills such as attention selection from immediate sensation. We tested the model firstly in simulations for exploring some application scenarios. We then conducted a real experiment with the robot Pepper considering local (egocentric) sources of information and basic natural language recognition. Results showed that JA-EGO is a convenient representation for HRI situations allowing the human and the robot to share attention and knowledge about objects in the environment. 
 		
@@ -105,29 +105,29 @@
 	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 	\section{INTRODUCTION}
 	
-	According to Moravec's paradox, although machines can perform tasks at adults' level of intelligence such as inductive and deductive reasoning, they have tremendous difficulty with sensory-motor or social skills, as demonstrated by a one-year-old child. Behind this paradox remains the question in artificial intelligence research of what sort of knowledge representation would be suitable for allowing a machine to accomplish cognitive tasks, which has important philosophical implications. Thus, recent studies have contrasted the Cartesian (traditional) view of social cognition as a process confined to the brain, to the notion of an \textit{embodied}, \textit{embedded}, \textit{enacted} and \textit{extended} process, unfolding between the brain, the body and environment in interaction; a perspective known as \textit{4E cognition} \cite{Newen2018}.      
+	According to Moravec's paradox, although machines can perform tasks at adults' level of intelligence, such as inductive and deductive reasoning, they have tremendous difficulty with sensory-motor or social skills, as demonstrated by one-year-old children. Behind this paradox remains the question in artificial intelligence (AI) research of what sort of knowledge representation would be suitable for allowing a machine to accomplish cognitive tasks, which has important philosophical implications. Thus, recent studies have contrasted the Cartesian (traditional) view of social cognition, as a process confined to the brain, to the notion of an \textit{embodied}, \textit{embedded}, \textit{enacted} and \textit{extended} process, unfolding between the brain, the body and environment in interaction: a perspective known as \textit{4E cognition} \cite{Newen2018}.      
 	
-	Inspired by embodiment and 4E cognition, we believe that for social robots to leave the lab and adapt to human environments, it is crucial to provide them with forms of behavior regulation which take into account the dynamics of human low-level social skill processes, such as the capacity of engaging in \textit{joint attention} (JA), and the possibility of those processes be modulated in direct interaction. Furthermore, as a multi-dimensional construct, JA involves cognitive skills which constitute forms of social attention at distinct levels of interaction and knowledge sharing \cite{siposova2019}. 
+	Inspired by embodiment and 4E cognition, we believe that for social robots to leave the lab and adapt to human environments, it is crucial to provide them with forms of behavior regulation which take into account the dynamics of human low-level social processes, such as the capacity of engaging in \textit{joint attention} (JA), and the possibility of those processes be modulated in direct interaction. Furthermore, as a multi-dimensional construct, JA involves cognitive skills which constitute forms of social attention at distinct levels of interaction and knowledge sharing \cite{siposova2019}. 
 	
 	\begin{figure}[h!]
 		\begin{center}
 			\begin{tikzpicture}
 			\node [] at (0,0){
 				\includegraphics[scale=1.6,keepaspectratio]{fig/multi_robots.png}};
-			\node at (0.0,4.1) [color=black] {\small \textbf{Tracking of pre-selective attention}};
+			\node at (0.0,4.1) [color=black] {\small \textbf{Interacttion and attention sharing}};
 			\end{tikzpicture}
-			\caption{The scene shows a situation where two agents are interacting about the orange object, whereas another agent is leaving the scene. Three other objects are present the effect of each object agents ego-spherical localization at a pre-selective stage is shown.}
+			\caption{The scene shows a situation where two agents are interacting about the orange object while a third agent is leaving the scene. Three other objects are present. The effect of stimuli projection in agents’ peripersonal is represented at a pre-selection level of attention in ego-spherical localization.}
 			\label{fig:multi_robots}
 		\end{center}
 	\end{figure}
 
-	As a continuation of previous research in which we proposed a model for tracking JA in HRI as a topology-based representation organized as a \textit{scale of jointness} \cite{chame2023top}, in this work we investigate the more fundamental aspect of attention selection and how such mechanism could allow the emergence of JA in human-robot interaction from top-down and bottom-up modulation processes. For this, as shown in Fig. \ref{fig:multi_robots}, we suppose unconstrained situations where agents can become interested in objects in the environment and eventually share attention and knowledge about them (e.g. situations like asking someone for direction or commenting about salient stimuli like a noise or an object). 
+	As a continuation of previous research in which we proposed a model for tracking JA in HRI as a topology-based representation organized in a \textit{scale of jointness} \cite{chame2023top}, in this work we investigate the more fundamental aspect of attention selection and how such mechanism could allow the emergence of JA in human-robot interaction from top-down and bottom-up modulation processes. For this, as shown in Fig. \ref{fig:multi_robots}, we suppose unconstrained situations where agents can become interested in objects in the environment and eventually share attention and knowledge about them (e.g. situations like asking someone for direction or commenting about salient stimuli like a noise or an object). 
 	
-	Tacking into account the considerations above, we explore the concept of \textit{ego-sphere} \cite{albus1991} and propose the model named AEGO for tracking the attention focus of agents as represented from egocentric perspective, and resulting from on-board sensory acquisitions. For this, inspired by \textit{dynamic neural fields} (DNF) theory \cite{amari1977}, we model attention selection as dynamical system process represented by neural fields networks with lateral connectivity. By addressing limitations on previous research, we show how neural excitatory and inhibitory interaction allows us to study the emergence of attention selection. Moreover, we show how the model can be used to track agents' interaction with peripersonal space, which is an interesting resource for HRI applications. 
+	Tacking into account the considerations above, we explore the concept of \textit{ego-sphere} \cite{albus1991} and propose the model named AEGO for tracking the attention focus of agents as represented from egocentric perspective, and resulting from on-board sensory acquisitions. For this, inspired by \textit{dynamic neural fields} (DNF) theory \cite{amari1977}, we model attention selection as a dynamical system process represented by neural fields networks with lateral connectivity. By addressing limitations on previous research, we show how neural excitatory and inhibitory interaction allows us to study the emergence of attention selection. Moreover, we show how the model can be used to track agents' interaction with peripersonal space, which is an interesting resource for HRI applications. 
 	
 	%Tacking into account the considerations above, we propose the model named JA-EGO for tracking the attention focus of agents as represented from egocentric perspective, and resulting from acquisitions of robot's on-board sensory. For this, we model the evolution of attention selection as a dynamical system process represented by a recurrent neural network inspired on \textit{dynamic neural fields} (DNF) theory \cite{amari1977}. Thus, JA-EGO can be used for track egocentric focus of attention from spherical localization references. 
 	  	  
-	This document is organized as follows: Section \ref{sec:previous} discusses previous works and argues how our contribution would help to advance the state of the art in the field. Section \ref{sec:model} presents the mathematical definition of the model and discusses theoretical assumptions behind it. Section \ref{sec:methodology} presents the methodology which consisted in: a) studying in simulation attention selection tracking from top-down and bottom-up modulation processes, and showing potential applications, and b) conducting an experiment with the robot Pepper including proprioception, vision and basic natural language recognition about relations in the environment. Section \ref{sec:results} reports on the study’s results, and Section \ref{sec:conclusions} presents conclusions and future perspectives.
+	This document is organized as follows: Section \ref{sec:previous} discusses previous works and argues how our contribution would help to advance the state of the art in the field. Section \ref{sec:model} presents the mathematical definition of the model and discusses theoretical assumptions behind it. Section \ref{sec:methodology} presents the methodology which consisted in: a) studying in simulation attention selection from top-down and bottom-up modulation processes, and showing potential applications, and b) conducting an experiment with the robot Pepper for a JA task based on proprioception, vision, basic natural language and Hebbian plasticity. Section \ref{sec:results} reports on the study’s results, and Section \ref{sec:conclusions} presents conclusions and future perspectives.
 	  
 %	For this, an egocentric perspective for localization is adopted where the robot is able to represent the dynamics of its own focus of attention in an sensory ego-spherical representation as well as tracking others' focus of attention. 
 	
@@ -140,7 +140,7 @@
 	According to \cite{albus1991} an \textit{ego-sphere} consists of a two dimensional spherical map of the world as perceived by an observer placed at its center. This interesting idea has inspired several works in the field of robotics. A study by \cite{ruesch2008} has shown how attention and short-term memory can be modulated through saliency maps and allow the robot to explore the environment based on novelty. A work by \cite{bodiroza2011} focused on intuitive HRI, including the possibility of top-down modulation of attention. The aspect of information representation has also been studied in \cite{peters2009sensory}, so the ego-sphere has been implemented as a storage data-base indexed by spherical tessellation mapping. Other contributions could be mentioned (e.g. \cite{grotz2017}, \cite{marques2022}).%Other contributions based on these ideas could be mentioned (e.g. \cite{grotz2017}, \cite{marques2022}).
 	
 	
-	To our knowledge, previous research has not explored sufficiently the aspect of interaction dynamics between locations represented in the ego-sphere, considering at most basic forms of interaction spread between nodes. Moreover, excluding saliency map approaches (e.g. \cite{ruesch2008}), the dynamics of attention was modeled as a process governed by knowledge represented in the form of production rules, where the possibility of compositionality from low-level sensory to higher-level decision space has been of less importance. 
+	To our knowledge, previous research has not explored sufficiently the aspect of interaction dynamics between locations represented in the ego-sphere, and considered at most basic forms of interaction spread between nodes. Moreover, excluding saliency map approaches (e.g. \cite{ruesch2008}), the dynamics of attention was modeled as a process governed by knowledge represented in the form of production rules, where the possibility of compositionality from low-level sensory to higher-level decision space has been of less importance. 
 	 
 	
 	%in the field have achieved impressive results by exploring attention saliency in sensory egocentric representations under the effect of modulation processes (e.g. bottom-up \cite{ruesch2008} and top-down \cite{bodiroza2011}). Although most research have considered environment exploration tasks, so the robot can focus on learning new things based on novelty, some have studied social cognition or joint attention tasks inspired on psychological theories of attention (e.g. \cite{ruesch2008}). 
@@ -153,9 +153,11 @@
 	
 	Another limitation of previous research is considering the robot as the only one in interaction given with embodied sensory ego-spherical representations, so data coming from human agents is mostly represented in the robot's perspective. In our opinion, this would be a too egocentric approach for HRI. We believe that when keeping track of embodied relations between agents and objects in the environment as a distributed dynamical system, the robot could take decisions and behave without relying too much on environment modeling, from the emergence of attention from instantaneous interaction. Hence, we propose that attention selection is tracked simultaneously from participants' egocentric perspective. 
 	 
-	Our previous research has also constituted relevant steps in the direction of developing the current study which is worth mentioning. In \cite{chame2016} an ego-cylindrical selection mechanism for attention was proposed for autonomous positioning with respect to objects in the environment. In \cite{chame2023top} the model TOP-JAM was proposed as a means for JA tracking in HRI from allocentric references. In \cite{heikkila2019} joint attention in HRI is studied for a providing guidance task in a shopping mall. \textcolor{orange}{[Many papers from the RIS team could be cited: human-aware planning, JA ... To be confirmed with Rachid]}.
+	Previous works in our research teams also constituted relevant steps in the direction of developing the current study, which is worth mentioning. In \cite{heikkila2019} JA in HRI was studied for providing guidance in a shopping mall. Other works explored the concept of \textit{joint action} \cite{belhassein2022} and \textit{situation assessment} from perspective taking \cite{sallami2019}. In \cite{chame2016} an ego-cylindrical selection mechanism for attention was proposed for autonomous positioning with respect to objects in the environment. In \cite{chame2023top} the model TOP-JAM was proposed for tracking JA in HRI from allocentric references.  %\textcolor{orange}{[Many papers from the RIS team could be cited: human-aware planning, JA ... To be confirmed with Rachid]}.
+	
+	%Our previous research has also constituted relevant steps in the direction of developing the current study which is worth mentioning. In \cite{chame2016} an ego-cylindrical selection mechanism for attention was proposed for autonomous positioning with respect to objects in the environment. In \cite{chame2023top} the model TOP-JAM was proposed as a means for JA tracking in HRI from allocentric references. In \cite{heikkila2019} JA in HRI was studied for providing guidance in a shopping mall. Other related works studied \textit{joint action} and situation assessment from perspective taking \cite{sallami2019}. %\textcolor{orange}{[Many papers from the RIS team could be cited: human-aware planning, JA ... To be confirmed with Rachid]}.
 	 
-	To summarize, we propose to model attention for HRI in neural dynamic fields networks for tracking the influence of three important sources on attention selection: a) bottom-up stimulation, b) top-down modulation, and c) local interactions from inhibitory and excitatory synapse. We named this network AEGO and show how it is a useful representation for tracking attention in HRI, which can be conveniently included in several experimental setups. We present in the section below the mathematical foundations of the model. In Section \ref{sec:methodology} we show how AEGO is suited for investigating joint attention in HRI.
+	To summarize, differently from previous approaches we propose to model attention for HRI in neural dynamic fields networks for tracking the influence of three important sources on attention selection: a) bottom-up stimulation, b) top-down modulation, and c) local interactions from inhibitory and excitatory synapse. We present in the next section the mathematical foundations of this model which we named AEGO. In Section \ref{sec:methodology} we show how AEGO is suited for investigating joint attention in HRI.
 	
 	% 
 	
@@ -196,7 +198,7 @@
 	\section{THE MATHEMATICAL MODEL}	
 	\label{sec:model}
 	
-	Theoretical models of visual attention such as \textit{feature integration theory} (FIT) \cite{treisman1980}, have described attention as a multi-level information fusion process. According to FIT, at a pre-attention level the perceptual system receives from separate maps encoding feature salience (e.g., color, edges, shapes), which are lately combined at an attention selection stage. A bio-inspired architecture has been proposed from FIT by \cite{koch1985} and implemented by \cite{itti1998}, finding applications in robotics (e.g. autonomous navigation based on vision \cite{siagian2014}).
+	Theoretical models of visual attention, such as \textit{feature integration theory} (FIT) \cite{treisman1980}, have described attention as a multi-level information fusion process. According to FIT, at a pre-attention level the perceptual system receives from separate maps feature salience encoding (e.g., color, edges, shapes), which are lately combined at an attention selection stage. A bio-inspired architecture has been proposed from FIT in \cite{koch1985} and implemented in \cite{itti1998} with applications in robotics (e.g. autonomous navigation based on vision \cite{siagian2014}).
 
 	\begin{figure}[h!]
 		\begin{tikzpicture}
@@ -207,12 +209,12 @@
 		%\fcolorbox{white}{white}{
 		%\includegraphics[scale=0.38]{model.eps}
 		%}
-		\caption{The AEGO model, as detailed in Eqs. \eqref{eq:pre-sel}, \eqref{eq:sel} and \eqref{eq:out}.}
+		\caption{The model AEGO takes as inputs rough estimations on the objects' locations with respect to egocentric frames of reference, proprioceptive and basic natural language inputs. This information excites the attention pre-selection layer $\mathbf{u}$ (see Eq. \eqref{eq:pre-sel}), which provides input to the selection layer $\mathbf{a}$ (see Eq. \eqref{eq:sel}). In layer $\mathbf{k}$ (see Eq. \eqref{eq:out}) the model outputs the probability of focusing on a particular stimulus. Under top-down modulation, focused attention can influence pre-selection as a feedback process.}
 		\label{fig:AEGO}
 	\end{figure}
 
 	%Let the agent's peripersonal space be represented by a localization topology defined by a vertex set, resulting from the tessellation of an icosahedron polyhedron, which approximates a spherical region around the agent. 
-	Under the influence of previous research, we propose a model of attention selection inspired by FIT and DNF theory. \textcolor{orange}{[We focus not only in vision but on the agent's capacity of recognizing stimuli and roughly calculating their relation to the body in ego-spherical representations]}. Thus, we consider a pre-attention phase where proprioceptive and exteroceptive stimuli excite the ego-space topology, encoded by dynamic fields neural networks, receiving inputs from top-down and bottom-up processes and synaptic interaction. In a posterior stage, attention selection results from competition in synaptic interaction. Hence, we propose the model named AEGO which architectural view is illustrated in Fig. \ref{fig:AEGO}. The mathematical definition of the model \footnote{\scriptsize \textbf{Notation.} Matrices and vectors are represented in bold, indexes are represented as subscripts (e.g. the $i^{\mathrm{th}}$ element of a vector $\mathbf{a}$ is denoted $\mathbf{a}_{i}$). Network layers are vectors. Matrices are represented in capital letter, the colon character represents the $i^{\mathrm{th}}$ row or columns vector (e.g. $\mathbf{A}_{i:}$ for columns and $\mathbf{A}_{:i}$ for rows). Position and orientation vectors are in 3D Cartesian space unless stated otherwise. The projection of a 3D position $\mathbf{p}$ in the ego-sphere surface is denoted $\mathbf{\hat{p}}$. The dot product between vectors $\textbf{p}$ and $\textbf{v}$ is denoted $\textbf{p}\cdot\textbf{v}$.} is detailed next.
+	This work proposes a model of attention selection inspired by FIT and DNF theory. However, we study not only visual information but consider other sources of stimulation. Thus, attention is modeled in an ego-spherical representation encoded by dynamic neural fields at a pre-attention phase, receiving stimulation from top-down and bottom-up processes, and synaptic interaction. In a subsequent phase, attention selection results from competition in synaptic interaction. The architectural view of the model is illustrated in Fig. \ref{fig:AEGO}. The mathematical definition of the model \footnote{\scriptsize \textbf{Notation.} Matrices and vectors are represented in bold, indexes are represented as subscripts (e.g. the $i^{\mathrm{th}}$ element of a vector $\mathbf{a}$ is denoted $\mathbf{a}_{i}$). Network layers are vectors. Matrices are represented in capital letter, the colon character represents the $i^{\mathrm{th}}$ row or column of a matrix (e.g. $\mathbf{A}_{i:}$ for columns and $\mathbf{A}_{:i}$ for rows). Position and orientation vectors are in 3D Cartesian space. The projection of a point $\mathbf{p}$ in the ego-sphere surface is denoted $\mathbf{\hat{p}}$.} is detailed next.
 	
 	
 	\subsection{Pre-attention phase}
@@ -493,7 +495,7 @@
 		
 		\begin{tikzpicture}
 		\node [] at (-0.5,0){
-			\includegraphics[scale=0.26,keepaspectratio]{fig/plot_generalisation.pdf}};
+			\includegraphics[scale=0.23,keepaspectratio]{fig/plot_generalisation.pdf}};
 		\node at (-0.4,3.7) [color=black] {\small \textbf{Hebbian learning}};
 		\end{tikzpicture}
 	\end{center}
@@ -503,17 +505,17 @@
 
 
 
-%	\begin{figure}[h!]
-%		\begin{center}
-%			\begin{tikzpicture}
-%			\node [] at (0,0){
-%				\includegraphics[scale=2.39,keepaspectratio]{fig/sim2_around_lr.png}};
-%			\node at (0.0,4.8) [color=black] {\small \textbf{Searching around operators}};
-%			\end{tikzpicture}
-%		\end{center}
-%		\caption{In the experiment, the operator where activated at times 10, 20, 30 seconds, in the order \textit{left}, \textit{left}, \textit{right}, \textit{left}.}
-%		\label{fig:sim2-lr}
-%	\end{figure}
+	\begin{figure}[h!]
+		\begin{center}
+			\begin{tikzpicture}
+			\node [] at (0,0){
+				\includegraphics[scale=0.5,keepaspectratio]{fig/sim2_around_lr.pdf}};
+			\node at (0.0,4.8) [color=black] {\small \textbf{Searching around operators}};
+			\end{tikzpicture}
+		\end{center}
+		\caption{In the experiment, the operator where activated at times 10, 20, 30 seconds, in the order \textit{left}, \textit{left}, \textit{right}, \textit{left}.}
+		\label{fig:sim2-lr}
+	\end{figure}
 
 	\section{CONCLUSIONS}
 	\label{sec:conclusions}

@@ -12,6 +12,13 @@
   fields.
 \newblock {\em Biological cybernetics 27}, 2 (1977), 77--87.
 
+\bibitem{belhassein2022}
+{\sc Belhassein, K., Fern{\'a}ndez-Castro, V., Mayima, A., Clodic, A.,
+  Pacherie, E., Guidetti, M., Alami, R., and Cochet, H.}
+\newblock Addressing joint action challenges in hri: Insights from psychology
+  and philosophy.
+\newblock {\em Acta Psychologica 222\/} (2022), 103476.
+
 \bibitem{bodiroza2011}
 {\sc Bodiroza, S., Schillaci, G., and Hafner, V.~V.}
 \newblock Robot ego-sphere: An approach for saliency detection and attention
@@ -85,6 +92,13 @@
   humanoid robot icub.
 \newblock In {\em 2008 IEEE International Conference on Robotics and
   Automation\/} (2008), IEEE, pp.~962--967.
+
+\bibitem{sallami2019}
+{\sc Sallami, Y., Lemaignan, S., Clodic, A., and Alami, R.}
+\newblock Simulation-based physics reasoning for consistent scene estimation in
+  an hri context.
+\newblock In {\em 2019 IEEE/RSJ International Conference on Intelligent Robots
+  and Systems (IROS)\/} (2019), IEEE, pp.~7834--7841.
 
 \bibitem{samsonovich97}
 {\sc Samsonovich, A., and McNaughton, B.~L.}

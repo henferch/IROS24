@@ -15,11 +15,15 @@ class NetworkGeodesic:
         self._tau_sel = p_['tau_sel'] 
         self._objects = p_['objects']
         self._o_alpha = p_['o_alpha']
-        self._u_sel_u_pre_gain = 2.5
+        self._u_sel_u_pre_gain = p_.get('pre_gain')
+        if self._u_sel_u_pre_gain is None :
+            self._u_sel_u_pre_gain = 2.5        
         #self._u_sel_u_pre_gain = 2.0
         #self._u_sel_u_pre_gain = 2.0
         #self._u_sel_sig_l = 100.0
-        self._u_sel_sig_l = 100.0
+        self._u_sel_sig_l = p_.get('sel_sigmoid')
+        if self._u_sel_sig_l is None :
+            self._u_sel_sig_l = 100.0
         self._nObjects = len(self._objects)
 
         # precomputed const 
