@@ -39,11 +39,12 @@ class GUI():
         self.robot = RobotViewer(self.ut, self.axs[0])
         self.human = HumanViewer(self.ut, self.axs[1])
 
-        dataRobot = data[0:14,:]
+        dataRobot = np.array(data[0:14,:])
         self.robot.setFrames(dataRobot)
         self.robotBaseFramePos = self.robot.getBaseLocation()
         
-        dataHuman = data[14:30,:]
+        dataHuman = np.array(data[14:30,:])
+        dataHuman[:,0] *= -1.0
         self.human.setBaseFrame(np.array([0.0, 0.0, params['humanBaseFramePos'][2]]))
         self.human.setFrames(dataHuman)
         self.humanBaseFramePos = self.human.getBaseLocation()
@@ -92,11 +93,17 @@ class GUI():
         # plotting a dummy intersection point        
         self.o_rightArmEgoRobot = self.ut.plot3DPoint(self.axs[0], self.robotBaseFramePos, 'red')
         self.o_leftArmEgoRobot = self.ut.plot3DPoint(self.axs[0], self.robotBaseFramePos, 'red')
-        self.o_rightArmEgoRobot = self.ut.plot3DPoint(self.axs[1], self.robotBaseFramePos, 'red')
-        self.o_leftArmEgoRobot = self.ut.plot3DPoint(self.axs[1], self.robotBaseFramePos, 'red')
+        self.o_rightArmEgoHuman = self.ut.plot3DPoint(self.axs[1], self.humanBaseFramePos, 'red')
+        self.o_leftArmEgoHuman = self.ut.plot3DPoint(self.axs[1], self.humanBaseFramePos, 'red')
         
+        i = 0
         for ax in self.axs :
             ax.view_init(elev=0, azim=0)
+            # if i == 0:
+            #     ax.view_init(elev=0, azim=0)
+            # else:
+            #     ax.view_init(elev=0, azim=180)
+            # i += 1
             ax.set_xlabel('x')
             ax.set_ylabel('y')
             ax.set_zlabel('z')
@@ -133,9 +140,10 @@ class GUI():
         bufPos = self.memExpData.read(self.sizeMemExpData)
         data = np.frombuffer(bufPos, dtype=np.float32).reshape((30,3))
 
-        dataRobot = data[0:14,:]
-        dataHuman = data[14:30,:]
-
+        dataRobot = np.array(data[0:14,:])
+        dataHuman = np.array(data[14:30,:])
+        dataHuman[:,0] *= -1.0
+        
         self.robot.setFrames(dataRobot)
         self.human.setFrames(dataHuman)
 
@@ -152,9 +160,20 @@ class GUI():
             if not (pR1 is None or pL1 is None):  
                 net.updateObjects([pR1-Torso, pL1-Torso])
 
-            u_pre, u_sel, o = net.step({'o':[1.0, 1.0], 'l' : 0.0, 'r': 0.0, 'a':0.0, 'b':0.0, 'n': 0.0})
+            # dRC = np.dot(ego.center, RWrist)
+            # dLC = np.dot(ego.center, RWrist)
 
-            ego.render(u_pre)
+            hw = None
+            if pR1[2] < pL1[2]:
+                hw = [10.0, 30.0]
+            else:
+                hw = [30.0, 10.0]
+                
+            u_pre, u_sel, o = net.step({'o':hw, 'l' : 0.0, 'r': 0.0, 'a':0.0, 'b':0.0, 'n': 0.0})
+            #u_pre, u_sel, o = net.step({'o':[20.0, 20.0], 'l' : 0.0, 'r': 0.0, 'a':0.0, 'b':0.0, 'n': 0.0})
+
+            #ego.render(u_pre)
+            ego.render(u_sel)
 
         
         for ax in self.axs :

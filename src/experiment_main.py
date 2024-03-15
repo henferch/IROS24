@@ -36,17 +36,20 @@ class MonAppli(object):
         
         # service proxies
         self.motion_srv = session.service("ALMotion") 
-        self.posture_srv = session.service("ALRobotPosture") 
+        self.posture_srv = session.service("ALRobotPosture")
         self.autLife_srv = session.service("ALAutonomousLife")
         self.basicAwareness_srv = session.service("ALBasicAwareness")
 
-        self.faceDetection_srv = None 
+        self.faceDetection_srv = None
+        self.tracker_srv = None 
         self.video_srv = None 
         self.memory_srv = None
         self.landmark_srv = None
         self.speech_srv = None
 
         if self.realRobot :
+            self.tracker_srv = session.service("ALTracker") 
+            self.tracker_srv.setMode("WholeBody")
             self.faceDetection_srv = session.service("ALFaceDetection") 
             self.video_srv = session.service("ALVideoDevice") 
             self.memory_srv = session.service("ALMemory")
@@ -59,7 +62,7 @@ class MonAppli(object):
         # go to Stant up posture
         self.posture_srv.goToPosture("Stand", 0.2)
         time.sleep(1)
-        fractionMaxSpeed  = 0.2
+        fractionMaxSpeed  = 0.1
         self.motion_srv.setAngles(['HeadPitch'], [0.02], fractionMaxSpeed)
         time.sleep(1)
         
@@ -82,10 +85,10 @@ class MonAppli(object):
         # self.faceDetection_srv.setTrackingEnabled(False)
         
         self.autLife_srv.setAutonomousAbilityEnabled("AutonomousBlinking", valeur)
-        self.autLife_srv.setAutonomousAbilityEnabled("BackgroundMovement", False)
-        self.autLife_srv.setAutonomousAbilityEnabled("BasicAwareness", False)
-        self.autLife_srv.setAutonomousAbilityEnabled("ListeningMovement", False)
-        self.autLife_srv.setAutonomousAbilityEnabled("SpeakingMovement", False)
+        self.autLife_srv.setAutonomousAbilityEnabled("BackgroundMovement", valeur)
+        self.autLife_srv.setAutonomousAbilityEnabled("BasicAwareness", valeur)
+        self.autLife_srv.setAutonomousAbilityEnabled("ListeningMovement", valeur)
+        self.autLife_srv.setAutonomousAbilityEnabled("SpeakingMovement", valeur)
 
     def stop(self):
         # 1) stop motion
@@ -114,6 +117,7 @@ class MonAppli(object):
             t1 = time.time()
             robot, human = self.postureTracker.step()
             objects = self.objectTracker.getObjects()
+            print(objects)
             speech = self.speechRecogn.step(t)
 
             # sending posture data
@@ -136,7 +140,7 @@ class MonAppli(object):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     robot_IP = "127.0.0.1"
-    #robot_IP = "192.168.137.166"
+    robot_IP = "192.168.137.166"
 
     parser.add_argument("--ip", type=str, default=robot_IP,
                         help="Robot IP address. On robot or Local Naoqi: use '127.0.0.1'.")

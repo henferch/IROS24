@@ -12,8 +12,10 @@ def main(params):
     print("program start")
 
     file = params.get('videoFile')
-    fps = params['imgFPSWeb']
     user = params['expID']
+    fps = params['imgFPSWeb']
+    sleepInMS = int(1000/fps)
+    
     pVersion = 3
 
     cap = None
@@ -22,9 +24,7 @@ def main(params):
     if file is None :
         cap = cv2.VideoCapture(0)
     else:
-        cap = cv2.VideoCapture(file)
-
-    sleepInMS = int(1000/fps) 
+        cap = cv2.VideoCapture(file) 
 
     humanTracker = HumanTracker() 
     if cap is None:
