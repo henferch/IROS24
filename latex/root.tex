@@ -316,7 +316,7 @@
 	
 	\subsection{Simulations}
 	
-	Table \ref{tab:params} presents common parameters for the model's layers described in Eqs. \eqref{eq:pre-sel}, \eqref{eq:sel} and \eqref{eq:out}. The state of the network is obtained through numerical integration by the Euler method with time-step $dt$. As shown in Fig \ref{fig:sim_objs}, six objects where simulated as bottom-up sources of stimulation to the agent. Topological search relying of the recognition of basic words was considered to explore top-down modulation of attention. %These situations are described below.
+	Table \ref{tab:params} presents common parameters for the model's layers described in Eqs. \eqref{eq:pre-sel}, \eqref{eq:sel} and \eqref{eq:out}. The state of the network is obtained through numerical integration by the Euler method with time-step $dt$. As shown in Fig \ref{fig:sim_objs}, six objects were simulated as bottom-up sources of stimulation to the agent. Topological search relying on the recognition of basic words was considered to explore top-down modulation of attention. %These situations are described below.
 	
 	%\setlength{\tabcolsep}{1.5pt}
 	\renewcommand{\arraystretch}{1.2} % add a bit of more vertical space in table rows
@@ -380,7 +380,7 @@
 				
 	\subsubsection{Focusing on named objects}
 	
-	we investigated the possibility of attending to a specific object as modulated by top-down processes. For this, it is assumed that the agent is able to track and recognize objects in the scene while associating unique words for addressing to them. A numerical ID could serve this purpose. Thus, once the human says for instance "three", attention should be directed to stimuli which projecting around location $\mathbf{\hat{p}}_3$ (see Fig. \ref{fig:sim_objs}). For this, the term $\mathbf{s}_{i(t,\Xi)}$ in Eq. \eqref{eq:pre-sel} can be set so
+	we investigated the possibility of attending to a specific object as modulated by top-down processes. For this, it is assumed that the agent is able to track and recognize objects in the scene while associating unique words for addressing them. A numerical ID could serve this purpose. Thus, once the human says for instance "three", attention should be directed to stimuli which project around location $\mathbf{\hat{p}}_3$ (see Fig. \ref{fig:sim_objs}). For this, the term $\mathbf{s}_{i(t,\Xi)}$ in Eq. \eqref{eq:pre-sel} can be set so
 	
 	\begin{equation}
 	\mathbf{s}_{i(t,\Xi)} = \sum_{j}^{} \gamma_{\mathrm{o}j}\mathbf{O}_{ij(t)}\left(|\mathbf{\hat{p}}_{j(t)} - \mathbf{x}_{i(t)}|\right)
@@ -394,9 +394,9 @@
 	 \label{eq:sim1-step}
 	 \end{equation}
 	
-	\noindent The local influence of stimuli in the neural field $\mathbf{O}_{ij(t)}$ is set conforming to Eq. \eqref{eq:pre-sel-syn}.
+	\noindent The local influence of stimuli on the neural field $\mathbf{O}_{ij(t)}$ is set conforming to Eq. \eqref{eq:pre-sel-syn}.
 	
-	\subsubsection{Searching around objects} this simulation considered interactions base on perspective-taking, where someone indicates a topological reference in other's perspective, such as turning attention to a stimulus at \textit{right}, \textit{left}, \textit{above} or \textit{below}; which are words recognized by the robot. Thus, let $\mathbf{s}_{i(t,\Xi)}$ in Eq. \eqref{eq:pre-sel} be modeled such that
+	\subsubsection{Searching around objects} this simulation considered interactions based on perspective-taking, where someone indicates a topological reference in another's perspective, such as turning attention to a stimulus at \textit{right}, \textit{left}, \textit{above} or \textit{below}; which are words recognized by the robot. Thus, let $\mathbf{s}_{i(t,\Xi)}$ in Eq. \eqref{eq:pre-sel} be modeled such that
 	
 	\begin{equation}
 	\mathbf{s}_{i(t,\Xi)} = \sum_{j}^{} f\left(\gamma_\mathrm{r}m_{(t)}\right)\ g\left(\left|\boldsymbol{\hat{\mu}}_{(t)} - \mathbf{x}_{i(t)}\right|\right)
@@ -409,7 +409,7 @@
 	\label{eq:sim2-mu}
 	\end{equation}
 	
-	It is interest noticing that, by considering feedback from the output layer $\mathbf{k}_\mathrm{i(t-1)}$ at the previous time step (see Eq. \eqref{eq:out}), a local search could be achieved if the agent was actually focusing on a particular object. For the case of horizontal search, the $y$ coordinate of the points projection are considered, whereas for vertical search the $z$ coordinate would be of more relevance (see Fig. \ref{fig:sim_objs}). Thus, $m_{(t)}$ in Eq. \eqref{eq:sim2} is selected so
+	It is interesting noticing that, by receiving feedback from the output layer $\mathbf{k}_\mathrm{i(t-1)}$ at the previous time step (see Eq. \eqref{eq:out}), a local search can be set if the agent is actually focusing on a particular object. For the case of horizontal search, the point's  projection $y$ coordinate is considered, whereas for vertical search the $z$ coordinate would be relevant (see Fig. \ref{fig:sim_objs}). Hence, $m_{(t)}$ in Eq. \eqref{eq:sim2} is set such that
 	
 	\begin{equation}
 	m_{(t)} = 
@@ -425,7 +425,7 @@
 	
 	\noindent Similarly to previous scenario, the gain $\gamma_{\mathrm{o}j}$ is set conforming to Eq. \eqref{eq:sim1-step} with duration $\delta_\mathrm{t} = 1\ \mathrm{sec}$. 
 	
-	\subsubsection{Losing interest on something} the situation considered here is the agent's lost of interest to an object form receiving negative feedback from the human. For this, inhibitory feedback from the selection layer $\mathbf{a}_{(t-1)}$ is provided to the pre-selection layer $\mathbf{u}_{(t)}$ (see Eqs. \eqref{eq:pre-sel},\eqref{eq:sel}). The term $\mathbf{s}_{i(t,\Xi)}$ in Eq. \eqref{eq:pre-sel} is modeled with a gain constant $\gamma_\mathrm{n}= 0.75$ so
+	\subsubsection{Losing interest in something} the situation considered here is the agent's loss of interest to an object form receiving negative feedback from the human. For this, inhibitory feedback from the selection layer $\mathbf{a}_{(t-1)}$ is provided to the pre-selection layer $\mathbf{u}_{(t)}$ (see Eqs. \eqref{eq:pre-sel},\eqref{eq:sel}). The term $\mathbf{s}_{i(t,\Xi)}$ in Eq. \eqref{eq:pre-sel} is modeled with a gain constant $\gamma_\mathrm{n}= 0.75$ so
 	
 	\begin{equation}
 	\mathbf{s}_{i(t,\Xi)} = -\mathrm{softmax}\left(\gamma_\mathrm{n}\mathbf{a}_{i(t-1)}\right)
@@ -438,7 +438,7 @@
 	
 	\subsection{Experiment}
 	
-	An interaction experiment was designed with the robot Pepper. Since the robot is capable of recognizing typical landmarks, some were attached to locations on the environment representing objects (see Fig. \ref{fig:exp_scene}). The robot is also capable of speech recognition within dialog context, so it was programmed to recognize the terms \textit{above}, \textit{below}, \textit{left}, \textit{right}, \textit{no}, \textit{one}, \textit{two}, \textit{three}, and \textit{four}. The ego-space was placed at the robot's \textit{Torso} frame, when in Stand-up posture. In this study we do not consider the possibility of rotation and translation of the ego-sphere (which would require of geometrical remapping), so the experiment would correspond to situations of short interactions where participants talk about objects around. 
+	An interaction experiment was designed with the robot Pepper. Since the robot is capable of recognizing typical landmarks, some were attached to locations in the environment representing objects (see Fig. \ref{fig:exp_scene}). The robot is also capable of speech recognition within dialog context, so it was programmed to recognize the terms \textit{above}, \textit{below}, \textit{left}, \textit{right}, \textit{no}, \textit{one}, \textit{two}, \textit{three}, and \textit{four}. The ego-space was placed at the robot's \textit{Torso} frame, when in Stand-up posture. In this study we do not consider the possibility of rotation and translation of the ego-sphere (which would require geometrical remapping), so the experiment would correspond to situations of short interactions where participants talk about objects around. 
 	
 	%\textcolor{orange}{[I got until here ...]}
 	The library MediaPipe was used to track the human skeleton and represent his/her ego-sphere, from the robot's on-board camera acquisitions. Thus, the robot was programmed to keep the human's full body in view during interaction. The human provided feedback to the robot verbally or by pointing to locations in the environment. In order to track non-verbal focus of attention, the intersection of both forearms with the ego-sphere (once reaching a certain height with respect to the torso) was considered as a measure of interest to the surrounding. As for the robot, the human's ego-sphere is assumed to be fixed during interaction. 
@@ -461,7 +461,10 @@
 	\section{RESULTS}
 	\label{sec:results}
 	
-	The studies in simulation showed the possibility of modulating attention selection with the proposed embodied operators. As illustrated in Fig \ref{fig:sim2}, by taking into account the agent's current focus of attention, it is possible to induce neural dynamics in localized regions of the ego-sphere for helping it to respond to embodied references in verbal speech. This is shown in Fig. \ref{fig:sim2-around} which consisted in an interaction simulation during 60 seconds. Here, the operators \textit{left}, \textit{right}, \textit{above} and \textit{below} were employed so the agent could focus on the six stimuli one at a time. Similar results were obtained for the operations \textit{focusing on named objects} and \textit{loosing interest on something}.
+	Globally, the studies in simulation showed the possibility of representing bottom-up saliency and top-up modulation of attention at the pre-selection layer. Let us take for instance simulations of the embodied operators to illustrate this point. As shown in Fig \ref{fig:sim2}, by considering feedback from the agent's focus of attention at the output layer, it was possible to modulate neural dynamics at related regions of the ego-sphere for helping the agent to respond to embodied references in verbal communication.  
+	
+	Figure \ref{fig:sim2-around} shows 60 seconds of the simulated interaction. Here, the operators \textit{left}, \textit{right}, \textit{above} and \textit{below} were employed so the agent could focus on the six stimuli one at a time. Similar results were obtained for the other two operations proposed \textit{focusing on named objects} and \textit{losing interest in something}. It is interesting noticing in the plot at the center how attention selection is obtained through a competition process, resulting from inhibitory neural interaction. 
+
 
 	\begin{figure}[h!]
 		\begin{center}
@@ -511,11 +514,11 @@
 		\draw[color=black!80] (-3.85,-4) -- (-3.85,-1.8);
 		\end{tikzpicture}
 	\end{center}
-	\caption{Focusing initially on object 3 (relative to $\mathbf{\hat{p}}_3$, see Fig. \ref{fig:sim_objs}), the agent switches attention to surrounding objects, from instantaneous recognition of words in the sequence: \textit{right}, \textit{above}, \textit{left}, \textit{left} and \textit{below} (see Eqs. \eqref{eq:sim2}\eqref{eq:sim2-m}).}
+	\caption{Focusing initially on object 3 (relative to $\mathbf{\hat{p}}_3$, see Fig. \ref{fig:sim_objs}), the agent switches attention to surrounding objects, from instantaneous recognition of words in the sequence: \textit{right} ($t=10$), \textit{above} ($t=20$), \textit{left} ($t=30$), \textit{left} ($t=40$) and \textit{below} ($t=50$). For more details, see Eqs. \eqref{eq:sim2}\eqref{eq:sim2-m}.}
 	\label{fig:sim2-around}
 \end{figure}
 
-Concerning the experiment, results showed that during the learning phase the human was able to learn the objects' name taught by the robot, whereas the robot was able to learn the embodied relation of the human to such objects. A total of six trials were recorded in the experiment's room (see Fig. \ref{fig:exp_scene}). It is important mentioning that the human was only instructed to stand up between the landmarks while facing the robot. No marks where added to the floor to control the human's position. This was done to introduce variability in the trials. Figure \ref{fig:exp_hebb} shows  the comparison of attention modulation from learning in the first trial (see Eq. \eqref{eq:hebb_rule}), so object saliency is induced on other trials (see Eq; \eqref{eq:hebb_stim}) without re-learning. This shows that the Hebbian plasticity rule policy used was able to generalize for the trials of the experiment.
+Concerning the interaction experiment with Pepper (see Fig. \ref{fig:exp_scene}), results showed that during the learning phase the human was able to learn the objects' name from the robot, whereas the robot was able to learn the body relation of the human to such objects. A total of six trials were recorded. It is important to mention that the human was only instructed to stand between the landmarks while facing the robot. No marks were attached to the floor to avoid rigorously determining the human’s position, thus introducing some variability in trials. Figure \ref{fig:exp_hebb} presents the comparison of attention modulation from learning in the first trial (see Eq. \eqref{eq:hebb_rule}), so object saliency is induced on other trials without re-enabling learning (see Eq; \eqref{eq:hebb_stim}). Thus, it can be noticed that the Hebbian plasticity rule was able to generalize for other trials in the experiment.
 
 \begin{figure}[h!]
 	\begin{center}
@@ -526,7 +529,7 @@ Concerning the experiment, results showed that during the learning phase the hum
 		\node at (0.0,3.6) [color=black] {\small \textbf{The experimental scene}};
 		\end{tikzpicture}
 	\end{center}
-	\caption{Landmarks stickers tracked by the robot were attached to locations in the room emulating objects.}
+	\caption{Landmarks recognized by Pepper were fixed in the room for emulating objects. The human stood in front of the robot.}
 	\label{fig:exp_scene}
 \end{figure}
 
@@ -534,19 +537,19 @@ Concerning the experiment, results showed that during the learning phase the hum
 	\begin{center}
 		
 		\begin{tikzpicture}
-		\node [] at (-0.5,0){
+		\node [] at (-0.7,0){
 			\includegraphics[scale=0.46,keepaspectratio]{fig/plot_generalisation.pdf}};
 		
 		\node at (-0.4,3.3) [color=black] {\small \textbf{Hebbian plasticity and generalisation}};
 		
 		% removing unwanted labels
-		\filldraw[draw=white,color=white] (-4.4,2.5) rectangle (3.7,2.7);	
-		\filldraw[draw=white,color=white] (-4.4,-2.5) rectangle (3.7,-2.7);	
+		\filldraw[draw=white,color=white] (-5.0,2.5) rectangle (3.7,2.7);	
+		\filldraw[draw=white,color=white] (-5.0,-2.5) rectangle (3.7,-2.7);	
 		
-		\node at (-4.0,2.7) [color=black] {\scriptsize Activity at $\mathbf{\hat{p}}_1$};
-		\node at (-1.7,2.7) [color=black] {\scriptsize Activity at $\mathbf{\hat{p}}_2$};
-		\node at (0.7,2.7) [color=black] {\scriptsize Activity at $\mathbf{\hat{p}}_3$};
-		\node at (2.9,2.7) [color=black] {\scriptsize Activity at $\mathbf{\hat{p}}_4$};
+		\node at (-4.2,2.7) [color=black] {\scriptsize Activity at $\mathbf{\hat{p}}_1$};
+		\node at (-1.9,2.7) [color=black] {\scriptsize Activity at $\mathbf{\hat{p}}_2$};
+		\node at (0.5,2.7) [color=black] {\scriptsize Activity at $\mathbf{\hat{p}}_3$};
+		\node at (2.7,2.7) [color=black] {\scriptsize Activity at $\mathbf{\hat{p}}_4$};
 		
 		\node at (0.7-4.5,0.1-3.2) [color=black] {\scriptsize Human pointing at:};
 		\filldraw[draw=black,color=hebb1] (0.0-2.5,0.0-3.2) rectangle (0.2-2.5,0.2-3.2);	
@@ -558,20 +561,18 @@ Concerning the experiment, results showed that during the learning phase the hum
 		\filldraw[draw=black,color=hebb4] (0.0+2.0,0.0-3.2) rectangle (0.2+2.0,0.2-3.2);	
 		\node at (0.7+2.0,0.1-3.2) [color=black] {\scriptsize Object 4};
 		
-		\node at (2.9,2.7) [color=black] {\scriptsize $\mathbf{u}_{\mathrm{r}(t)}$};
+		\node at (-4.9,0.2) [color=black] {\scriptsize $\mathbf{u}_{\mathrm{r}(t)}$};
 		
 		%\filldraw[draw=black,color=lightgray] (1,1) rectangle (1.2,1.2);		
 		%\filldraw[draw=black,color=lightgray] (1,1) rectangle (1.2,1.2);
 		%\filldraw[draw=black,color=lightgray] (1,1) rectangle (1.2,1.2);
 		\end{tikzpicture}
 	\end{center}
-	\caption{The instantaneous state of $\mathbf{a}_{\mathrm{h}(t)}$ representing the human focus of attention at time $t$ stimulates the robot's pre-selection layer $\mathbf{u}_{\mathrm{r}(t)}$ conforming to Eq. \eqref{eq:hebb_stim}. Although variability due to the human positioning was present, the attention state of the human, modulated by intersecting his/her forearms' direction when pointing with the ego-sphere was able to modulate the robot's attention for all experiential trials, from one single learning trial.}
+	\caption{The instantaneous state of the human focus of attention stimulates the robot's pre-selection layer, as described in Eq. \eqref{eq:hebb_stim}. Despite variability in positioning, after learning a single trial, the human's pointing gesture was able to modulate the robot's attention state for all remaining trials.}
 	\label{fig:exp_hebb}
 \end{figure}
 
-Figure \ref{fig:exp_frames} shown a sequence of pointing gestures from the robots on-board camera. Both agent's ego-sphere were tracked during the experience. In this case, the robot was observing the human in the interaction phase. 
-
-after learning so the activity comming from the human  and the corresponding activity in  
+Figure \ref{fig:exp_frames} shows a sequence of pointing gestures captured from the robots on-board camera. Both agent's ego-sphere were tracked on-line during the experience. In the situation depicted, the robot was observing the human after learning. Thus, the body posture of the human was able to modulate attention at a pre-selection level on the robot (see Eq. \eqref{eq:hebb_stim}), relative to stimuli salient in the environment. 
 
 	\begin{figure}[h!]
 	\begin{center}
@@ -581,22 +582,39 @@ after learning so the activity comming from the human  and the corresponding act
 			%\includegraphics[scale=1.3,keepaspectratio]{fig/exp_frame_0.png}};
 			\includegraphics[scale=1.32,keepaspectratio]{fig/exp_frame_1.png}};
 			%\includegraphics[scale=2.32,keepaspectratio]{fig/exp_frame_2.png}};
+		\node at (-3.2,4.7) [color=black] {\scriptsize $\mathbf{p}_1$};
+		\node at (-1.65,2.7) [color=black] {\scriptsize $\mathbf{p}_2$};
+		\node at (-1.9,-1.0) [color=black] {\scriptsize $\mathbf{p}_3$};
+		\node at (-4.0,-3.65) [color=black] {\scriptsize $\mathbf{p}_4$};
 		\node at (0.0,6.0) [color=black] {\small \textbf{Interaction sequence}};
 		\end{tikzpicture}
 	\end{center}
-	\caption{The ego-spheres are shown for the robot (left) and the human (center, rotated 160° around the $z$ axis to improve visualization). The human skeleton is tracked from the robot's camera (right). Each row corresponds to pointing at a given landmark. After the Hebbian learning phase, the human pointing at gesture stimulates locations in the robot's ego-sphere which relate to saliency around landmarks locations, helping the robot to focus attention on such objects.}
+	\caption{The ego-spheres are shown for the robot (left) and the human (center, rotated 160° around the $z$ axis to improve visualization). For the robot, projection rays of four landmarks are shown in red with estimated location in the scene in black. The human skeleton is tracked from the robot's camera (right) at about 10 Hz. Each row corresponds to pointing at a given landmark. After the learning phase, the human pointing behavior is able to stimulate locations in the robot's ego-sphere which also relate to landmark saliency. This helps  the robot to focus on such objects.}
 	\label{fig:exp_frames}
 \end{figure}
-
-
-
 	
-
 	\section{CONCLUSIONS}
 	\label{sec:conclusions}
 	
+	This work originated from the interest of modeling attention selection and knowledge sharing in HRI from low level cognitive skills, so considering unstructured interaction situations encountered in everyday life. For this, the aspect of knowledge representation was carefully considered. From the literature revision, important limitations of previous works, which can be summarized as: a) not exploring in depth the aspect of interaction dynamics between locations represented in the ego-sphere, b) being a too egocentric approach for HRI by considering the robot as the only one in interaction given with embodied ego-spherical representations, and c) with very few exceptions, neglecting mostly the aspect of compositionality in knowledge representation.
 	
-	%\addtolength{\textheight}{-12cm}   % This command serves to balance the column lengths
+	Consequently, we proposed a three-layered neural model to represent attention selection inspired by 4E cognition, FIT and DNF research. We named it AEGO and showed how bottom-up saliency, top-down generative modulation and lateral neural interaction allows tracking and representing the agents' focus of attention on-line as a distributed dynamical system. The model presents the advantage of being differentiable and is proposed in analytical form, so it could benefit from methods well established in the field of machine learning, as well as complement or enhance existing neural network models for tasks requiring attention tracking. 
+	
+	The results of simulations and experiments suggested that keeping track of embodied relations between agents and objects in the environment as a distributed dynamical system, and letting interaction structure those relations as an indivisible component of cognition, can be a promising approach for robots to be able to communicate and behave without facing the high cost of acquiring extensive knowledge about the environment. We showed how basic neural plasticity mechanisms in AEGO could be interesting for JA in HRI.
+	
+	Some topics, however, could not be investigated here and are left for future research. One aspect to be studied is the possibility on the robot's side to initiate JA by directing the head towards stimuli. Since tracking is done with the camera mounted on the head, the human would leave the field of view, hence some form of generative anticipation of human's attention would be required. Another important aspect to consider when sharing attention is social affordance. Thus, more complex forms of modulation in JA unfolding within a social context must be studied. 
+	
+	
+	%Another issue that could not be studied is joint attention under rhythmic interaction. 
+	
+	%We believe that when keeping track of embodied relations between agents and objects in the environment and letting interaction structure those relations as an indivisible component of cognition, the robot can take decisions and show simple forms of adaptation and communication without relying too much on environment modeling, and that such processes rely importantly on attention sharing.
+	
+	% the emergence of attention from instantaneous interaction. Hence, we propose that attention selection is tracked simultaneously from participants' egocentric perspective. 
+	
+	
+	
+	
+	\addtolength{\textheight}{-12cm}   % This command serves to balance the column lengths
 	% on the last page of the document manually. It shortens
 	% the textheight of the last page by a suitable amount.
 	% This command does not take effect until the next page
